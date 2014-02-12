@@ -7,6 +7,7 @@ title: Hatak::Techlog
 subtitle: Verba volant, scripta manent.
 author: Hisashi HATAKEYAMA
 simple_search: http://google.com/search
+simple_search_domain: blog.hatak.net
 description:
 
 # Default date format is "ordinal" (resulting in "July 22nd 2007")
