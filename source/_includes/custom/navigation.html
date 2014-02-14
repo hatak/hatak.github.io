@@ -1,13 +1,4 @@
-<div id="main-nav">
-    <nav>
-    <ul>
-        <li>
-        {% if site.blog_index_asides.size %}
-        {% include_array blog_index_asides %}
-        {% else %}
-        {% include_array default_asides %}
-        {% endif %}
-        </li>
-    </ul>
-    </nav>
-</div>
+<ul class="main-navigation">
+  <li><a href="{{ root_url }}/">Blog</a></li>
+  <li><a href="{{ root_url }}/blog/archives">Archives</a></li>
+</ul>
