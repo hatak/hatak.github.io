@@ -1,0 +1,360 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>vcs_info でプロンプトにリポジトリ名を表示 - Hatak::Techlog</title>
+  <meta name="author" content="Hisashi HATAKEYAMA">
+
+  
+  <meta name="description" content="最近特にターミナルでコードを書くことが増えてきたため、プロンプトでブランチ名であったりそのほかの情報も適宜だせるようにしたいなと設定を調べたり試したりしてみました。 以前までは、bash_completion を利用して表示するということをしていました。.bashrc の例ですが、こんな感じです &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.hatak.net/2012/06/15/14100">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Hatak::Techlog" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-23373712-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Hatak::Techlog</a></h1>
+  
+    <h2>Verba volant, scripta manent.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:blog.hatak.net" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Vcs_info でプロンプトにリポジトリ名を表示</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-06-15T00:00:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>最近特にターミナルでコードを書くことが増えてきたため、プロンプトでブランチ名であったりそのほかの情報も適宜だせるようにしたいなと設定を調べたり試したりしてみました。</p>
+
+<p>以前までは、bash_completion を利用して表示するということをしていました。.bashrc の例ですが、こんな感じです。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># custom prompt for .bashrc</span>
+</span><span class='line'><span class="k">if</span> <span class="o">[</span> -r <span class="s2">&quot;/etc/bash_completion.d/git&quot;</span> <span class="o">]</span>;
+</span><span class='line'>    <span class="k">then </span><span class="nv">PS1</span><span class="o">=</span><span class="s2">&quot;[u@h w]$(__git_ps1 &quot;</span><span class="o">(</span>e<span class="o">[</span>0;32m%se<span class="o">[</span>0m<span class="o">)</span><span class="s2">&quot;)$ &quot;</span>
+</span><span class='line'><span class="k">fi</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>これはこれで良いのですが、git でしか利用できません。メインで利用する VCS は git なので問題ありませんが、それ以外の VCS で管理されたコードを読んだりする機会も多々あります。 調べてみたところ、zsh に vcs_info という関数があることを知りました。そこで、これを使ってプロンプトを少し派手にしてみました。</p>
+
+<!--more-->
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># colors</span>
+</span><span class='line'>autoload colors;
+</span><span class='line'>colors
+</span><span class='line'>
+</span><span class='line'><span class="c"># vcs_info</span>
+</span><span class='line'>autoload -Uz vcs_info zstyle <span class="s1">&#39;:vcs_info:*&#39;</span>
+</span><span class='line'>formats <span class="s1">&#39;%f(%F{cyan}%s%f:%F{green}%b%f)&#39;</span>
+</span><span class='line'>zstyle <span class="s1">&#39;:vcs_info:*&#39;</span>
+</span><span class='line'>actionformats <span class="s1">&#39;%f(%F{cyan}%s%f:%F{green}%b%f|%F{red}%a%f)&#39;</span>
+</span><span class='line'>zstyle <span class="s1">&#39;:vcs_info:(svn|bzr):*&#39;</span>
+</span><span class='line'>branchformat <span class="s1">&#39;%F{green}%b%f:%F{yellow}r%r%f&#39;</span>
+</span><span class='line'>zstyle <span class="s2">&quot;:vcs_info:git:*&quot;</span>
+</span><span class='line'>check-for-changes <span class="nb">true </span>zstyle <span class="s2">&quot;:vcs_info:git:*&quot;</span>
+</span><span class='line'>stagedstr <span class="s1">&#39;+&#39;</span>
+</span><span class='line'>zstyle <span class="s2">&quot;:vcs_info:git:*&quot;</span>
+</span><span class='line'>unstagedstr <span class="s1">&#39;-&#39;</span>
+</span><span class='line'>zstyle <span class="s1">&#39;:vcs_info:git:*&#39;</span>
+</span><span class='line'>formats <span class="s1">&#39;%f(%F{green}%b%f%F{green}%c%F{red}%u%f)&#39;</span>
+</span><span class='line'>zstyle <span class="s1">&#39;:vcs_info:git:*&#39;</span>
+</span><span class='line'>actionformats <span class="s1">&#39;%f(%F{green}%b%f|%F{red}%a%f%F{green}%c%F{red}%u%f)&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">function </span>_precmd_vcs_info <span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>    <span class="nv">psvar</span><span class="o">=()</span>
+</span><span class='line'>    <span class="nv">LANG</span><span class="o">=</span>en_US.UTF-8
+</span><span class='line'>    vcs_info
+</span><span class='line'>    psvar<span class="o">[</span>1<span class="o">]=</span><span class="s2">&quot;$vcs_info_msg_0_&quot;</span>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c"># add-zsh-hook autoload -Uz add-zsh-hook add-zsh-hook precmd _precmd_vcs_info</span>
+</span><span class='line'><span class="c"># prompt setopt prompt_subst local PROMCOL=$&#39;%F{$[1+RANDOM%6]}&#39;</span>
+</span><span class='line'><span class="nv">PROMPT</span><span class="o">=</span><span class="s1">&#39;%(?.%F{green}^-^%f.%F{red}@_@%f) &#39;</span><span class="nv">$PROMCOL</span><span class="s1">&#39;%l${WINDOW:+&quot;:$WINDOW&quot;}:%h%F{green}$psvar[1]%f%(!.#.$)&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<ul>
+<li>2行目 : 色指定を簡単に行えるようにするため、colors をロードします</li>
+<li>5行目 : 今回のテーマである vcs_info をロードします</li>
+<li>6-7行目 : 対応する VCS 共通の表示フォーマットを定義します : formats: 通常表示されるフォーマット : actionformats: コンフリクト時などに表示されるフォーマット</li>
+<li>8行目 : svn と bzr の時にはリビジョン番号表示をしたいので、フォーマットを定義します</li>
+<li>9-13行目 : git の場合の各種設定や専用フォーマットの定義を行っています : check-for-changes: ローカルでの変更があるかチェックをします : staged: &quot;git status&quot; 実行時の &quot;Changes to be committed&quot; があるときには &quot;+&quot; を表示します : unstaged: &quot;git status&quot; 実行時の &quot;Changes not staged for commit&quot; があるときには &quot;-&quot; を表示します</li>
+<li>27行目 : プロンプトの表示色をランダムでカラーにします</li>
+<li>28行目 : 顔文字はコマンド成否で変化します（<a href="http://smokycat.info/zsh/231">ネタ元</a>）</li>
+</ul>
+
+<p>はじめは %1v として <code>$psvar[1]</code> の値をとっていたのですが、カラースキーマがうまくいかないため配列の要素を直指定する形にしています。vcs 管理下にないディレクトリでは <code>$psvar[1]</code> の値は何も入らないため、デザインも崩れません。</p>
+
+<p><img src="https://dl.dropboxusercontent.com/u/14531906/hatak.github.io/2012/06/2012-06-15-2.27.57.png" alt="ターミナルの例" /></p>
+
+<h3 id="toc_315">参考</h3>
+
+<ul>
+<li>  <a href="http://d.hatena.ne.jp/holidays-l/20100323/p1">zsh の vcs_info が神！のごとく重かったのですが… : ヒルズで働くholidays-lの技ログ</a></li>
+<li>  <a href="http://smokycat.info/zsh/231">zsh 前のコマンドの成否をプロンプトの顔文字で通知 | smokycat.info</a></li>
+</ul>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">hatak</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-06-15T00:00:00+09:00" pubdate data-updated="true"></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/kai-fa-huan-jing/'>開発環境</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://blog.hatak.net/2012/06/15/14100" data-via="hisashi" data-counturl="http://blog.hatak.net/2012/06/15/14100" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/2012/04/20/12428" title="Previous Post: MySQL Casual Talks Vol.3 で話してきた">&laquo; MySQL Casual Talks Vol.3 で話してきた</a>
+      
+      
+        <a class="basic-alignment right" href="/2012/06/19/14234" title="Next Post: perl で segmentation fault が起きたときの調べかた">perl で segmentation fault が起きたときの調べかた &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/2012/12/17/17651">0歳児との生活</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/11/10/17630">RaspberryPi で遊んでみた</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/10/25/17582">Redis 2.4 -> 2.6 のアップグレード</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/10/24/17562">Homebrew で mroonga ストレージエンジンを入れる</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/10/12/17536">&#8220;Server Manage Deep Talk #1&#8243; の振り返りメモ</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/hatak">@hatak</a> on GitHub
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'hatak',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - Hisashi HATAKEYAMA -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a>. Design by <a href="http://octopressthemes.com">Octopress Themes</a>.</span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,532 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>YAPC::Asia Tokyo 2011 (2日目) に行ってきた - Hatak::Techlog</title>
+  <meta name="author" content="Hisashi HATAKEYAMA">
+
+  
+  <meta name="description" content="昨日に引き続いて、 YAPC::Asia に参加してきました。 個人的な視点で、今回の YAPC から感じた Perl とそれを取り巻く Web サービス系の世界の現状をいくつかまとめると、 前回参加した 2 年前に発表された PSGI はもはや標準 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.hatak.net/2011/10/16/6777">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Hatak::Techlog" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-23373712-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Hatak::Techlog</a></h1>
+  
+    <h2>Verba volant, scripta manent.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:blog.hatak.net" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">YAPC::Asia Tokyo 2011 (2日目) に行ってきた</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-16T00:00:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>昨日に引き続いて、 <a href="http://yapcasia.org/2011/" title="YAPC::Asia">YAPC::Asia</a> に参加してきました。</p>
+
+<p>個人的な視点で、今回の YAPC から感じた Perl とそれを取り巻く Web サービス系の世界の現状をいくつかまとめると、</p>
+
+<ul>
+<li>前回参加した 2 年前に発表された PSGI はもはや標準</li>
+<li>プラットフォーマーを中心に大規模サービスのノウハウが溜まってきている</li>
+<li>アプリケーションの設計・実装でも、ミドルウェアやハードウェアも含めた視点がより大事になっている</li>
+<li>組織が大きくなった会社では、開発者と運用者の良い関係づくり (DevOps の考え方) に取り組んでいる</li>
+</ul>
+
+<p>といったところかなと思います。 会社で標準的に使われている開発言語が違っても、根底の考え方や Web サービス系全般での動きは同じだなと痛感しました。</p>
+
+<!--more-->
+
+<hr>
+
+<h2 id="toc_273">続 Unix Programming with Perl</h2>
+
+<p>※講演資料 <a href="http://www.slideshare.net/kazuho/unix-programming-with-perl-2">[No Title]</a> DeNA の kazuho (<a href="http://twitter.com/kazuho">@kazuho</a>) さんの講演。<a href="http://www.slideshare.net/kazuho/unix-programming-with-perl">前回</a>に引き続いて、Unix 環境で正しく動くコードを作るための Tips 紹介のトークでした。Unix の知識が足りずまだ理解が追いついていないので、調べて試さないとと感じた発表でした。</p>
+
+<h3 id="toc_274">正しいコードを書くために</h3>
+
+<ul>
+<li>テストだけでは足りない</li>
+<li>常に正しく動くコードを書くためには知識が必要 &#8211; Perl の知識 &#8211; OS の知識</li>
+</ul>
+
+<h3 id="toc_275">IPC::Open3 によるプロセス間通信</h3>
+
+<ul>
+<li>pipe したときにブロックしてしまうケースがある &#8211; 子プロセスが STDIN 待ちになる場合 &#8211; 子プロセスが大量のエラーを吐く場合 &#8212; pipe が制限を持っている &#8212;- MacOSX : 16 Kbyte &#8212;- Linux2.6 : 64 Kbyte</li>
+<li>deadlock とならないためには？ &#8211; クローズしてもうまくいかない &#8211; 標準出力全部読んでもうまくいかない &#8211; IPC::Open3 のオプションとして、標準エラー出力に undef いれる &#8211; pipe を使わず temporary file 使えばいい</li>
+</ul>
+
+<h3 id="toc_276">Unix signals と race condition (競合状態)</h3>
+
+<ul>
+<li>POSIX::pselect &#8211; pselect の外で SIGHUP &#8212; 多くのディストーションでの実装がバグっているため、実際には解決しない &#8211; eval &amp; die &#8212; これでもうまく解決しない &#8211; call syswrite on signal</li>
+</ul>
+
+<h2 id="toc_277">まとめ</h2>
+
+<ul>
+<li>buffesize は無限大ではない</li>
+<li>shell invocation は危険なので system か IPC::Open3 を使う</li>
+<li>Unix signals のハンドリングでは競合に気をつける</li>
+</ul>
+
+<hr>
+
+<h2 id="toc_278">運用しやすいWebアプリケーションの構築方法</h2>
+
+<p>※講演資料 <a href="http://www.slideshare.net/kazeburo/yapcasia2011">[No Title]</a> Livedoor の kazeburo (<a href="http://twitter.com/kazeburo">@kazeburo</a>) さんの講演。これまでの運用経験を基に、運用しやすい Web アプリケーションとなるためのログや DBI / cache の使い方・Tips をまとめて紹介されていました。確かに、と思うポイントが多く、とても参考になるトークでした。</p>
+
+<h3 id="toc_279">運用しやすいとは？</h3>
+
+<ul>
+<li>耐障害性を考慮に入れた設計</li>
+<li>アプリケーションからの情報発信</li>
+<li>処理単位の明確化</li>
+</ul>
+
+<h3 id="toc_280">ログ</h3>
+
+<ul>
+<li>「アプリからの情報発信」 &#8211; 障害発生の際に最初に見る &#8211; 障害の検知、原因の特定</li>
+<li>適切なログに含まれる情報 &#8211; 時間 &#8211; ログレベル &#8212; 基準を決めて &#8220;DEBUG&#8221;/&#8221;INFO&#8221;/&#8221;WARN&#8221;/&#8221;ERROR&#8221; を使い分ける &#8211; 環境 &#8212; pid や uid、引数など &#8211; caller / stacktrace &#8211; 読み取る人に伝わるメッセージ</li>
+<li>Log::Minimal &#8211; 上記の適切なログ基準に沿ってログを出せるようにした &#8211; シリアライズ / カラーリング なども可能</li>
+</ul>
+
+<h3 id="toc_281">DBI (SQL)</h3>
+
+<h4 id="toc_282">DB 負荷が急上昇するケース</h4>
+
+<ul>
+<li>原因クエリ探す</li>
+<li>なんのクエリかアプリで確認</li>
+<li>ORM を使っていると調べにくいこともある &#8211; SQL とコードが一致しなく鳴るため、SQL 生成を避けたい</li>
+<li>DBIx::Sunny &#8211; caller 情報を SQL に埋込みクエリコメントにできる &#8211; SQL::Maker と組み合わせて利用できる</li>
+</ul>
+
+<h4 id="toc_283">接続が滞留するケース</h4>
+
+<ul>
+<li>最大接続数に達して接続エラー &#8211; メンテナンス時に timeout まで待つ &#8211; SHOW INNODB STATUS が見れない</li>
+<li>接続滞留対策 &#8211; Scope::Container &#8212; DB 接続部の処理単位を短く、わかりやすく &#8211; Scope::Container::DBI &#8212; 上記を簡単に実現するために便利機能を追加したモジュール</li>
+</ul>
+
+<h3 id="toc_284">cache / memcached</h3>
+
+<ul>
+<li>課題 &#8211; Session::Store::Memcached &#8212; 簡単で高速、Expires 処理も自動化できる &#8212; 一方でストレージ永続性がないのは困ることもある &#8211; 特定キャッシュへの集中 &#8212; 分散アルゴリズム上でも特定サーバに集中してしまうことがある &#8211; cache thundering herd problem &#8212; memcache 上で exipre した瞬間に DB にアクセスが集中してしまう</li>
+<li>Cache::Memcached::IronPlate &#8211; 冗長して保存することで cache の冗長性確保 &#8211; cache の負荷分散も行える</li>
+<li>Cache::Isorator &#8211; ゆっくり expire させることができる</li>
+</ul>
+
+<h3 id="toc_285">Metrics</h3>
+
+<ul>
+<li>プロセスのステータスを取得できるようにしてグラフ化する &#8211; Plack::Middleware::ServerStatus::Lite &#8211; Parallel::Scoreboard</li>
+</ul>
+
+<h3 id="toc_286">まとめ</h3>
+
+<ul>
+<li>耐障害性を考慮に入れた設計 &#8211; cache &#8211; memcached</li>
+<li>アプリケーションからの情報発信 &#8211; DBI &#8211; ログ &#8211; Metrics</li>
+<li>処理単位の明確化 &#8211; DBI connection</li>
+</ul>
+
+<hr>
+
+<h2 id="toc_287">watch your log</h2>
+
+<p>DeNA の nekokak (<a href="http://twitter.com/nekokak">@nekokak</a>) さんの講演。社内 DevOps の観点から基準を決めてログ出力し、それを監視するためのツールを作成したというお話。&#8221;DevOps&#8221; と &#8220;ログ監視&#8221; については各社でかなり試行錯誤しているところかもしれません。 ログ監視は最近色々考えていて自分で実装しようかなと思っているところだったので、Komainu も試してみます。あと、「必要に応じたエンジニアリング」というスタンスはいいなと思います。</p>
+
+<h3 id="toc_288">DevOps</h3>
+
+<ul>
+<li>Dev と Ops 相互に協力する事が必要 &#8211; 自社 Dev は運用を考えられなければならない &#8211; 自社 Ops は Dev から渡される運用を丸受けしてはダメ</li>
+<li>Dev Ops の垣根取り払って密なコミュニケーションを</li>
+<li>運用を考えられる Dev &#8211; 障害は一次対応が Ops のことが多い &#8211; 運用したことないミドルウェアを導入する場合は、事前に互いに調べて共有 &#8211; 仕様変更 / 新機能のリリースタイミングで共有を行う</li>
+<li>丸受けしない Ops &#8211; サービス仕様・アーキテクチャを理解 &#8211; 障害発生時に何を対応する必要があるか理解 &#8211; 必要な情報は Dev に提出 &#8211; 「お母さん役みたいなもの」</li>
+</ul>
+
+<h3 id="toc_289">コミュニケーション濃度の問題</h3>
+
+<ul>
+<li>お互いしっかりコミュニケーション取る</li>
+<li>コミュニケーションもレベル・粒度ある</li>
+<li>「お互い言い分あるだろうが gdgd 言う前に行動しろ」</li>
+</ul>
+
+<h3 id="toc_290">障害そして監視</h3>
+
+<ul>
+<li>障害検知の仕組みとして監視必要 &#8211; 死活監視 &#8211; リソース監視 &#8211; ログ監視</li>
+</ul>
+
+<h3 id="toc_291">ログ</h3>
+
+<ul>
+<li>お互いで取り決めたフォーマットに沿ったログ出力 &#8211; Dev と Ops が面倒みるにあたって取り決めるといい</li>
+<li>accesslog / errorlog &#8211; 監視する項目の取り決めをしておく &#8211; ステータスコード監視でサービスがどのような状況か分かる</li>
+<li>applog (syslog) &#8211; フォーマットの取り決めが重要なところ &#8211; 障害レベルの分類をログレベルで出力するなどの取り決め &#8212; 携帯にメールか、会社のメールかでレベルか</li>
+<li>mysql slow log &#8211; だいたいボトルネックは DB のことが多い</li>
+<li>ログ収集方法 &#8211; ログを良い感じで監視できるソリューションがない</li>
+</ul>
+
+<h3 id="toc_292">Komainu</h3>
+
+<ul>
+<li>設定に応じて集計 &#8211; accesslog 集計 &#8211; applog 集計 &#8211; mysql slow log 集計</li>
+<li>アーキテクチャ &#8211; fork model &#8211; notify は IRC と Email &#8211; データは database に保存 &#8212; サマリ集計し、前回からどれくらい増えたか知りたい &#8212; グラフ化する &#8212; プロセス間通信せずにデータを受け渡す</li>
+<li>何が重要か &#8211; サービスクオリティ維持のため &#8211; 利用者からの問い合わせベースで障害に気づくのは情けない &#8211; 攻めの運用 &#8211; ログ情報を通知することでエラーに向きあう</li>
+</ul>
+
+<h3 id="toc_293"><strong>Shut the fuck up and write some code</strong></h3>
+
+<ul>
+<li>行動こそすべて</li>
+<li>誰かが始めないと何も始まらない</li>
+<li>問題意識を持った人が率先して行動 &#8211; コードの良し悪しなどはどうでもいい</li>
+</ul>
+
+<hr>
+
+<h2 id="toc_294">Managing A Band Of Hackers</h2>
+
+<p>DeNA の hidek (<a href="http://twitter.com/hidek">@hidek</a>) さんの基調講演。Perl ハッカーを束ねるマネージャーとしての考え方や経験のお話でした。 とてもいい話でした。DeNA には優秀で著名な方が集まっているイメージがありますが、このようなコミュニティというか、仲間の魅力が根底にはあるのだろうなと感じる内容でした。途中、何度もチームを褒めているところが、率直に褒めているように感じられて印象的でした。</p>
+
+<h3 id="toc_295">management</h3>
+
+<ul>
+<li>なぜマネージャーが必要？ &#8211; 一人では規模の限界</li>
+<li>集団で物事を作るということ &#8211; バラバラに動くと個人個人のプレーになってしまう &#8211; 誰かが指揮する &#8211; これがマネージャー</li>
+<li>&#8220;The whole is more than the sum of its parts.&#8221; &#8211; 1 + 1 が 2 以上になるようにしなければならない</li>
+</ul>
+
+<h3 id="toc_296">tasks of the manager</h3>
+
+<ul>
+<li>マネージャーの業務にはエンジニアとしての経験が必要 &#8211; 大規模なほど広いレイヤの知識が必要</li>
+</ul>
+
+<h4 id="toc_297">project management</h4>
+
+<ul>
+<li>プロダクトのライフサイクルを維持する &#8211; エンジニアリング未経験だと無理</li>
+<li>計画を立てる</li>
+<li>開発中の進捗・マイルストーン管理</li>
+</ul>
+
+<h4 id="toc_298">personal matters</h4>
+
+<ul>
+<li>人事も大事</li>
+<li>採用面接 &#8211; 見極める力が求められる</li>
+<li>配属 &#8211; 仕事を与えるということ &#8211; その人の持ってる力などを見極めることが大切 &#8211; コミュニケーション能力も必要 &#8212; その人が何をしたいのかを聞く</li>
+<li>評価 &#8211; どんな仕事をしたか、を見るためにもエンジニア経験が必要</li>
+</ul>
+
+<h4 id="toc_299">etc</h4>
+
+<ul>
+<li>事務仕事</li>
+<li>会議 &#8211; 無駄なものもあるが、最近必要と感じることもある &#8212; 海外支社とのテレビ会議など、図を書いたりすることで理解が早くなる &#8211; Face to Face も重要</li>
+</ul>
+
+<h3 id="toc_300">the manager of hackers</h3>
+
+<ul>
+<li>少しとんがった人たちのマネージャーとして</li>
+<li>Platform System Group &#8211; プロジェクト開始時は 3 名、現在 20 名 &#8211; CPAN Author が 6 名</li>
+</ul>
+
+<h4 id="toc_301">hackers はどういう人達か</h4>
+
+<ul>
+<li>&#8220;no man is an island&#8221; &#8211; 一人だと寂しくて死んじゃう</li>
+<li>get bored easily &#8211; 飽きっぽい &#8211; 餌を与え続ける</li>
+<li>priority &lt; interest &#8211; つまらない仕事を与えつつも、先に楽しい仕事を用意しておく</li>
+<li>late morning, late nite &#8211; 働いている時間は一緒 &#8211; 裁量労働なので良いが、相談したいときにいつ来るかわからないのは困ることも</li>
+<li>KY &#8211; 読めない事自体は仕事に影響しないので、悪いことではない &#8211; 悪ノリする</li>
+</ul>
+
+<h3 id="toc_302">what should I do ?</h3>
+
+<ul>
+<li>これはハッカーのマネージャーだけでなく、一般でも通じるところはある</li>
+</ul>
+
+<h4 id="toc_303">delegation</h4>
+
+<ul>
+<li>仕事を任せる &#8211; 失敗もするけど、任せると成長する</li>
+<li>自分でやっちゃおう、と思うこともある</li>
+<li>「任せる」と「丸投げ」は違う &#8211; 任せるための準備はする &#8211; バックアッププランは作る &#8211; 失敗したらマネージャーが責任を持つ</li>
+</ul>
+
+<h4 id="toc_304">bad news first</h4>
+
+<ul>
+<li>悪い報告を先にするようにしてもらう</li>
+</ul>
+
+<h4 id="toc_305">TMTOWTDI</h4>
+
+<ul>
+<li>やり方は一つではない &#8211; これはマネジメントだけではない</li>
+<li>多様性を許容する</li>
+</ul>
+
+<h3 id="toc_306">マネージャが少ない会社は大変</h3>
+
+<ul>
+<li>マネージャは優秀なエンジニアじゃないとできない &#8211; 選択肢として考えて欲しい</li>
+</ul>
+
+<h3 id="toc_307">コミュニティに参加して欲しい</h3>
+
+<ul>
+<li>技術的な刺激を受けられる</li>
+<li>人脈を作る &#8211; マネージャとして重要 &#8211; 最終的には経験の糧になる</li>
+</ul>
+
+<hr>
+
+<p>このほか、LT なども面白く刺激的なものが多く、とても良いカンファレンスでした。</p>
+
+<p>次回がどのようになるかはまだ未定とのことでしたが、次回が YAPC::Asia どこで行われても参加したいと思っています。同時に、これまではカンファレンスやセミナーに参加しつつもずっと聞く側でしたが、今後は YAPC に限らず、もっとコミュニティ全般に対して積極的に貢献できる活動をしたいと思った 3 日間でした。</p>
+
+<p>発表者、スタッフ、参加者、そしてスポンサー企業のみなさま、お疲れ様でした。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">hatak</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-16T00:00:00+09:00" pubdate data-updated="true"></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/xing-tutekita/'>行ってきた</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://blog.hatak.net/2011/10/16/6777" data-via="hisashi" data-counturl="http://blog.hatak.net/2011/10/16/6777" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/2011/10/15/6689" title="Previous Post: YAPC::Asia Tokyo 2011 (1日目) に行ってきた">&laquo; YAPC::Asia Tokyo 2011 (1日目) に行ってきた</a>
+      
+      
+        <a class="basic-alignment right" href="/2011/12/04/9188" title="Next Post: Hachioji.pm #11 に行ってきた">Hachioji.pm #11 に行ってきた &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/2012/12/17/17651">0歳児との生活</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/11/10/17630">RaspberryPi で遊んでみた</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/10/25/17582">Redis 2.4 -> 2.6 のアップグレード</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/10/24/17562">Homebrew で mroonga ストレージエンジンを入れる</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/10/12/17536">&#8220;Server Manage Deep Talk #1&#8243; の振り返りメモ</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/hatak">@hatak</a> on GitHub
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'hatak',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - Hisashi HATAKEYAMA -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a>. Design by <a href="http://octopressthemes.com">Octopress Themes</a>.</span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

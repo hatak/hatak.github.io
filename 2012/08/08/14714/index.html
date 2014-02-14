@@ -1,0 +1,367 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>PSGI アプリを supervisord + Server::Starter で動作させる - Hatak::Techlog</title>
+  <meta name="author" content="Hisashi HATAKEYAMA">
+
+  
+  <meta name="description" content="PSGI で動作する Perl の Web アプリをデプロイする環境をどのように作ろうかと思って試してみたので、その手順をまとめてみます。 記事を書きかけて放置してしまっていたので、diff が古かったりするのはご愛敬で。。 構成の概要 今回構築しようと思う構成は次の通りです。 PSGI &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.hatak.net/2012/08/08/14714">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Hatak::Techlog" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-23373712-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Hatak::Techlog</a></h1>
+  
+    <h2>Verba volant, scripta manent.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:blog.hatak.net" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">PSGI アプリを Supervisord + Server::Starter で動作させる</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-08-08T00:00:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>PSGI で動作する Perl の Web アプリをデプロイする環境をどのように作ろうかと思って試してみたので、その手順をまとめてみます。 記事を書きかけて放置してしまっていたので、diff が古かったりするのはご愛敬で。。</p>
+
+<!--more-->
+
+<h2 id="toc_316">構成の概要</h2>
+
+<p>今回構築しようと思う構成は次の通りです。</p>
+
+<ul>
+<li>PSGI を用いた簡単な Web アプリ</li>
+<li>アプリを動作させる Perl とそのモジュール群は perlbrew + Carton で管理
+
+<ul>
+<li>複数のシステムを同一サーバで動かす可能性もあるため分離しておきたい</li>
+<li>Carton 使ってみたい</li>
+</ul></li>
+<li>アプリケーションサーバには Server::Starter + Starman を利用
+
+<ul>
+<li>Hotdeploy できるようにするため</li>
+</ul></li>
+<li>Server::Starter のプロセスは Supervisord で管理</li>
+</ul>
+
+<h2 id="toc_317">supervisord の導入</h2>
+
+<p><a href="http://blog.glidenote.com/blog/2011/11/25/install-supervisor/">スーパーサーバーSupervisorの導入手順メモ &#8211; Glide Note &#8211; グライドノート</a> を参考に supervisord を導入します。<br>
+今回は CentOS 6 系のサーバで system python に pip 経由でインストールします。 pythonbrew などを利用してシステムと切り離すことも検討したのですが、supervisord を使う目的が OS とアプリの間でプロセス管理をすることなので system python で問題ないと考えました。</p>
+<div class="highlight"><pre><code class="text"># setuptools + pip + supervisord のインストール
+sudo yum install python-setuptools
+sudo easy_install pip
+sudo pip install supervisord
+
+# ログ保存用ディレクトリ作成
+sudo mkdir /var/log/supervisord/
+
+# 個別設定を格納するディレクトリを作成
+sudo mkdir /etc/supervisord.d/
+
+# ベースとなる conf を生成
+sudo su - root -c &quot;echo_supervisord_conf &gt; /etc/supervisord.conf&quot;
+</code></pre>
+</div>
+
+<p>supervisord.conf も前述の記事とほぼ同じですが、umask を CentOS 風にしたいために 002 にしています。<br>
+そして、下記のような /etc/init/supervisord.conf を作成した後に <code>initctl start supervisord</code> で起動します。</p>
+<div class="highlight"><pre><code class="text">description &quot;supervisord&quot;
+start on runlevel [2345]
+stop on runlevel [!2345]
+respawn exec /usr/bin/supervisord -n
+</code></pre>
+</div>
+
+<p>supervisord のプロセスが正常に起動していて、ログファイル (/var/log/supervisord/supervisord.log) に正常に出力されていれば OK です。</p>
+
+<h2 id="toc_318">supervisord 用の設定を用意する</h2>
+
+<p>PSGI アプリを supervisord で管理するための設定を用意します。 ここで、環境変数が必要となるのでコマンドラインで調べておきます。</p>
+
+<p>まずは、carton 利用時の perl のサーチパス (@INC) を調べておきます。</p>
+<div class="highlight"><pre><code class="text">$ carton exec -I./lib/ -- perl -e &quot;print join(q/:/,@INC)&quot;
+./lib/:local/lib/perl5/x86_64-linux:local/lib/perl5:.:/home/hatak/perl5/perlbrew/perls/perl-5.16.0/lib/5.16.0:/home/hatak/perl5/perlbrew/perls/perl-5.16.0/lib/5.16.0/x86_64-linux
+</code></pre>
+</div>
+
+<p>同様に、今度は $PATH を調べておきます。</p>
+<div class="highlight"><pre><code class="text">$ carton exec -I./lib/ -- echo $PATH
+/home/hatak/.perlbrew/libs/perl-5.16.0@carton/bin:/home/hatak/perl5/perlbrew/bin:/home/hatak/perl5/perlbrew/perls/perl-5.16.0/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin:/home/hatak/bin:/home/hatak/bin
+</code></pre>
+</div>
+
+<p>これらの環境変数を使って、/etc/supervisord.d/sample.ini という設定を書いていきます。 $PATH に加えて、@INC の中身を $PERL5LIB として設定し、直接 supervisord が server_start するようにします。 （server_start する部分を別のスクリプトにしてしまうと、supervisord で restart などの処理を行ってもプロセスが切り離されてしまい、管理から外れてしまう状態になってしまいます）</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='ini'><span class='line'><span class="k">[program:hatak]</span>
+</span><span class='line'><span class="na">user</span><span class="o">=</span><span class="s">hatak</span>
+</span><span class='line'><span class="na">umask</span><span class="o">=</span><span class="s">002</span>
+</span><span class='line'><span class="na">environment</span><span class="o">=</span><span class="s">PERL5LIB=&quot;/home/hatak/www/sample/lib:/home/hatak/www/sample/local/lib/perl5/x86_64-linux:/home/hatak/www/sample/local/lib/perl5:/home/hatak/.perlbrew/libs/perl-5.16.0@carton/lib/perl5/x86_64-linux:/home/hatak/.perlbrew/libs/perl-5.16.0@carton/lib/perl5&quot;,PATH=&quot;/home/hatak/www/sample/local/bin/:/home/hatak/.perlbrew/libs/perl-5.16.0@carton/bin:/home/hatak/perl5/perlbrew/bin:/home/hatak/perl5/perlbrew/perls/perl-5.16.0/bin/&quot;</span>
+</span><span class='line'><span class="na">command</span><span class="o">=</span><span class="s">/home/hatak/.perlbrew/libs/perl-5.16.0@carton/bin/carton exec -- /home/hatak/www/sample/local/bin/start_server --port=8080 --path=/tmp/sample.sock --interval=10 --pid-file=/tmp/sample.pid -- /home/hatak/www/sample/local/bin/plackup -s Starman -E deployment --workers=3 --backlog=1024 --max-requests=10000 --preload-app /home/hatak/www/sample/app.psgi directory=/home/hatak/www/sample</span>
+</span><span class='line'><span class="na">redirect_stderr</span><span class="o">=</span><span class="s">true</span>
+</span><span class='line'><span class="na">stdout_logfile</span><span class="o">=</span><span class="s">/var/log/supervisord/sample.log</span>
+</span><span class='line'><span class="na">stdout_logfile_maxbytes</span><span class="o">=</span><span class="s">5MB</span>
+</span><span class='line'><span class="na">stderr_logfile</span><span class="o">=</span><span class="s">/var/log/supervisord/sample.err</span>
+</span><span class='line'><span class="na">stderr_logfile_maxbytes</span><span class="o">=</span><span class="s">5MB</span>
+</span><span class='line'><span class="na">stdout_logfile_backups</span><span class="o">=</span><span class="s">5</span>
+</span><span class='line'><span class="na">autorestart</span><span class="o">=</span><span class="s">true</span>
+</span><span class='line'><span class="na">startsecs</span><span class="o">=</span><span class="s">5</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>これで準備は完了です。あとは、supervisord で起動すればおしまいです。</p>
+<div class="highlight"><pre><code class="text">sudo supervisorctl add sample
+</code></pre>
+</div>
+
+<p>少し回りくどい構成のようにも思えますが、ソースをアップロードして server_start のプロセスに -HUP を送ることで Server::Starter がいい感じにプロセスを置き換えてくれます。また、サーバプロセスがなくなったときやサーバ再起動時などには supervisord がサーバプロセスを立ち上げてくれるので、管理も簡単です。</p>
+
+<p>外部からのリクエストは、一度 Nginx などのリバースプロキシで受けて、動的なものだけを PSGI に送りレスポンスを返す形にすると様々な恩恵が受けられそうです。 ただ、今回試した範囲では Nginx から直接 socket に送ることができなかったのでここは今後の課題でした。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">hatak</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-08-08T00:00:00+09:00" pubdate data-updated="true"></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/perl/'>Perl</a>, <a class='category' href='/blog/categories/gou-zhu-shou-shun/'>構築手順</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://blog.hatak.net/2012/08/08/14714" data-via="hisashi" data-counturl="http://blog.hatak.net/2012/08/08/14714" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/2012/06/19/14234" title="Previous Post: perl で segmentation fault が起きたときの調べかた">&laquo; perl で segmentation fault が起きたときの調べかた</a>
+      
+      
+        <a class="basic-alignment right" href="/2012/08/16/15712" title="Next Post: テストのために Redis を立ち上げたかった">テストのために Redis を立ち上げたかった &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/2012/12/17/17651">0歳児との生活</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/11/10/17630">RaspberryPi で遊んでみた</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/10/25/17582">Redis 2.4 -> 2.6 のアップグレード</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/10/24/17562">Homebrew で mroonga ストレージエンジンを入れる</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/10/12/17536">&#8220;Server Manage Deep Talk #1&#8243; の振り返りメモ</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/hatak">@hatak</a> on GitHub
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'hatak',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - Hisashi HATAKEYAMA -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a>. Design by <a href="http://octopressthemes.com">Octopress Themes</a>.</span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

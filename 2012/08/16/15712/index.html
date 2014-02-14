@@ -1,0 +1,414 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>テストのために Redis を立ち上げたかった - Hatak::Techlog</title>
+  <meta name="author" content="Hisashi HATAKEYAMA">
+
+  
+  <meta name="description" content="ミドルウェアを使った処理のテストでは、テストのための設定でその時限りのデーモンを立ち上げて使いたいものです。 例えば MySQL であれば Test::mysqld 、memcached であれば Test::TCP などを使うことで手軽にデーモンを立ち上げる仕掛けを作ることができます。これを &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.hatak.net/2012/08/16/15712">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Hatak::Techlog" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-23373712-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Hatak::Techlog</a></h1>
+  
+    <h2>Verba volant, scripta manent.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:blog.hatak.net" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">テストのために Redis を立ち上げたかった</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-08-16T00:00:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>ミドルウェアを使った処理のテストでは、テストのための設定でその時限りのデーモンを立ち上げて使いたいものです。 例えば MySQL であれば <a href="https://metacpan.org/module/Test::mysqld">Test::mysqld</a> 、memcached であれば <a href="https://metacpan.org/module/Test::TCP">Test::TCP</a> などを使うことで手軽にデーモンを立ち上げる仕掛けを作ることができます。これを prove にフックさせたりすると、マニュアルでテスト用のデーモンを立ち上げる必要がなくなるという方法がとれます。</p>
+
+<!--more-->
+
+<ul>
+<li><a href="http://perl-users.jp/articles/advent-calendar/2011/test/18">テストのためにデーモンを自動的に起動するやりかた2011年版 &#8211; Perl Advent Calendar Japan 2011 Test Track</a></li>
+<li><a href="http://blog.riywo.com/2011/12/28/035420">perlbrew+Carton+Amon2+Test::mysqldみたいな &#8211; As a Futurist&#8230;</a></li>
+</ul>
+
+<p>Redis を使った処理のテストを書く必要があり、これと同じような方法で立ち上げる設定を作ろうとしました。 デフォルトとは異なるポートで Redis のサーバを立ち上げてあげればいいのですが、redis-server コマンドは起動時の引数で直接ポート指定ができず設定ファイルとして渡す必要があります。ちょっと面倒だな、と思って手抜きをしようと探したところ、<a href="https://metacpan.org/module/Redis">p5-Redis</a> のテストコードの中に目的のものを見つけました。</p>
+
+<ul>
+<li><a href="https://github.com/melo/perl-redis/blob/master/t/tlib/Test/SpawnRedisServer.pm">perl-redis/t/tlib/Test/SpawnRedisServer.pm at master · melo/perl-redis · GitHub</a></li>
+</ul>
+
+<p>このモジュールを use して、テスト開始時に呼び出して Redis のデーモンを起動、テスト終了後にデーモンを終了してあげればよさそうです。 フレームワークとして Amon2 を使っていたので、t::Util のようなモジュールを作って必要なテストで use してあげるような仕組みでやってみました。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class='perl'><span class='line'><span class="nb">package</span> <span class="nn">t::</span><span class="n">Util</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">use</span> <span class="nn">Test::</span><span class="n">SpawnRedisServer</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">my</span> <span class="nv">$REDIS</span><span class="p">;</span>
+</span><span class='line'><span class="k">use</span> <span class="n">MyApp</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="c1"># start redis-server with Test::SpawnRedisServer (via p5-Redis)</span>
+</span><span class='line'>    <span class="nv">$ENV</span><span class="p">{</span><span class="n">REDIS_DEBUG</span><span class="p">}</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="p">(</span><span class="nv">$REDIS</span><span class="p">,</span> <span class="nv">$ENV</span><span class="p">{</span><span class="n">TEST_REDIS</span><span class="p">})</span> <span class="o">=</span> <span class="n">redis</span><span class="p">();</span>
+</span><span class='line'>    <span class="k">my</span> <span class="nv">$c</span> <span class="o">=</span> <span class="n">MyApp</span><span class="o">-&gt;</span><span class="k">new</span><span class="p">();</span>
+</span><span class='line'>    <span class="nv">$c</span><span class="o">-&gt;</span><span class="n">setup_schema</span><span class="p">();</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">END</span> <span class="p">{</span>
+</span><span class='line'>    <span class="c1"># stop redis-server</span>
+</span><span class='line'>    <span class="nv">$REDIS</span><span class="o">-&gt;</span><span class="p">()</span> <span class="k">if</span> <span class="nv">$REDIS</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="mi">1</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>$ENV{TEST_REDIS} に格納されるのは &#8220;127.0.0.1:11121&#8243; のような接続先アドレスなので、Redis への接続時に使われるように設定しました。</p>
+
+<p>config はこんな感じ。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='perl'><span class='line'><span class="nb">die</span> <span class="k">unless</span> <span class="p">(</span><span class="nb">defined</span> <span class="nv">$ENV</span><span class="p">{</span><span class="n">TEST_REDIS</span><span class="p">});</span>
+</span><span class='line'><span class="o">+</span><span class="p">{</span>
+</span><span class='line'>    <span class="s">&quot;Redis&quot;</span> <span class="o">=&gt;</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">server</span> <span class="o">=&gt;</span> <span class="nv">$ENV</span><span class="p">{</span><span class="n">TEST_REDIS</span><span class="p">},</span>
+</span><span class='line'>    <span class="p">},</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>コンストラクタはこんな感じ。(Teng とかとほぼ同じですが。。)</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='perl'><span class='line'><span class="nb">package</span> <span class="n">MyApp</span> <span class="mf">0.01</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">use</span> <span class="n">v5</span><span class="mf">.14</span><span class="p">;</span>
+</span><span class='line'><span class="k">use</span> <span class="n">parent</span> <span class="sx">qw/Amon2/</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">use</span> <span class="n">Redis</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">sub </span><span class="nf">redis</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">my</span> <span class="nv">$self</span> <span class="o">=</span> <span class="nb">shift</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span> <span class="o">!</span><span class="nb">defined</span> <span class="nv">$self</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">redis</span><span class="p">}</span> <span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">my</span> <span class="nv">$conf</span> <span class="o">=</span> <span class="nv">$self</span><span class="o">-&gt;</span><span class="n">config</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">Redis</span><span class="p">}</span> <span class="ow">or</span> <span class="nb">die</span> <span class="s">&#39;missing configuration for &quot;Redis&quot;&#39;</span><span class="p">;</span>
+</span><span class='line'>        <span class="nv">$self</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">redis</span><span class="p">}</span> <span class="o">=</span> <span class="n">Redis</span><span class="o">-&gt;</span><span class="k">new</span><span class="p">(</span><span class="nv">%</span><span class="p">{</span><span class="nv">$conf</span><span class="p">});</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">return</span> <span class="nv">$self</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">redis</span><span class="p">};</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="mi">1</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>これで無事、テストを走らせるときに一緒に Redis が立ち上がるようになりました。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='perl'><span class='line'><span class="k">use</span> <span class="n">strict</span><span class="p">;</span>
+</span><span class='line'><span class="k">use</span> <span class="n">warnings</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">use</span> <span class="nn">t::</span><span class="n">Util</span><span class="p">;</span>
+</span><span class='line'><span class="k">use</span> <span class="nn">Test::</span><span class="n">More</span><span class="p">;</span>
+</span><span class='line'><span class="k">use</span> <span class="n">MyApp</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">my</span> <span class="nv">$c</span> <span class="o">=</span> <span class="n">MyApp</span><span class="o">-&gt;</span><span class="n">bootstrap</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">is</span><span class="p">(</span><span class="nv">$c</span><span class="o">-&gt;</span><span class="n">redis</span><span class="o">-&gt;</span><span class="n">ping</span><span class="p">,</span> <span class="s">&quot;PONG&quot;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">done_testing</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>めでたしめでたし。</p>
+
+<p>と思ったら、ちゃんと <a href="https://metacpan.org/module/Test::RedisServer">Test::RedisServer</a> というモジュールがつくられていました。</p>
+
+<ul>
+<li>  <a href="http://unknownplace.org/memo/2012/07/31/1/">Test::RedisServer ってのを書いた &#8211; unknownplace.org</a></li>
+</ul>
+
+<p>こちらだと Test::mysqld と同じように書けるのですっきりして見やすそうです。typester++</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">hatak</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-08-16T00:00:00+09:00" pubdate data-updated="true"></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/perl/'>Perl</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://blog.hatak.net/2012/08/16/15712" data-via="hisashi" data-counturl="http://blog.hatak.net/2012/08/16/15712" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/2012/08/08/14714" title="Previous Post: PSGI アプリを supervisord + Server::Starter で動作させる">&laquo; PSGI アプリを supervisord + Server::Starter で動作させる</a>
+      
+      
+        <a class="basic-alignment right" href="/2012/09/29/17281" title="Next Post: YAPC::Asia Tokyo 2012 で話してきた">YAPC::Asia Tokyo 2012 で話してきた &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/2012/12/17/17651">0歳児との生活</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/11/10/17630">RaspberryPi で遊んでみた</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/10/25/17582">Redis 2.4 -> 2.6 のアップグレード</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/10/24/17562">Homebrew で mroonga ストレージエンジンを入れる</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/10/12/17536">&#8220;Server Manage Deep Talk #1&#8243; の振り返りメモ</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/hatak">@hatak</a> on GitHub
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'hatak',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - Hisashi HATAKEYAMA -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a>. Design by <a href="http://octopressthemes.com">Octopress Themes</a>.</span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

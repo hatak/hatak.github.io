@@ -1,0 +1,337 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>MacOSX のローカルの DNS キャッシュ - Hatak::Techlog</title>
+  <meta name="author" content="Hisashi HATAKEYAMA">
+
+  
+  <meta name="description" content="DNS の設定を触るとき、ローカルのキャッシュが変わっていないためにハマることが多々あります。Mac の場合、ターミナルで dig して変更を確認してもブラウザで開けなかったりするわけで。 これは、MacOSX 内部で DNS 解決の結果をキャッシュする機能が働いているためです。 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.hatak.net/2011/05/17/335">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Hatak::Techlog" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-23373712-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Hatak::Techlog</a></h1>
+  
+    <h2>Verba volant, scripta manent.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:blog.hatak.net" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">MacOSX のローカルの DNS キャッシュ</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-05-17T00:00:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>DNS の設定を触るとき、ローカルのキャッシュが変わっていないためにハマることが多々あります。Mac の場合、ターミナルで dig して変更を確認してもブラウザで開けなかったりするわけで。</p>
+
+<p>これは、MacOSX 内部で DNS 解決の結果をキャッシュする機能が働いているためです。 キャッシュをコントロールするためには dscacheutil コマンドを使います。</p>
+
+<figure class='code'><figcaption><span>dscacheutil</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='console'><span class='line'><span class="go">Usage: dscacheutil -h</span>
+</span><span class='line'><span class="go">       dscacheutil -q category [-a key value]</span>
+</span><span class='line'><span class="go">       dscacheutil -cachedump [-buckets] [-entries [category]]</span>
+</span><span class='line'><span class="go">       dscacheutil -configuration</span>
+</span><span class='line'><span class="go">       dscacheutil -flushcache</span>
+</span><span class='line'><span class="go">       dscacheutil -statistics</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>キャッシュをクリアするのは &quot;-flushcache&quot; オプションをつけます。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='console'><span class='line'><span class="gp">$</span> dscacheutil -flushcache
+</span></code></pre></td></tr></table></div></figure>
+
+<p>sudo しなくてもユーザ権限でできるので安心。</p>
+
+<!--more-->
+
+<p>実際にキャッシュされてるデータを調べるにはこんな感じ。</p>
+
+<figure class='code'><figcaption><span>dscacheutil -q host -a name blog.hatak.net</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='console'><span class='line'><span class="go">name: vps02.sakura.dwmp.jp</span>
+</span><span class='line'><span class="go">alias: blog.hatak.net</span>
+</span><span class='line'><span class="go">ip_address: 49.212.41.49</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<figure class='code'><figcaption><span>dig blog.hatak.net</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='console'><span class='line'><span class="go">;; ANSWER SECTION:</span>
+</span><span class='line'><span class="go">blog.hatak.net.     600 IN  CNAME   vps02.sakura.dwmp.jp.</span>
+</span><span class='line'><span class="go">vps02.sakura.dwmp.jp.   600 IN  A   49.212.41.49</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>ちゃんと dig の結果と同じものがキャッシュされてました。CNAME の場合は alias として表示されるようですね。 IP からの逆引きも調べてみました。</p>
+
+<figure class='code'><figcaption><span>dscacheutil -q host -a ip_address 49.212.41.49</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='console'><span class='line'><span class="go">name: www30255u.sakura.ne.jp</span>
+</span><span class='line'><span class="go">alias: 49.41.212.49.in-addr.arpa</span>
+</span><span class='line'><span class="go">ip_address: 49.212.41.49</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<figure class='code'><figcaption><span>dig -x 49.212.41.49</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='console'><span class='line'><span class="go">;; ANSWER SECTION:</span>
+</span><span class='line'><span class="go">49.41.212.49.in-addr.arpa. 3600 IN  PTR www30255u.sakura.ne.jp.</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>逆引きの委譲をしていないので管理用のドメインが返ってきてしまいますが、これも dig の結果と同じものになってます。 &#8220;ds&#8221; というコマンド名のとおり、もともと DirectoryService のキャッシュを操作するためのもののようで、DNS に限ったコマンドではなさそうです。</p>
+
+<figure class='code'><figcaption><span>dscacheutil -q user -a name hatak</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='console'><span class='line'><span class="go">name: hatak</span>
+</span><span class='line'><span class="go">password: ********</span>
+</span><span class='line'><span class="go">uid: 501</span>
+</span><span class='line'><span class="go">gid: 20</span>
+</span><span class='line'><span class="go">dir: /Users/hatak</span>
+</span><span class='line'><span class="go">shell: /bin/bash</span>
+</span><span class='line'><span class="go">gecos: hatak</span>
+</span></code></pre></td></tr></table></div></figure>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">hatak</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-05-17T00:00:00+09:00" pubdate data-updated="true"></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/xiao-neta/'>小ネタ</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://blog.hatak.net/2011/05/17/335" data-via="hisashi" data-counturl="http://blog.hatak.net/2011/05/17/335" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/2011/05/12/178" title="Previous Post: CentOS + Nginx で WordPress を構築">&laquo; CentOS + Nginx で WordPress を構築</a>
+      
+      
+        <a class="basic-alignment right" href="/2011/05/18/571" title="Next Post: gitosis で作るプライベートな git サーバ">gitosis で作るプライベートな git サーバ &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/2012/12/17/17651">0歳児との生活</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/11/10/17630">RaspberryPi で遊んでみた</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/10/25/17582">Redis 2.4 -> 2.6 のアップグレード</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/10/24/17562">Homebrew で mroonga ストレージエンジンを入れる</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/10/12/17536">&#8220;Server Manage Deep Talk #1&#8243; の振り返りメモ</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/hatak">@hatak</a> on GitHub
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'hatak',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - Hisashi HATAKEYAMA -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a>. Design by <a href="http://octopressthemes.com">Octopress Themes</a>.</span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

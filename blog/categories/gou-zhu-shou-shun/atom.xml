@@ -1,0 +1,684 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: 構築手順 | Hatak::Techlog]]></title>
+  <link href="http://blog.hatak.net/blog/categories/gou-zhu-shou-shun/atom.xml" rel="self"/>
+  <link href="http://blog.hatak.net/"/>
+  <updated>2014-02-15T08:13:00+09:00</updated>
+  <id>http://blog.hatak.net/</id>
+  <author>
+    <name><![CDATA[Hisashi HATAKEYAMA]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[RaspberryPi で遊んでみた]]></title>
+    <link href="http://blog.hatak.net/2012/11/10/17630"/>
+    <updated>2012-11-10T00:00:00+09:00</updated>
+    <id>http://blog.hatak.net/2012/11/10/raspberrypi-%e3%81%a7%e9%81%8a%e3%82%93%e3%81%a7%e3%81%bf%e3%81%9f</id>
+    <content type="html"><![CDATA[<p>思い立って RaspberryPi を注文したら結構早く手に入ったので、早速遊んでみました。</p>
+
+<p><img src="https://dl.dropboxusercontent.com/u/14531906/hatak.github.io/2012/11/RIMG0067-300x225.jpg" alt="" title="RaspberryPi" width="300" height="225" class="alignnone size-medium wp-image-17634" /></p>
+
+<!--more-->
+
+<p><a href="http://www.raspberrypi.org/">RaspberryPi</a> は、ARMCore プロセッサ搭載の小型基板です。もともと発売開始の頃に買おうとしていたのですが、ただでさえ発送までの時間がかかる上に、販売代理店のサイトで購入中にエラーになってしまってそのままあきらめていたのでした。 ところが、先日 <a href="http://blog.mobilehackerz.jp/2012/10/raspberry-pi10.html">この記事</a> を見て思い出したので、買ってみたわけでした。</p>
+
+<ul>
+<li>10/25 : 注文</li>
+<li>10/30 : 発送通知メール</li>
+<li>11/5 : 到着</li>
+</ul>
+
+<p>イギリスからの発送なのでそれなりに時間がかかりますが、それでも元々の代理店よりはかなり早いと思います。値段は £29.99 + £4.99 (送料) の計 £34.98。日本円換算で 4,500 円程度です。</p>
+
+<h3 id="toc_142">組み立て</h3>
+
+<p><a href="https://www.modmypi.com/">ModMyPi</a> は RaspberryPi 専用のカスタムケースなどを取り扱うネットショップです。今回は本体セットを購入したので、本体ボードとケースが送られてきます。が、組み立てというほどではなく載せてはめれば完了です。上下で色を選べるので、上を白、下を青にしてみました。</p>
+
+<p><img src="https://dl.dropboxusercontent.com/u/14531906/hatak.github.io/2012/11/RIMG0061-300x225.jpg" alt="" title="RaspberryPi and iPhone4S" width="300" height="225" class="alignnone size-medium wp-image-17633" /></p>
+
+<p>iPhone と比べると大きさは同じくらいですが、厚さが3倍くらいあります。</p>
+
+<p>あとは OS イメージを書き込んだ SD カードをスロットにいれ、LAN と電源を接続すれば準備完了です。</p>
+
+<h3 id="toc_143">SD カードの準備</h3>
+
+<p>RaspberryPi の公式から OS イメージがダウンロードできます。展開すると 2GB くらいになるので、利用する SD カードは 4GB 以上が推奨されています。今回は手元に余ってた Transcend の SDHC 16GB (Class10) を用意しました。</p>
+
+<p>大容量の SDHC も昔に比べれば値段が安くなっているのでいいですね。</p>
+
+<p>イメージはいくつか種類がありますが、今回はシンプルな ArchLinux を使うことにしました。 SD カードをマウントして書き込めばいいのですが、スクリプトを利用します。Github で公開されているのですが、残念なことに直さないと動きません。 オリジナルのブランチにもいろんな方から PullRequest があるのですが、反映されてない (しかも多すぎてどれが正しいのか分からない) ので、やむを得ず動く状態に直したものを用意しました。</p>
+
+<p><a href="https://github.com/hatak/RasPiWrite">hatak/RasPiWrite · GitHub</a></p>
+
+<p>コロンが抜けてるところと、インデントのおかしな所を直しただけのバージョンです。MacOSX 10.8.2 の python で動作しました。</p>
+
+<p>ローカルに取得した後、スクリプトを起動してウィザードに沿って SD カードへの展開を進めます。mac の SD カードスロットに差し込み、スクリプトを sudo で実行します。</p>
+<div class="highlight"><pre><code class="text">$ sudo ./raspiwrite.py
+</code></pre>
+</div>
+
+<p>これでイメージ完成です。簡単ですね。 スクリプトに sudo が必要なのはマウント周りの操作を行うためかと思いますが、複数ディスクがある場合などは全部フォーマットされてしまう可能性もあるので十分に注意が必要です。</p>
+
+<h3 id="toc_144">起動</h3>
+
+<p>できあがった SD カードを入れ、LAN ケーブルを挿し、電源を挿します。スイッチはないので、電源をつないだら基板の LED がひかり、10秒ほどで起動します。デフォルトは DHCP 取得になっているので、ルータ等で割り当て IP を調べて ssh するのがよさそうです。</p>
+<div class="highlight"><pre><code class="text">[root@alarmpi ~]# pacman -Sy
+[root@alarmpi ~]# pacman -Syu
+[root@alarmpi ~]# uname -a
+Linux alarmpi 3.2.27-5-ARCH+ #1 PREEMPT Fri Sep 14 13:23:44 UTC 2012 armv6l GNU/Linux
+[root@alarmpi ~]# df -hT
+Filesystem Type Size Used Avail Use% Mounted on
+rootfs rootfs 1.8G 523M 1.2G 32% /
+/dev/root ext4 1.8G 523M 1.2G 32% /
+devtmpfs devtmpfs 92M 0 92M 0% /dev
+tmpfs tmpfs 92M 0 92M 0% /dev/shm
+tmpfs tmpfs 92M 304K 92M 1% /run
+tmpfs tmpfs 92M 0 92M 0% /sys/fs/cgroup
+tmpfs tmpfs 92M 0 92M 0% /tmp
+/dev/mmcblk0p1 vfat 94M 21M 74M 22% /boot
+[root@alarmpi ~]# free
+total used free shared buffers cached
+Mem: 446888 48856 398032 0 9268 20624 -/+
+buffers/cache: 18964 427924
+Swap: 0 0 0
+[root@alarmpi ~]# ps auxf
+USER PID %CPU %MEM VSZ RSS TTY STAT START TIME COMMAND
+root 2 0.0 0.0 0 0 ? S 16:47 0:00 [kthreadd]
+root 3 0.0 0.0 0 0 ? S 16:47 0:00 _ [ksoftirqd/0]
+root 5 0.0 0.0 0 0 ? S 16:47 0:00 _ [kworker/u:0]
+root 6 0.0 0.0 0 0 ? S&lt; 16:47 0:00 _ [cpuset]
+root 7 0.0 0.0 0 0 ? S&lt; 16:47 0:00 _ [khelper]
+root 8 0.0 0.0 0 0 ? S 16:47 0:00 _ [kdevtmpfs]
+root 9 0.0 0.0 0 0 ? S&lt; 16:47 0:00 _ [netns]
+root 10 0.0 0.0 0 0 ? S 16:47 0:00 _ [sync_supers]
+root 11 0.0 0.0 0 0 ? S 16:47 0:00 _ [bdi-default]
+root 12 0.0 0.0 0 0 ? S&lt; 16:47 0:00 _ [kblockd]
+root 13 0.0 0.0 0 0 ? S 16:47 0:00 _ [khubd]
+root 14 0.0 0.0 0 0 ? S&lt; 16:47 0:00 _ [rpciod]
+root 15 0.0 0.0 0 0 ? S 16:47 0:00 _ [kworker/0:1]
+root 16 0.0 0.0 0 0 ? S 16:47 0:00 _ [khungtaskd]
+root 17 0.0 0.0 0 0 ? S 16:47 0:02 _ [kswapd0]
+root 18 0.0 0.0 0 0 ? S 16:47 0:00 _ [fsnotify_mark]
+root 19 0.0 0.0 0 0 ? S&lt; 16:47 0:00 _ [nfsiod]
+root 20 0.0 0.0 0 0 ? S&lt; 16:47 0:00 _ [crypto]
+root 30 0.0 0.0 0 0 ? S&lt; 16:47 0:00 _ [kthrotld]
+root 31 0.0 0.0 0 0 ? S&lt; 16:47 0:00 _ [VCHIQ-0]
+root 32 0.0 0.0 0 0 ? S&lt; 16:47 0:00 _ [VCHIQr-0]
+root 33 0.0 0.0 0 0 ? S&lt; 16:47 0:00 _ [dwc_otg]
+root 34 0.0 0.0 0 0 ? S&lt; 16:47 0:00 _ [DWC Notificatio]
+root 35 0.0 0.0 0 0 ? S 16:47 0:00 _ [kworker/u:1]
+root 36 2.6 0.0 0 0 ? S 16:47 1:59 _ [mmcqd/0]
+root 37 0.0 0.0 0 0 ? S 16:47 0:01 _ [jbd2/mmcblk0p2-]
+root 38 0.0 0.0 0 0 ? S&lt; 16:47 0:00 _ [ext4-dio-unwrit]
+root 82 0.0 0.0 0 0 ? S&lt; 16:47 0:00 _ [bcm2708_spi.0]
+root 384 0.0 0.0 0 0 ? S 17:23 0:00 _ [kworker/0:2]
+root 28528 0.0 0.0 0 0 ? S 17:54 0:00 _ [flush-179:0]
+root 1 0.0 1.2 4596 2396 ? Ss 16:47 0:01 /usr/lib/systemd/systemd --system --deserialize 28
+root 46 0.0 0.6 3736 1208 ? Ss 16:47 0:00 /usr/lib/systemd/systemd-udevd
+root 50 0.0 1.0 5208 1996 ? Ss 16:47 0:00 /usr/lib/systemd/systemd-journald
+root 95 0.0 0.6 2772 1200 ? Ss 16:47 0:00 /usr/sbin/crond -n
+root 97 0.0 1.1 6248 2160 ? Ss 16:47 0:00 /usr/sbin/sshd -D
+root 163 0.0 1.6 9968 3140 ? Ss 16:49 0:02 _ sshd: root@pts/0
+root 165 0.0 0.9 3272 1744 pts/0 Ss 16:49 0:00 _ -bash
+root 28579 0.0 0.5 2648 944 pts/0 R+ 18:03 0:00 _ ps auxf dbus 99 0.0 0.7 2808 1396 ? Ss 16:47 0:00 /usr/bin/dbus-daemon --system --address=systemd: --nofork --nopidfile --systemd-activation
+root 106 0.0 0.3 1752 676 tty1 Ss+ 16:47 0:00 /sbin/agetty --noclear tty1 38400
+root 144 0.0 0.2 1928 516 ? Ss 16:47 0:00 /sbin/dhcpcd -A -q -w eth0 ntp 146 0.0 0.4 3508 792 ? S 16:47 0:00 /usr/sbin/ntpd -s
+root 147 0.0 0.3 3676 572 ? Ss 16:47 0:00 /usr/sbin/ntpd -s
+root 319 0.0 0.6 2996 1240 ? Ss 17:00 0:00 /usr/lib/systemd/systemd-logind
+root 385 0.0 1.5 7076 2900 ? Ss 17:23 0:00 /usr/sbin/syslog-ng -F
+</code></pre>
+</div>
+
+<p>起動するとこんな感じです。ひとまず pacman でパッケージをアップデートしてあげたら、あとは好みに環境構築すればいいです。 うまく動かなくなったら、また SD カードを作り直せばいいですよね。</p>
+<div class="highlight"><pre><code class="text">[root@alarmpi ~]# cat /proc/meminfo
+MemTotal: 446888 kB
+MemFree: 397924 kB
+Buffers: 9300 kB
+Cached: 20624 kB
+SwapCached: 0 kB
+Active: 16772 kB
+Inactive: 17684 kB
+Active(anon): 4564 kB
+Inactive(anon): 168 kB
+Active(file): 12208 kB
+Inactive(file): 17516 kB
+Unevictable: 0 kB
+Mlocked: 0 kB
+SwapTotal: 1048572 kB
+SwapFree: 1048572 kB
+Dirty: 12 kB
+Writeback: 0 kB
+AnonPages: 4528 kB
+Mapped: 7264 kB
+Shmem: 208 kB
+Slab: 11436 kB
+SReclaimable: 8652 kB
+SUnreclaim: 2784 kB
+KernelStack: 384 kB
+PageTables: 360 kB
+NFS_Unstable: 0 kB
+Bounce: 0 kB
+WritebackTmp: 0 kB
+CommitLimit: 1272016 kB
+Committed_AS: 12868 kB
+VmallocTotal: 188416 kB
+VmallocUsed: 1004 kB
+VmallocChunk: 186592 kB
+[root@alarmpi ~]# cat /proc/cpuinfo
+Processor : ARMv6-compatible processor rev 7 (v6l)
+BogoMIPS : 697.95
+Features : swp half thumb fastmult vfp edsp java tls
+CPU implementer : 0x41
+CPU architecture: 7
+CPU variant : 0x0
+CPU part : 0xb76
+CPU revision : 7
+Hardware : BCM2708
+Revision : 000f
+Serial : xxxxxxxxxxxxxxxx
+</code></pre>
+</div>
+
+<p>とても手軽です。類似のものとしては Openblocks がありますが、桁一つ違うのは大きいですね。 Openblocks が一般的なサーバ機器で、RaspberryPi がパソコンくらいのイメージでしょうか。</p>
+
+<h2 id="toc_145">参考</h2>
+
+<ul>
+<li>  <a href="http://blog.mobilehackerz.jp/2012/10/raspberry-pi10.html">MobileHackerz再起動日記: いつまでも届かないRaspberry Piは一手間かけると10日で新型が手に入る</a></li>
+<li>  <a href="http://hitoriblog.com/?p=9733"> 約3,300円で買えるLinuxパソコンRaspberry PiをMacで使う | ひとりぶろぐ</a></li>
+<li>  <a href="https://wiki.archlinux.org/index.php/Beginners%27_Guide">Beginners&#39; Guide - ArchWiki</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Redis 2.4 -> 2.6 のアップグレード]]></title>
+    <link href="http://blog.hatak.net/2012/10/25/17582"/>
+    <updated>2012-10-25T00:00:00+09:00</updated>
+    <id>http://blog.hatak.net/2012/10/25/redis-2-4-2-6-%e3%81%ae%e3%82%a2%e3%83%83%e3%83%97%e3%82%b0%e3%83%ac%e3%83%bc%e3%83%89</id>
+    <content type="html"><![CDATA[<p>Redis 2.6 が正式リリースされました。大きな機能追加に隠れて、いくつかの変更があります。</p>
+
+<ul>
+<li>  Lua のサポート</li>
+<li>  クライアント接続数の制限解除</li>
+<li>  expires のミリ秒対応</li>
+</ul>
+
+<p>2.4 以前の config では deprecated になっている設定項目があるため、一部手を入れる必要があります。mac で launchctl を使っている場合、自動起動に失敗していても気づきにくいので注意が必要です。</p>
+
+<!--more-->
+
+<h3 id="toc_146">VirtualMemory</h3>
+<div class="highlight"><pre><code class="text">$ redis-server /usr/local/etc/redis.conf
+*** FATAL CONFIG FILE ERROR
+*** Reading the configuration file, at line 389
+&gt;&gt;&gt; &#39;vm-enabled no&#39; Bad directive or wrong number of arguments
+</code></pre>
+</div>
+
+<p>Virtual Memory (仮想メモリ) の設定は非サポートになっているので、丸ごと削除してしまいます。</p>
+<div class="highlight"><pre><code class="text">An overview of new features and changes in Redis 2.6.x
+======================================================
+...
+* Virtual Memory removed (was deprecated in 2.4)
+...
+</code></pre>
+</div>
+
+<p>2.4 以降で depricated になっている下記のプロパティが対象のようです。</p>
+
+<ul>
+<li>  vm-enabled</li>
+<li>  vm-swap-file</li>
+<li>  vm-max-memory</li>
+<li>  vm-page-size</li>
+<li>  vm-pages</li>
+<li>  vm-max-threads</li>
+</ul>
+
+<h3 id="toc_147">CONFIG SET parameters</h3>
+<div class="highlight"><pre><code class="text">$ redis-server /usr/local/etc/redis.conf
+*** FATAL CONFIG FILE ERROR
+*** Reading the configuration file, at line 367
+&gt;&gt;&gt; &#39;hash-max-zipmap-entries 512&#39; Bad directive or wrong number of arguments
+</code></pre>
+</div>
+
+<p>2つの設定の設定項目の名称が変更になっています。</p>
+<div class="highlight"><pre><code class="text">Migrating from 2.4 to 2.6
+=========================
+...
+The following redis.conf and CONFIG GET / SET parameters changed:
+
+* hash-max-zipmap-entries, now replaced by hash-max-ziplist-entries
+* hash-max-zipmap-value, now replaced by hash-max-ziplist-value
+...
+</code></pre>
+</div>
+
+<p>リリースノートを参考にリネームします。</p>
+
+<h2 id="toc_148">参考</h2>
+
+<ul>
+<li>  <a href="https://github.com/antirez/redis/blob/2.6/00-RELEASENOTES">redis/00-RELEASENOTES at 2.6 · antirez/redis · GitHub</a></li>
+<li>  <a href="http://oldblog.antirez.com/post/redis-2.6-is-near.html">Redis 2.6 is near, and a few more updates</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Homebrew で mroonga ストレージエンジンを入れる]]></title>
+    <link href="http://blog.hatak.net/2012/10/24/17562"/>
+    <updated>2012-10-24T00:00:00+09:00</updated>
+    <id>http://blog.hatak.net/2012/10/24/homebrew-%e3%81%a7-mroonga-%e3%82%b9%e3%83%88%e3%83%ac%e3%83%bc%e3%82%b8%e3%82%a8%e3%83%b3%e3%82%b8%e3%83%b3%e3%82%92%e5%85%a5%e3%82%8c%e3%82%8b</id>
+    <content type="html"><![CDATA[<p>ローカルマシン (MaxOSX 10.8.2) に MySQL 5.5 + mroonga の環境を構築してたのですが、いろいろ嵌まったのでメモしておきます。</p>
+
+<!--more-->
+
+<h2 id="toc_149">MeCab</h2>
+
+<p>mroonga で TokenMecab トークナイザーを利用するためには MeCab が必要です。 Homebrew で IPA 辞書と合わせてインストールします。</p>
+<div class="highlight"><pre><code class="text">$ brew install mecab mecab-ipadic
+$ mecab -D
+filename: /usr/local/Cellar/mecab/0.994/lib/mecab/dic/ipadic/sys.dic
+version: 102
+charset: utf8
+type: 0
+size: 392126
+left size: 1316
+right size: 1316
+$ mecab 今日は雨です
+今日 名詞,副詞可能,*,*,*,*,今日,キョウ,キョー
+は 助詞,係助詞,*,*,*,*,は,ハ,ワ
+雨 名詞,一般,*,*,*,*,雨,アメ,アメ
+です 助動詞,*,*,*,特殊・デス,基本形,です,デス,デス
+EOS
+</code></pre>
+</div>
+
+<p>brew で mecab-ipadic 入れるとデフォルトで UTF-8 になるようになっています。mecab コマンドでインタラクティブに形態素解析してみて、文字化けせずに出力されれば問題なしです。</p>
+
+<p>もし、文字化けしてる場合は Homebrew 周りのどこかに問題があります。brew doctor などで調べていきます。</p>
+<div class="highlight"><pre><code class="text">$ brew unlink mecab mecab-ipadic
+$ brew uninstall mecab mecab-ipadic
+$ brew doctor
+</code></pre>
+</div>
+
+<p>私の場合、10.8 にアップデートする以前に Homebrew で入れた libiconv が中途半端に残ってたことでおかしくなっていたようでした。</p>
+
+<h2 id="toc_150">groonga</h2>
+
+<p>MeCab の次は groonga をインストールします。</p>
+<div class="highlight"><pre><code class="text">$ brew install groonga
+$ groonga --version
+groonga 2.0.7 [darwin12.2.0,x86_64,utf8,match-escalation-threshold=0,nfkc,msgpack,zlib,lzo,kqueue]
+configure options: &lt; &#39;--prefix=/usr/local/Cellar/groonga/2.0.7&#39; &#39;--with-zlib&#39; &#39;CC=cc&#39; &#39;CXX=c++&#39; &#39;PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:/usr/local/share/pkgconfig:/usr/local/Library/Homebrew/pkgconfig&#39;&gt;
+</code></pre>
+</div>
+
+<p>インストール後にチェックをして、TokenMecab が使えるか確認します。 mecab と書かれていない場合は使えません。groonga の configure オプションでは mecab はデフォルト有効と書かれており、mecab-config を自動で探してくれることになっているのですが、パスが通ってないなどがあるのかもしれません。 直接 brew edit で Fomula を書き換えて再度インストールしてしまいます。</p>
+<div class="highlight"><pre><code class="text">diff --git a/Library/Formula/groonga.rb b/Library/Formula/groonga.rb
+index 1c4e8cf..45a7a2b 100644
+--- a/Library/Formula/groonga.rb
++++ b/Library/Formula/groonga.rb
+@@ -8,9 +8,11 @@
+   depends_on &#39;pkg-config&#39; =&gt; :build
+   depends_on &#39;pcre&#39;
+   depends_on &#39;msgpack&#39;
++  depends_on &#39;mecab&#39;
++  depends_on &#39;mecab-ipadic&#39;
+
+   def install
+-    system &quot;./configure&quot;, &quot;--prefix=#{prefix}&quot;, &quot;--with-zlib&quot;
++    system &quot;./configure&quot;, &quot;--prefix=#{prefix}&quot;, &quot;--with-zlib&quot;, &quot;-with-mecab&quot;, &quot;-with-mecab-config=/usr/local/bin/mecab-config&quot;
+     system &quot;make install&quot;
+   end
+ end
+</code></pre>
+</div>
+
+<p>これでOK。</p>
+<div class="highlight"><pre><code class="text">$ brew install groonga
+$ groonga --version
+groonga 2.0.7 [darwin12.2.0,x86_64,utf8,match-escalation-threshold=0,nfkc,mecab,msgpack,zlib,lzo,kqueue]
+configure options: &lt; &#39;--prefix=/usr/local/Cellar/groonga/2.0.7&#39; &#39;--with-zlib&#39; &#39;--with-mecab&#39; &#39;--with-mecab-config=/usr/local/bin/mecab-config&#39; &#39;CC=cc&#39; &#39;CXX=c++&#39; &#39;PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:/usr/local/share/pkgconfig:/usr/local/Library/Homebrew/pkgconfig&#39;&gt;
+</code></pre>
+</div>
+
+<h2 id="toc_151">mroonga</h2>
+
+<p>次は mroonga をインストールします。Homebrew には内包されていませんが、mroonga のリポジトリに Fomula があるのでこちらを使います。</p>
+<div class="highlight"><pre><code class="text">$ brew install https://raw.github.com/mroonga/Homebrew/master/mroonga.rb --use-Homebrew-mysql
+</code></pre>
+</div>
+
+<p>もし、MySQL を Homebrew で入れていない場合 (オフィシャルバイナリを利用している場合など) は、同一バージョンのソースを別途ダウンロードして引数に渡します。また、パーミッションの関係で最後の make install で失敗するので、plugin ディレクトリの所有グループを変更してパーミッションも変えておきます。</p>
+<div class="highlight"><pre><code class="text">$ sudo chgrp staff /usr/local/mysql/lib/plugin
+$ sudo chmod g+w /usr/local/mysql/lib/plugin
+$ brew install https://raw.github.com/mroonga/Homebrew/master/mroonga.rb --with-mysql-source=/usr/local/src/mysql-5.5.28 --with-mysql-config=/usr/local/mysql/bin/mysql_config
+</code></pre>
+</div>
+
+<p>嵌まりながら MySQL を Homebrew 管理とオフィシャルバイナリの両方で試してみたのですが、基本的には Homebrew で揃えた方が便利かなと思いました。</p>
+
+<p>オフィシャルバイナリの特徴をまとめてみるとこんな感じです。</p>
+
+<ul>
+<li>長所
+
+<ul>
+<li>OS の設定画面で起動/停止、あるいは自動起動設定が行える</li>
+<li>インストールウィザードが付属しているためインストールが容易</li>
+</ul></li>
+<li>短所
+
+<ul>
+<li>言語バインディングを利用するときに DYLD_LIBRARY_PATH にパスが通っていないとエラーになることがある 
+
+<ul>
+<li>逆にパスを通していると Homebrew でエラーになることがある</li>
+</ul></li>
+<li>データやログなどのパーミッションがユーザ権限ではなく root になってしまう</li>
+<li>起動/停止を行う際にパスワードが必要なのが面倒</li>
+</ul></li>
+</ul>
+
+<p>個人的には、複数のユーザで利用している mac でユーザ共通に自動起動させたい（もしくはどうしてもオフィシャルバイナリを使いたい）という条件でなければ Homebrew で良いのかなと思いました。</p>
+
+<h2 id="toc_152">動作確認</h2>
+
+<p>MySQL Server が起動していれば、mroonga の Fomula の中でプラグインと関数の追加も行われています。停止していた場合は起動後に追加のコマンドを入力します。</p>
+<div class="highlight"><pre><code class="text">$ mysql -uroot -e &#39;INSTALL PLUGIN mroonga SONAME &quot;ha_mroonga.so&quot;; CREATE FUNCTION last_insert_grn_id RETURNS INTEGER SONAME &quot;ha_mroonga.so&quot;; CREATE FUNCTION mroonga_snippet RETURNS STRING SONAME &quot;ha_mroonga.so&quot;;&#39;
+</code></pre>
+</div>
+
+<p>これで mroonga ストレージエンジンが使えるようになります。</p>
+<div class="highlight"><pre><code class="text">root@localhost[test]&gt; SHOW ENGINES;
++-------+---+----------------------+-----+--+----+
+| Engine | Support | Comment | Transactions | XA | Savepoints |
++-------+---+----------------------+-----+--+----+
+| FEDERATED | NO | Federated MySQL storage engine | NULL | NULL | NULL |
+| MRG_MYISAM | YES | Collection of identical MyISAM tables | NO | NO | NO |
+| MyISAM | YES | MyISAM storage engine | NO | NO | NO |
+| BLACKHOLE | YES | /dev/null storage engine (anything you write to it disappears) | NO | NO | NO |
+| CSV | YES | CSV storage engine | NO | NO | NO |
+| MEMORY | YES | Hash based, stored in memory, useful for temporary tables | NO | NO | NO |
+| mroonga | YES | CJK-ready fulltext search, column store | NO | NO | NO |
+| InnoDB | DEFAULT | Supports transactions, row-level locking, and foreign keys | YES | YES | YES |
+| PERFORMANCE_SCHEMA | YES | Performance Schema | NO | NO | NO |
+| ARCHIVE | YES | Archive storage engine | NO | NO | NO |
++-------+---+----------------------+-----+--+----+
+10 rows in set (0.01 sec)
+
+root@localhost[test]&gt; SHOW PLUGINS;
++---------+----+-------+-----+---+
+| Name | Status | Type | Library | License |
++---------+----+-------+-----+---+
+| binlog | ACTIVE | STORAGE ENGINE | NULL | GPL |
+| mysql_native_password | ACTIVE | AUTHENTICATION | NULL | GPL |
+| mysql_old_password | ACTIVE | AUTHENTICATION | NULL | GPL |
+| CSV | ACTIVE | STORAGE ENGINE | NULL | GPL |
+| MEMORY | ACTIVE | STORAGE ENGINE | NULL | GPL |
+| MyISAM | ACTIVE | STORAGE ENGINE | NULL | GPL |
+| MRG_MYISAM | ACTIVE | STORAGE ENGINE | NULL | GPL |
+| ARCHIVE | ACTIVE | STORAGE ENGINE | NULL | GPL |
+| BLACKHOLE | ACTIVE | STORAGE ENGINE | NULL | GPL |
+| FEDERATED | DISABLED | STORAGE ENGINE | NULL | GPL |
+| InnoDB | ACTIVE | STORAGE ENGINE | NULL | GPL |
+| INNODB_TRX | ACTIVE | INFORMATION SCHEMA | NULL | GPL |
+| INNODB_LOCKS | ACTIVE | INFORMATION SCHEMA | NULL | GPL |
+| INNODB_LOCK_WAITS | ACTIVE | INFORMATION SCHEMA | NULL | GPL |
+| INNODB_CMP | ACTIVE | INFORMATION SCHEMA | NULL | GPL |
+| INNODB_CMP_RESET | ACTIVE | INFORMATION SCHEMA | NULL | GPL |
+| INNODB_CMPMEM | ACTIVE | INFORMATION SCHEMA | NULL | GPL |
+| INNODB_CMPMEM_RESET | ACTIVE | INFORMATION SCHEMA | NULL | GPL |
+| INNODB_BUFFER_PAGE | ACTIVE | INFORMATION SCHEMA | NULL | GPL |
+| INNODB_BUFFER_PAGE_LRU | ACTIVE | INFORMATION SCHEMA | NULL | GPL |
+| INNODB_BUFFER_POOL_STATS | ACTIVE | INFORMATION SCHEMA | NULL | GPL |
+| PERFORMANCE_SCHEMA | ACTIVE | STORAGE ENGINE | NULL | GPL |
+| partition | ACTIVE | STORAGE ENGINE | NULL | GPL |
+| mroonga | ACTIVE | STORAGE ENGINE | ha_mroonga.so | GPL |
++---------+----+-------+-----+---+
+24 rows in set (0.01 sec)
+
+root@localhost[test]&gt; CREATE TABLE diaries (
+    -&gt; id INT PRIMARY KEY AUTO_INCREMENT,
+    -&gt; content VARCHAR(255),
+    -&gt; FULLTEXT INDEX (content) COMMENT &#39;PARSER &quot;TokenMecab&quot;&#39;
+    -&gt; ) ENGINE = mroonga COMMENT = &#39;engine &quot;innodb&quot;&#39; DEFAULT CHARSET utf8;
+Query OK, 0 rows affected (0.50 sec)
+
+root@localhost[test]&gt; SHOW CREATE TABLE diaries;
++---+--------------------------------------------------------------------------------------+
+| Table | Create Table |
++---+--------------------------------------------------------------------------------------+
+| diaries | CREATE TABLE `diaries` (
+`id` int(11) NOT NULL AUTO_INCREMENT,
+`content` varchar(255) DEFAULT NULL,
+PRIMARY KEY (`id`),
+FULLTEXT KEY `content` (`content`) COMMENT &#39;PARSER &quot;TokenMecab&quot;&#39;
+) ENGINE=mroonga DEFAULT CHARSET=utf8 COMMENT=&#39;engine &quot;innodb&quot;&#39; |
++---+--------------------------------------------------------------------------------------+
+1 row in set (0.00 sec)
+</code></pre>
+</div>
+
+<p>warning がでなければ問題なく動作しています。念のため mysql.err や groonga.log といったログにも目を通しておきます。</p>
+
+<p>これで mroonga が使えるようになりました。使ってみた印象としては、文節を考慮してくれる高速な LIKE というイメージです。ちょっとした全文検索であれば、手軽に使えるレベルで良いかと思いました。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[PSGI アプリを supervisord + Server::Starter で動作させる]]></title>
+    <link href="http://blog.hatak.net/2012/08/08/14714"/>
+    <updated>2012-08-08T00:00:00+09:00</updated>
+    <id>http://blog.hatak.net/2012/08/08/psgi-%e3%82%a2%e3%83%97%e3%83%aa%e3%82%92-supervisord-serverstarter-%e3%81%a7%e5%8b%95%e4%bd%9c%e3%81%95%e3%81%9b%e3%82%8b</id>
+    <content type="html"><![CDATA[<p>PSGI で動作する Perl の Web アプリをデプロイする環境をどのように作ろうかと思って試してみたので、その手順をまとめてみます。 記事を書きかけて放置してしまっていたので、diff が古かったりするのはご愛敬で。。</p>
+
+<!--more-->
+
+<h2 id="toc_153">構成の概要</h2>
+
+<p>今回構築しようと思う構成は次の通りです。</p>
+
+<ul>
+<li>PSGI を用いた簡単な Web アプリ</li>
+<li>アプリを動作させる Perl とそのモジュール群は perlbrew + Carton で管理
+
+<ul>
+<li>複数のシステムを同一サーバで動かす可能性もあるため分離しておきたい</li>
+<li>Carton 使ってみたい</li>
+</ul></li>
+<li>アプリケーションサーバには Server::Starter + Starman を利用
+
+<ul>
+<li>Hotdeploy できるようにするため</li>
+</ul></li>
+<li>Server::Starter のプロセスは Supervisord で管理</li>
+</ul>
+
+<h2 id="toc_154">supervisord の導入</h2>
+
+<p><a href="http://blog.glidenote.com/blog/2011/11/25/install-supervisor/">スーパーサーバーSupervisorの導入手順メモ &#8211; Glide Note &#8211; グライドノート</a> を参考に supervisord を導入します。<br>
+今回は CentOS 6 系のサーバで system python に pip 経由でインストールします。 pythonbrew などを利用してシステムと切り離すことも検討したのですが、supervisord を使う目的が OS とアプリの間でプロセス管理をすることなので system python で問題ないと考えました。</p>
+<div class="highlight"><pre><code class="text"># setuptools + pip + supervisord のインストール
+sudo yum install python-setuptools
+sudo easy_install pip
+sudo pip install supervisord
+
+# ログ保存用ディレクトリ作成
+sudo mkdir /var/log/supervisord/
+
+# 個別設定を格納するディレクトリを作成
+sudo mkdir /etc/supervisord.d/
+
+# ベースとなる conf を生成
+sudo su - root -c &quot;echo_supervisord_conf &gt; /etc/supervisord.conf&quot;
+</code></pre>
+</div>
+
+<p>supervisord.conf も前述の記事とほぼ同じですが、umask を CentOS 風にしたいために 002 にしています。<br>
+そして、下記のような /etc/init/supervisord.conf を作成した後に <code>initctl start supervisord</code> で起動します。</p>
+<div class="highlight"><pre><code class="text">description &quot;supervisord&quot;
+start on runlevel [2345]
+stop on runlevel [!2345]
+respawn exec /usr/bin/supervisord -n
+</code></pre>
+</div>
+
+<p>supervisord のプロセスが正常に起動していて、ログファイル (/var/log/supervisord/supervisord.log) に正常に出力されていれば OK です。</p>
+
+<h2 id="toc_155">supervisord 用の設定を用意する</h2>
+
+<p>PSGI アプリを supervisord で管理するための設定を用意します。 ここで、環境変数が必要となるのでコマンドラインで調べておきます。</p>
+
+<p>まずは、carton 利用時の perl のサーチパス (@INC) を調べておきます。</p>
+<div class="highlight"><pre><code class="text">$ carton exec -I./lib/ -- perl -e &quot;print join(q/:/,@INC)&quot;
+./lib/:local/lib/perl5/x86_64-linux:local/lib/perl5:.:/home/hatak/perl5/perlbrew/perls/perl-5.16.0/lib/5.16.0:/home/hatak/perl5/perlbrew/perls/perl-5.16.0/lib/5.16.0/x86_64-linux
+</code></pre>
+</div>
+
+<p>同様に、今度は $PATH を調べておきます。</p>
+<div class="highlight"><pre><code class="text">$ carton exec -I./lib/ -- echo $PATH
+/home/hatak/.perlbrew/libs/perl-5.16.0@carton/bin:/home/hatak/perl5/perlbrew/bin:/home/hatak/perl5/perlbrew/perls/perl-5.16.0/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin:/home/hatak/bin:/home/hatak/bin
+</code></pre>
+</div>
+
+<p>これらの環境変数を使って、/etc/supervisord.d/sample.ini という設定を書いていきます。 $PATH に加えて、@INC の中身を $PERL5LIB として設定し、直接 supervisord が server_start するようにします。 （server_start する部分を別のスクリプトにしてしまうと、supervisord で restart などの処理を行ってもプロセスが切り離されてしまい、管理から外れてしまう状態になってしまいます）</p>
+<div class="highlight"><pre><code class="ini"><span class="k">[program:hatak]</span>
+<span class="na">user</span><span class="o">=</span><span class="s">hatak</span>
+<span class="na">umask</span><span class="o">=</span><span class="s">002</span>
+<span class="na">environment</span><span class="o">=</span><span class="s">PERL5LIB=&quot;/home/hatak/www/sample/lib:/home/hatak/www/sample/local/lib/perl5/x86_64-linux:/home/hatak/www/sample/local/lib/perl5:/home/hatak/.perlbrew/libs/perl-5.16.0@carton/lib/perl5/x86_64-linux:/home/hatak/.perlbrew/libs/perl-5.16.0@carton/lib/perl5&quot;,PATH=&quot;/home/hatak/www/sample/local/bin/:/home/hatak/.perlbrew/libs/perl-5.16.0@carton/bin:/home/hatak/perl5/perlbrew/bin:/home/hatak/perl5/perlbrew/perls/perl-5.16.0/bin/&quot;</span>
+<span class="na">command</span><span class="o">=</span><span class="s">/home/hatak/.perlbrew/libs/perl-5.16.0@carton/bin/carton exec -- /home/hatak/www/sample/local/bin/start_server --port=8080 --path=/tmp/sample.sock --interval=10 --pid-file=/tmp/sample.pid -- /home/hatak/www/sample/local/bin/plackup -s Starman -E deployment --workers=3 --backlog=1024 --max-requests=10000 --preload-app /home/hatak/www/sample/app.psgi directory=/home/hatak/www/sample</span>
+<span class="na">redirect_stderr</span><span class="o">=</span><span class="s">true</span>
+<span class="na">stdout_logfile</span><span class="o">=</span><span class="s">/var/log/supervisord/sample.log</span>
+<span class="na">stdout_logfile_maxbytes</span><span class="o">=</span><span class="s">5MB</span>
+<span class="na">stderr_logfile</span><span class="o">=</span><span class="s">/var/log/supervisord/sample.err</span>
+<span class="na">stderr_logfile_maxbytes</span><span class="o">=</span><span class="s">5MB</span>
+<span class="na">stdout_logfile_backups</span><span class="o">=</span><span class="s">5</span>
+<span class="na">autorestart</span><span class="o">=</span><span class="s">true</span>
+<span class="na">startsecs</span><span class="o">=</span><span class="s">5</span>
+</code></pre>
+</div>
+
+<p>これで準備は完了です。あとは、supervisord で起動すればおしまいです。</p>
+<div class="highlight"><pre><code class="text">sudo supervisorctl add sample
+</code></pre>
+</div>
+
+<p>少し回りくどい構成のようにも思えますが、ソースをアップロードして server_start のプロセスに -HUP を送ることで Server::Starter がいい感じにプロセスを置き換えてくれます。また、サーバプロセスがなくなったときやサーバ再起動時などには supervisord がサーバプロセスを立ち上げてくれるので、管理も簡単です。</p>
+
+<p>外部からのリクエストは、一度 Nginx などのリバースプロキシで受けて、動的なものだけを PSGI に送りレスポンスを返す形にすると様々な恩恵が受けられそうです。 ただ、今回試した範囲では Nginx から直接 socket に送ることができなかったのでここは今後の課題でした。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[gitosis で作るプライベートな git サーバ]]></title>
+    <link href="http://blog.hatak.net/2011/05/18/571"/>
+    <updated>2011-05-18T00:00:00+09:00</updated>
+    <id>http://blog.hatak.net/2011/05/18/gitosis-%e3%81%a7%e4%bd%9c%e3%82%8b%e3%83%97%e3%83%a9%e3%82%a4%e3%83%99%e3%83%bc%e3%83%88%e3%81%aa-git-%e3%82%b5%e3%83%bc%e3%83%90</id>
+    <content type="html"><![CDATA[<p>業務で使い始めた Git ですが、高機能過ぎて未だに使いこなせている自信がありません。 一方で、かつて利用していた Subversion はコマンドを忘れてしまって使うたびにググるほどに記憶が抜けつつあります。</p>
+
+<p>そんな Git を複数メンバー・複数環境で利用する場合、マスターリポジトリを利用することがあります。これにより、Subversion のような中央集約型のソースコード管理をしつつも Git の恩恵を受ける開発スタイルを取ることができるます。 マスターリポジトリとして <a href="http://github.com/">GitHub</a> を利用するのが最も手っ取り早いですが、プライベート（= メンバーのみが閲覧できる）なリポジトリを作成するためには有料オプションにしなければなりません。しかも地味に高い。</p>
+
+<p>こんな時、gitosis を利用すると手軽にプライベートな Git サーバを構築することができます。もちろん、リポジトリを利用するメンバー全員が SSH での接続ができるサーバに bare リポジトリを作ることでも Git サーバとして機能しますが、それでも gitosis を使う優位性は以下のような点にあります。</p>
+
+<ul>
+<li>公開鍵認証を用い、通信にSSHを利用するため安全に利用できる</li>
+<li>公開鍵でユーザを識別し、リポジトリに対するアクセス制御が設定できる</li>
+<li>サーバにアカウントとは切り離して、リポジトリへのアクセスアカウントの作成ができる</li>
+</ul>
+
+<p>gitosis はマスターリポジトリとして利用するサーバのみインストールします。リモートから clone / pull / push をするクライアントには、通常通りの Git がインストールされていれば利用することができます。</p>
+
+<!--more-->
+
+<h2 id="toc_156">パッケージ導入</h2>
+
+<p>gitosis は python で記述され、gitで管理されているプロジェクトです。 CentOS の場合、EPEL リポジトリに Git / gitosis 共にパッケージが存在するので、これを利用することで簡単にインストールできます。</p>
+<div class="highlight"><pre><code class="text">$ sudo yum install git python-setuptools gitosis
+</code></pre>
+</div>
+
+<p>この方法で導入した場合、gitosis ユーザが合わせて作成されます。</p>
+
+<ul>
+<li>uid: gitosis</li>
+<li>home dir: /var/lib/gitosis</li>
+</ul>
+
+<h2 id="toc_157">初期設定</h2>
+
+<p>gitosis の設定は、 gitosis 管理リポジトリのファイルを変更し push することで反映されます。 設定を行うためには、管理ユーザとして最低一人の公開鍵をセットしなければなりません。ここでは、Git サーバ上の現在の操作ユーザの鍵を管理ユーザとしてセットする例を示します。</p>
+<div class="highlight"><pre><code class="text">$ cd /var/lib/gitosis
+$ sudo -H -u gitosis gitosis-init &lt; ~/.ssh/id_rsa.pub
+</code></pre>
+</div>
+
+<p>これで、gitosis のホームに &quot;gitosis&quot; ,&quot;repositories&quot; という2つのディレクトリが生成されます。<br>
+この gitosis 管理リポジトリを、登録した鍵を持つクライアント（ここでは同一ホスト）からcloneし、設定します。</p>
+<div class="highlight"><pre><code class="text">$ cd ~/work
+$ git clone gitosis@localhost:gitosis-admin.git
+</code></pre>
+</div>
+
+<p>設定を変更後、push することで Hooks のスクリプトが実行されることで key が gitosis ユーザの authorized_keys に追記されていきます。 この authorized_keys には command が併記されているため、git のリモートリポジトリを操作する以外のコマンドが実行できないようになっているのです。</p>
+
+<h3 id="toc_158">新規ユーザの追加</h3>
+
+<p>新規ユーザの追加は、*.pub ファイルを作成して該当するグループに追記、push するだけです。 gitosis では、グループ毎に権限をコントロールする形式を取ります。このため、ユーザが複数のグループに所属しているとうまく動作しないことがあります。 *.pub は単なる authorized_keys なので、1行にひとつの公開鍵を書く形式になっていれば複数設定可能です。</p>
+
+<h3 id="toc_159">新規リポジトリの追加</h3>
+
+<p>新規リポジトリの追加は、gitosis.conf に変更を加えて push するだけです。空のまま pull すると init されるだけですが、追加して push すれば大丈夫です。</p>
+
+<h2 id="toc_160">設定のコツ</h2>
+
+<p>keydir 以下に公開鍵ごとにファイルを作成し、 gitosis.conf に公開鍵のファイル名 (.pub を除く) を設定していきます。</p>
+<div class="highlight"><pre><code class="text">[gitosis]
+
+[group gitosis-admin]
+writable = gitosis-admin
+members = admin
+
+[group development]
+writable = misc/sandbox project test
+members = hatak hoge fuga
+</code></pre>
+</div>
+
+<h3 id="toc_161">サブディレクトリ</h3>
+
+<p>リポジトリはサブディレクトリに入れることができます。 上記 sandbox の場合は次のようになります。</p>
+
+<ul>
+<li>Clone 用 URL : ssh://gitosis@localhost/misc/sandbox.git</li>
+<li>サーバ内ファイルシステム: /var/lib/gitosis/repositories/misc/sandbox.git</li>
+</ul>
+
+<p>サブディレクトリは予め作成しておく必要がありますが、こうすることで乱立するリポジトリを階層分けして整理することができます。</p>
+<div class="highlight"><pre><code class="text">$ sudo -H -u gitosis mkdir /var/lib/gitosis/repositories/misc
+</code></pre>
+</div>
+
+<h3 id="toc_162">config の改行</h3>
+
+<p>gitosis.conf ではユーザが多いときなどバックスラッシュを入れることで、設定ファイル内でも改行することができます。 ユーザが多いときなどに可読性を上げることができ、とても便利です。</p>
+
+<h2 id="toc_163">関連するページ</h2>
+
+<ul>
+<li><a href="http://scie.nti.st/2007/11/14/hosting-git-repositories-the-easy-and-secure-way">Hosting Git repositories, The Easy (and Secure) Way</a></li>
+<li><a href="http://labs.gree.jp/blog/2011/03/2885/">多人数開発で Git を使う場合の環境構築 | GREE Engineers&#39; Blog</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+</feed>

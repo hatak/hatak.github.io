@@ -1,0 +1,275 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>MySQL Casual Talks Vol.3 で話してきた - Hatak::Techlog</title>
+  <meta name="author" content="Hisashi HATAKEYAMA">
+
+  
+  <meta name="description" content="4/19 にオラクルセンター青山で MySQL Casual Talks Vol.3 が開催されました。 今回は @myfinder さんにお声がけいただきトーク枠をいただけたので、挑戦させていただきました。 MySQL Casual な生活 View more presentations &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.hatak.net/2012/04/20/12428">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Hatak::Techlog" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-23373712-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Hatak::Techlog</a></h1>
+  
+    <h2>Verba volant, scripta manent.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:blog.hatak.net" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">MySQL Casual Talks Vol.3 で話してきた</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-04-20T00:00:00+09:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>4/19 にオラクルセンター青山で <a href="http://atnd.org/events/26373" title="MySQL Casual Talks Vol.3">MySQL Casual Talks Vol.3</a> が開催されました。 今回は <a href="http://twitter.com/myfinder" title="@myfinder">@myfinder</a> さんにお声がけいただきトーク枠をいただけたので、挑戦させていただきました。</p>
+
+<div style="width:425px" id="__ss_12602397">
+  <strong style="display:block;margin:12px 0 4px"><a href="http://www.slideshare.net/idhatak/mysql-casual" title="MySQL Casual な生活" target="_blank">MySQL Casual な生活</a></strong> <div style="padding:5px 0 12px">
+    View more <a href="http://www.slideshare.net/" target="_blank">presentations</a> from <a href="http://www.slideshare.net/idhatak" target="_blank">Hisashi Hatakeyama</a>
+  </div>
+</div>
+
+<!--more-->
+
+<p>小さな話をいっぱい寄せ集めた内容だったので、うまくまとめきれずすみませんでした。また、時間を気にしてしまって少し早口だったり聞き取りにくかったりした所もあったかと思います。</p>
+
+<p>伝えたかった思いはまとめに集約しています。 何よりも「**MySQL すごいよ、ありがとう**」と言いたかったのでした。MySQL 自体のソフトウェアとしての完成度や開発体制もさることながら、多くのユーザがいて様々な知見・ノウハウが共有されているこの環境自体も大きな資産であると感じています。ない分の動きを把握していて、様々手を加えられるのはとても理想的なことですし憧れます。ですが、そこまでのスキルセットがない人でも、調べたり試したりすることである程度がんばれる、というのが環境含めて完成されている証だと思っています。 また、これは MySQL に限った話ではないのですが、私自身の考えとして実際のサービス運用では様々な視点・知識・経験が必要だと思っています。「何でも屋になろう」ということではなく、「視点を変えてみるとうまくいくんじゃないかな」「そのためには薄くでも知識や経験があると取っつきやすいんじゃないかな」という考えです。サービスを運用していく以上は、使っていただいているユーザさんを「もてなす」心を意識して、そのためにどうすればいいかを考えてメンバーと協力して作り上げていきたいと思っています。</p>
+
+<p>偉そうなことを言いながらも最近は直接のインフラ運用をしていないことも多いのですが、全体としては業務に限らない私自身の経験や思いをまとめたものとさせていただきました。 このような公の場でトークさせていただくのは初めてだったのですが、資料を作る時点で様々追って調べたりまとめたりと、かなり良い勉強となりました。アウトプット大事ですね。 いつもお世話になっているコミュニティに対して、今までは情報を集めて使うだけの立場だったのですが、少しずつ発信・共有する立場にもなりたいというのが今年の目標でした。まだ内容的にも未熟な点が多いと思いますが、人に説明できるまで理解をする（＝自分の言葉でかみ砕く）を重ねていってコミュニティを支えたい・恩返しをしたいと強く思った一日でした。</p>
+
+<p>快適な会場を提供いただいた Oracle のみなさま、とりまとめていただいた運営のみなさま、そしてお集まりいただいて素敵な時間を共有していただいた参加者のみなさま、ありがとうございました。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">hatak</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-04-20T00:00:00+09:00" pubdate data-updated="true"></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/hua-sitekita/'>話してきた</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://blog.hatak.net/2012/04/20/12428" data-via="hisashi" data-counturl="http://blog.hatak.net/2012/04/20/12428" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/2011/12/07/9407" title="Previous Post: レプリケーションが追いつかないときに試すこと">&laquo; レプリケーションが追いつかないときに試すこと</a>
+      
+      
+        <a class="basic-alignment right" href="/2012/06/15/14100" title="Next Post: vcs_info でプロンプトにリポジトリ名を表示">vcs_info でプロンプトにリポジトリ名を表示 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/2012/12/17/17651">0歳児との生活</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/11/10/17630">RaspberryPi で遊んでみた</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/10/25/17582">Redis 2.4 -> 2.6 のアップグレード</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/10/24/17562">Homebrew で mroonga ストレージエンジンを入れる</a>
+      </li>
+    
+      <li class="post">
+        <a href="/2012/10/12/17536">&#8220;Server Manage Deep Talk #1&#8243; の振り返りメモ</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/hatak">@hatak</a> on GitHub
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'hatak',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - Hisashi HATAKEYAMA -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a>. Design by <a href="http://octopressthemes.com">Octopress Themes</a>.</span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

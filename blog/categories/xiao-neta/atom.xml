@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: 小ネタ | Hatak::Techlog]]></title>
+  <link href="http://blog.hatak.net/blog/categories/xiao-neta/atom.xml" rel="self"/>
+  <link href="http://blog.hatak.net/"/>
+  <updated>2014-02-15T08:13:00+09:00</updated>
+  <id>http://blog.hatak.net/</id>
+  <author>
+    <name><![CDATA[Hisashi HATAKEYAMA]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[github 上のプロジェクトの fork をプライベートな git サーバで管理]]></title>
+    <link href="http://blog.hatak.net/2011/05/31/2165"/>
+    <updated>2011-05-31T00:00:00+09:00</updated>
+    <id>http://blog.hatak.net/2011/05/31/github-%e4%b8%8a%e3%81%ae%e3%83%97%e3%83%ad%e3%82%b8%e3%82%a7%e3%82%af%e3%83%88%e3%81%ae-fork-%e3%82%92%e3%83%97%e3%83%a9%e3%82%a4%e3%83%99%e3%83%bc%e3%83%88%e3%81%aa-git-%e3%82%b5%e3%83%bc%e3%83%90</id>
+    <content type="html"><![CDATA[<p>github で管理されている OSS を利用するとき、少しカスタムして使いたいという場合があったりします。もちろん、fork すれば github 上で自分が push できる状態にはなりますが、カスタムしたバージョンを利用する範囲が社内だったりすると github 以外で管理したくなったりもします。</p>
+
+<p>そこで、こんな感じの構成を目指して、github 上のプロジェクトの fork をプライベートな git サーバで管理してみました。</p>
+
+<p>|プライベートなリモートリポジトリのメインブランチ|origin/master| |github のプロジェクトのメインブランチ|github/upstream|</p>
+
+<!--more-->
+
+<p>事前準備として、プライベート git サーバには push できる空のリポジトリを作っておきます。 (gitosis の場合であれば、gitosis.conf にリポジトリ名を追加しておく感じでいけます)</p>
+
+<p>まず、おおもとのツリーを github から clone して取得します。</p>
+<div class="highlight"><pre><code class="text">$ git clone --origin github https://github.com/edavis10/redmine.git
+$ cd redmine
+$ git config -l
+...
+remote.github.fetch=+refs/heads/*:refs/remotes/github/*
+remote.github.url=https://github.com/edavis10/redmine.git
+branch.master.remote=github
+branch.master.merge=refs/heads/master
+</code></pre>
+</div>
+
+<p>ここでは master が github のメインブランチになっています。 今回はオリジナルの master を upstream という名前で扱うようにしたいので、ブランチ名を変更します。</p>
+<div class="highlight"><pre><code class="text">$ git branch master
+$ git branch -m master upstream
+$ git branch upstream
+$ git config -l
+...
+remote.github.fetch=+refs/heads/*:refs/remotes/github/*
+remote.github.url=https://github.com/edavis10/redmine.git
+branch.upstream.remote=github
+branch.upstream.merge=refs/heads/master
+</code></pre>
+</div>
+
+<p>これでおおもとの master は、ローカルでは github/upstream という名前で扱えるようになりました。 実際にこちらでカスタマイズするのは github/upstream のタグ &#8220;1.2.0&#8243; をベースに使いたいので、ここから master ブランチを切ります。</p>
+<div class="highlight"><pre><code class="text">$ git branch master 1.2.0
+$ git branch master upstream
+</code></pre>
+</div>
+
+<p>そして、プライベートな git サーバをリモートリポジトリ &#8220;origin&#8221; として追加します。</p>
+<div class="highlight"><pre><code class="text">$ git remote add origin ssh://gitosis@git.example.jp/redmine.git
+$ git config branch.master.remote origin
+$ git config branch.master.merge refs/heads/master
+$ git config -l
+...
+remote.github.fetch=+refs/heads/*:refs/remotes/github/*
+remote.github.url=https://github.com/edavis10/redmine.git
+branch.upstream.remote=github
+branch.upstream.merge=refs/heads/master
+remote.origin.url=ssh://gitosis@git.example.jp/redmine.git
+remote.origin.fetch=+refs/heads/*:refs/remotes/origin/*
+branch.master.remote=origin
+branch.master.merge=refs/heads/master
+</code></pre>
+</div>
+
+<p>あとはプライベートリポジトリに push すれば完了です。</p>
+<div class="highlight"><pre><code class="text">$ git push origin master
+$ git push origin upstream
+</code></pre>
+</div>
+
+<p>これで、origin/master に push/pull し放題になります。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[git のバックアップ]]></title>
+    <link href="http://blog.hatak.net/2011/05/22/1062"/>
+    <updated>2011-05-22T00:00:00+09:00</updated>
+    <id>http://blog.hatak.net/2011/05/22/git-%e3%81%ae%e3%83%90%e3%83%83%e3%82%af%e3%82%a2%e3%83%83%e3%83%97</id>
+    <content type="html"><![CDATA[<p>分散 SCM とはいえ、バックアップはあるとうれしいものです。git のリモートリポジトリが破損した場合などに復元元を探すために、誰が持っているのが最新のリビジョンで、、というような作業が発生することは避けたいからです。</p>
+
+<p>git のリモートリポジトリから別のサーバにバックアップを作成するのは、hooks を利用することで簡単に設定できます。例えば、対象となるリポジトリの post-receive で下記のようなコマンドを設定しておくとできます。</p>
+
+<ul>
+<li>バックアップ先のサーバ:ディレクトリは targethost.example.jp:/var/lib/git</li>
+<li>バックアップのための SSH 接続で利用するユーザは syncuser</li>
+<li>gitosis ユーザは syncuser 権限で git コマンドが利用出来るように visudo を設定</li>
+</ul>
+<div class="highlight"><pre><code class="bash"><span class="c">#!/bin/sh</span>
+<span class="c">#####</span>
+<span class="c"># hooks/post-receive</span>
+<span class="c">#####</span>
+
+<span class="nv">MIRROR_HOST</span><span class="o">=</span><span class="s1">&#39;targethost.example.jp&#39;</span>
+<span class="nv">REPO_NAME</span><span class="o">=</span><span class="sb">`</span><span class="nb">pwd</span> | perl -e <span class="s1">&#39;$t=&lt;stdin&gt;;$t=~ s!^.*/!!;print $t&#39;</span><span class="sb">`</span>
+sudo -u syncuser -H git push :mirror syncuser@<span class="k">${</span><span class="nv">MIRROR_HOST</span><span class="k">}</span>:/var/lib/git/<span class="k">${</span><span class="nv">REPO_NAME</span><span class="k">}</span>
+</code></pre>
+</div>
+
+<p>&quot;:mirror&quot; オプションを付けることで、バックアップ先にも bare のままディレクトリが作成されます。 リモートリポジトリとして利用するサーバと別のサーバで Redmine や Trac、あるいは gitweb などを動作させてリポジトリブラウザを利用する場合などでも bare を付けます。</p>
+
+<p>hooks/post-receive は、リポジトリに加わる変更を受信したタイミングで実行される hook script です。cron などで仕込むものとは異なり、push されたタイミングで sync されるので無駄にコネクションが張られることがありません。 ただし、push するタイミングで別サーバへの push が実行されるため、ユーザからみると push 自体の時間が少し長くなるのが欠点です。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[MacOSX のローカルの DNS キャッシュ]]></title>
+    <link href="http://blog.hatak.net/2011/05/17/335"/>
+    <updated>2011-05-17T00:00:00+09:00</updated>
+    <id>http://blog.hatak.net/2011/05/17/macosx-%e3%81%ae%e3%83%ad%e3%83%bc%e3%82%ab%e3%83%ab%e3%81%ae-dns-%e3%82%ad%e3%83%a3%e3%83%83%e3%82%b7%e3%83%a5</id>
+    <content type="html"><![CDATA[<p>DNS の設定を触るとき、ローカルのキャッシュが変わっていないためにハマることが多々あります。Mac の場合、ターミナルで dig して変更を確認してもブラウザで開けなかったりするわけで。</p>
+
+<p>これは、MacOSX 内部で DNS 解決の結果をキャッシュする機能が働いているためです。 キャッシュをコントロールするためには dscacheutil コマンドを使います。</p>
+
+<p><code>console dscacheutil<br>
+Usage: dscacheutil -h<br>
+       dscacheutil -q category [-a key value]<br>
+       dscacheutil -cachedump [-buckets] [-entries [category]]<br>
+       dscacheutil -configuration<br>
+       dscacheutil -flushcache<br>
+       dscacheutil -statistics<br>
+</code></p>
+
+<p>キャッシュをクリアするのは &quot;-flushcache&quot; オプションをつけます。</p>
+<div class="highlight"><pre><code class="console"><span class="gp">$</span> dscacheutil -flushcache
+</code></pre>
+</div>
+
+<p>sudo しなくてもユーザ権限でできるので安心。</p>
+
+<!--more-->
+
+<p>実際にキャッシュされてるデータを調べるにはこんな感じ。</p>
+
+<p><code>console dscacheutil -q host -a name blog.hatak.net<br>
+name: vps02.sakura.dwmp.jp<br>
+alias: blog.hatak.net<br>
+ip_address: 49.212.41.49<br>
+</code></p>
+
+<p><code>console dig blog.hatak.net<br>
+;; ANSWER SECTION:<br>
+blog.hatak.net.     600 IN  CNAME   vps02.sakura.dwmp.jp.<br>
+vps02.sakura.dwmp.jp.   600 IN  A   49.212.41.49<br>
+</code></p>
+
+<p>ちゃんと dig の結果と同じものがキャッシュされてました。CNAME の場合は alias として表示されるようですね。 IP からの逆引きも調べてみました。</p>
+
+<p><code>console dscacheutil -q host -a ip_address 49.212.41.49<br>
+name: www30255u.sakura.ne.jp<br>
+alias: 49.41.212.49.in-addr.arpa<br>
+ip_address: 49.212.41.49<br>
+</code></p>
+
+<p><code>console dig -x 49.212.41.49<br>
+;; ANSWER SECTION:<br>
+49.41.212.49.in-addr.arpa. 3600 IN  PTR www30255u.sakura.ne.jp.<br>
+</code></p>
+
+<p>逆引きの委譲をしていないので管理用のドメインが返ってきてしまいますが、これも dig の結果と同じものになってます。 &#8220;ds&#8221; というコマンド名のとおり、もともと DirectoryService のキャッシュを操作するためのもののようで、DNS に限ったコマンドではなさそうです。</p>
+
+<p><code>console dscacheutil -q user -a name hatak<br>
+name: hatak<br>
+password: ********<br>
+uid: 501<br>
+gid: 20<br>
+dir: /Users/hatak<br>
+shell: /bin/bash<br>
+gecos: hatak<br>
+</code></p>
+]]></content>
+  </entry>
+  
+</feed>
