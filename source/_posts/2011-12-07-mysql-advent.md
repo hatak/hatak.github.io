@@ -7,7 +7,9 @@ permalink: /2011/12/07/9407
 categories:
   - instruction
 tags:
+  - adventcalendar
   - mysql
+  - casual
 ---
 
 &#8220;[MySQL Casual Advent Calendar 2011][1]&#8221; 7 日目を担当させていただく、hatak ([@hisashi][2]) です。 普段はモバイルゲームのインフラをメインにみているのですが、今回はそんな業務で経験したことを基に記事を書かせていただきます。 カジュアルすぎる内容かもしれませんが、お付き合いいただければと思います。

@@ -8,10 +8,9 @@ categories:
   - report
   - presentation
 tags:
-  - develop
+  - development
   - ios
   - perl
-  - seminar
 ---
 
 9/27-29 の日程で東京大学で [YAPC::Asia Tokyo 2012][1] が開催されています。 応募したトークを採用していただいたので、スピーカーとして参加させていただきました。

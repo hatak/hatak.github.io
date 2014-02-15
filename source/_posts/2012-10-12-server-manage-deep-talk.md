@@ -7,8 +7,7 @@ permalink: /2012/10/12/17536
 categories:
   - report
 tags:
-  - infra
-  - memo
+  - infrastructure
   - server
 ---
 
