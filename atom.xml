@@ -4,7 +4,7 @@
   <title><![CDATA[Hatak::Techlog]]></title>
   <link href="http://blog.hatak.net/atom.xml" rel="self"/>
   <link href="http://blog.hatak.net/"/>
-  <updated>2014-02-15T18:26:18+09:00</updated>
+  <updated>2014-02-15T18:31:50+09:00</updated>
   <id>http://blog.hatak.net/</id>
   <author>
     <name><![CDATA[hatak]]></name>
@@ -26,6 +26,8 @@
 <script async src="http://blog.hatak.net//platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 <p>久しぶりにまともなコードを書いたので，ちょっと作業内容などを記録しておこうかなと思いました。</p>
+
+<!--more-->
 
 <h2 id="toc_638">旧にちぼくんの仕組み</h2>
 

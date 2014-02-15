@@ -4,7 +4,7 @@
   <title><![CDATA[tag: perl | Hatak::Techlog]]></title>
   <link href="http://blog.hatak.net/blog/tags/perl/atom.xml" rel="self"/>
   <link href="http://blog.hatak.net/"/>
-  <updated>2014-02-15T18:26:18+09:00</updated>
+  <updated>2014-02-15T18:31:50+09:00</updated>
   <id>http://blog.hatak.net/</id>
   <author>
     <name><![CDATA[hatak]]></name>
@@ -24,6 +24,8 @@
 <p><a href="https://twitter.com/nichibotwit/status/434438925411553280">https://twitter.com/nichibotwit/status/434438925411553280</a>">https://twitter.com/nichibotwit/status/434438925411553280">https://twitter.com/nichibotwit/status/434438925411553280</a></a></p>
 
 <p>久しぶりにまともなコードを書いたので，ちょっと作業内容などを記録しておこうかなと思いました。</p>
+
+<!--more-->
 
 <h2 id="toc_286">旧にちぼくんの仕組み</h2>
 
