@@ -3,7 +3,10 @@
 .sass-cache
 .gist-cache
 .oembed-cache
+.preview-mode
 .pygments-cache
+.python-version
+.ruby-version
 _deploy
 public
 sass.old
