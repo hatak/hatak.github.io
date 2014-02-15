@@ -5,8 +5,7 @@ author: hatak
 layout: post
 permalink: /2012/10/24/17562
 categories:
-  - MySQL
-  - 構築手順
+  - instruction
 tags:
   - groonga
   - mac

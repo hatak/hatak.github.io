@@ -5,7 +5,7 @@ author: hatak
 layout: post
 permalink: /2012/10/12/17536
 categories:
-  - サーバ管理
+  - report
 tags:
   - infra
   - memo

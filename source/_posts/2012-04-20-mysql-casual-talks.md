@@ -5,7 +5,8 @@ author: hatak
 layout: post
 permalink: /2012/04/20/12428
 categories:
-  - 話してきた
+  - report
+  - presentation
 tags:
   - casual
   - mysql
@@ -13,11 +14,7 @@ tags:
 ---
 4/19 にオラクルセンター青山で [MySQL Casual Talks Vol.3][1] が開催されました。 今回は [@myfinder][2] さんにお声がけいただきトーク枠をいただけたので、挑戦させていただきました。
 
-<div style="width:425px" id="__ss_12602397">
-  <strong style="display:block;margin:12px 0 4px"><a href="http://www.slideshare.net/idhatak/mysql-casual" title="MySQL Casual な生活" target="_blank">MySQL Casual な生活</a></strong> <div style="padding:5px 0 12px">
-    View more <a href="http://www.slideshare.net/" target="_blank">presentations</a> from <a href="http://www.slideshare.net/idhatak" target="_blank">Hisashi Hatakeyama</a>
-  </div>
-</div>
+{% oembed http://www.slideshare.net/idhatak/mysql-casual %}
 
 <!--more-->
 

@@ -5,7 +5,7 @@ author: hatak
 layout: post
 permalink: /2012/12/17/17651
 categories:
-  - 生活
+  - life
 tags:
   - adventcalendar
   - life

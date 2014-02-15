@@ -5,7 +5,7 @@ author: hatak
 layout: post
 permalink: /2011/05/12/178
 categories:
-  - 構築手順
+  - instruction
 tags:
   - centos
   - nginx

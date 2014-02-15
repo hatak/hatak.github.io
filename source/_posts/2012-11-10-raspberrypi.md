@@ -5,7 +5,7 @@ author: hatak
 layout: post
 permalink: /2012/11/10/17630
 categories:
-  - 構築手順
+  - instruction
 tags:
   - archlinux
   - raspberrypi

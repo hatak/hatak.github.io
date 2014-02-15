@@ -5,7 +5,7 @@ author: hatak
 layout: post
 permalink: /2011/03/01/1
 categories:
-  - お知らせ
+  - life
 ---
 
 以前、気が向いたときに細々と書いていたブログが Vox のサービス終了とともに消えてしまったので、改めて再開することにしました。

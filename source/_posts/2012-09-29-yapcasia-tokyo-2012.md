@@ -5,7 +5,8 @@ author: hatak
 layout: post
 permalink: /2012/09/29/17281
 categories:
-  - 話してきた
+  - report
+  - presentation
 tags:
   - develop
   - ios
@@ -15,9 +16,7 @@ tags:
 
 9/27-29 の日程で東京大学で [YAPC::Asia Tokyo 2012][1] が開催されています。 応募したトークを採用していただいたので、スピーカーとして参加させていただきました。
 
-<div style="margin-bottom:5px">
-  <strong> <a href="http://www.slideshare.net/idhatak/ss-14499185" title="スマートフォン向けサービスにおけるサーバサイド設計入門" target="_blank">スマートフォン向けサービスにおけるサーバサイド設計入門</a> </strong>
-</div>
+{% oembed http://www.slideshare.net/idhatak/ss-14499185 %}
 
 <!--more-->
 

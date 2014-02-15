@@ -17,6 +17,7 @@ group :development do
   gem 'directory_watcher', '1.4.1'
   gem 'redcarpet', '~> 2.3'
   gem 'albino', '~> 1.3'
+  gem 'ruby-oembed'
 end
 
 gem 'sinatra', '~> 1.4.2'

@@ -5,7 +5,7 @@ author: hatak
 layout: post
 permalink: /2011/12/07/9407
 categories:
-  - MySQL
+  - instruction
 tags:
   - mysql
 ---

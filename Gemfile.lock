@@ -37,6 +37,7 @@ GEM
     rb-fsevent (0.9.1)
     rdiscount (2.0.7.3)
     redcarpet (2.3.0)
+    ruby-oembed (0.8.9)
     rubypants (0.2.0)
     sass (3.2.9)
     sass-globbing (1.0.0)
@@ -66,6 +67,7 @@ DEPENDENCIES
   rb-fsevent (~> 0.9)
   rdiscount (~> 2.0.7)
   redcarpet (~> 2.3)
+  ruby-oembed
   rubypants (~> 0.2.0)
   sass (~> 3.2)
   sass-globbing (~> 1.0.0)
