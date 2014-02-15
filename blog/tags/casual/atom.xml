@@ -4,7 +4,7 @@
   <title><![CDATA[tag: casual | Hatak::Techlog]]></title>
   <link href="http://blog.hatak.net/blog/tags/casual/atom.xml" rel="self"/>
   <link href="http://blog.hatak.net/"/>
-  <updated>2014-02-15T16:37:06+09:00</updated>
+  <updated>2014-02-15T18:26:18+09:00</updated>
   <id>http://blog.hatak.net/</id>
   <author>
     <name><![CDATA[hatak]]></name>
@@ -43,7 +43,7 @@
 
 <!--more-->
 
-<h2 id="toc_400">MySQL のレプリケーション</h2>
+<h2 id="toc_368">MySQL のレプリケーション</h2>
 
 <p>MySQL のレプリケーションは、安定稼働やバックアップ、負荷分散などの目的に利用できる優れた機能です。 bin-log (バイナリログ) を利用して Master サーバから Slave サーバに更新を伝播させ、データの複製を行います。Slave サーバでは、2 つのスレッドが動作しています。</p>
 
@@ -52,7 +52,7 @@
 <li>SQL_THREAD &#8211; relay-log を読み出し、DB を更新する</li>
 </ul>
 
-<h2 id="toc_401">遅延の調べ方</h2>
+<h2 id="toc_369">遅延の調べ方</h2>
 
 <p>&#8220;SQL_THREAD&#8221; による遅延の場合は、Slave サーバで &#8220;SHOW SLAVE STATUS&#8221; コマンドを実行することで確認ができます。</p>
 <div class="highlight"><pre><code class="text">hatak@dbslave&gt; SHOW SLAVE STATUS G\
@@ -120,7 +120,7 @@ Binlog_Ignore_DB:
 
 <p>今回は &#8220;SQL_THREAD&#8221; による遅延を想定してまとめていきます。</p>
 
-<h3 id="toc_402">Master の更新をブロックする</h3>
+<h3 id="toc_370">Master の更新をブロックする</h3>
 
 <p>レプリケーションで送られてくるクエリの流量が多すぎる場合、つまり Master の更新が激しすぎて追いつかないケースでは、そもそも Master での更新を止めてしまうという方法があります。</p>
 
@@ -130,7 +130,7 @@ Binlog_Ignore_DB:
 
 <p>この方法では同期化をコントロールすることで追いつかせることができますが、実際にサービス運用中のサーバではなかなか使いづらいところもあります。</p>
 
-<h3 id="toc_403">Slave のパフォーマンスを調整する</h3>
+<h3 id="toc_371">Slave のパフォーマンスを調整する</h3>
 
 <p>このとき、レプリケーションで伝播するクエリは全て直列化されるため、更新が激しい場合はどうしても遅れてしまうことがあります。 DiskI/O への負荷が高いとき &#8220;innodb-flush-log-at-trx-commit&#8221; の値を変更することで、ディスクへのフラッシュを減らすことができます。このパラメータではログバッファからログファイルへの書き込み、およびディスクへのフラッシュをコントロールすることができます。</p>
 
@@ -172,7 +172,7 @@ Binlog_Ignore_DB:
 
 <p>この設定値はパフォーマンス向上の代わりに、信頼性を犠牲にします。プロセスが突然落ちた場合などにディスクにフラッシュされていないデータをロストする可能性がありますので、状況に応じて（あるいは追いつかせるまでの間だけなど）の使用に抑えることが良いかと思います。</p>
 
-<h2 id="toc_404">まとめ</h2>
+<h2 id="toc_372">まとめ</h2>
 
 <p>MySQL のレプリケーションが追いつかない場合、プロセスの再起動を行わずに簡単に試せて効果の期待できる方法をまとめてみました。</p>
 

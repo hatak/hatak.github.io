@@ -4,7 +4,7 @@
   <title><![CDATA[tag: zsh | Hatak::Techlog]]></title>
   <link href="http://blog.hatak.net/blog/tags/zsh/atom.xml" rel="self"/>
   <link href="http://blog.hatak.net/"/>
-  <updated>2014-02-15T16:37:06+09:00</updated>
+  <updated>2014-02-15T18:26:18+09:00</updated>
   <id>http://blog.hatak.net/</id>
   <author>
     <name><![CDATA[hatak]]></name>
@@ -79,7 +79,7 @@ actionformats <span class="s1">&#39;%f(%F{green}%b%f|%F{red}%a%f%F{green}%c%F{re
 
 <p><img src="https://dl.dropboxusercontent.com/u/14531906/hatak.github.io/2012/06/2012-06-15-2.27.57.png" alt="ターミナルの例" /></p>
 
-<h3 id="toc_405">参考</h3>
+<h3 id="toc_373">参考</h3>
 
 <ul>
 <li>  <a href="http://d.hatena.ne.jp/holidays-l/20100323/p1">zsh の vcs_info が神！のごとく重かったのですが… : ヒルズで働くholidays-lの技ログ</a></li>

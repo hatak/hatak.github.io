@@ -102,11 +102,11 @@
 
 <!--more-->
 
-<h2 id="toc_551">OpenStackを検証してみた - オープンソースの仮想化技術 open stack の検証結果の報告</h2>
+<h2 id="toc_525">OpenStackを検証してみた - オープンソースの仮想化技術 open stack の検証結果の報告</h2>
 
 <p>サイバーエージェントの坂本佳久 (<a href="http://twitter.com/ton_katsu">@ton_katsu</a>) さんの発表。プライベートクラウドを構築するプロジェクトのひとつ、OpenStack を検証した結果のまとめ。</p>
 
-<h3 id="toc_552">OpenStack</h3>
+<h3 id="toc_526">OpenStack</h3>
 
 <p>Nova と Swift を組み合わせたプロジェクト。 OpenStack を検証対象として選んだ理由は次のとおり。</p>
 
@@ -137,11 +137,11 @@
 </ul></li>
 </ul>
 
-<h3 id="toc_553">システム構成の例</h3>
+<h3 id="toc_527">システム構成の例</h3>
 
 <p>インスタンスの起動や管理を行う &quot;CloudController&quot; と、この配下に複数の &quot;Computenode&quot; を配置する構成をとる (最小構成では両プロセスを同じマシンに同居させることも可能)。Computenode に hypervisor などをいれ、実際にインスタンスを動作させることとなる。その他、副次的に MySQL や RabbitMQ などのプロセスも利用する。</p>
 
-<h3 id="toc_554">使ってみた</h3>
+<h3 id="toc_528">使ってみた</h3>
 
 <p>実際に検証で用いた環境は下記の通り。</p>
 
@@ -167,7 +167,7 @@
 <p>これらの管理を行うために、 Django ベースの GUI が付属している。WebSocket を利用するため、Safari などで操作する必要がある (Chrome はうまく動作しなかったとのこと)。また、VNC コンソールは Cactus のバージョンでは未実装なので、利用する場合は trunk から取得する必要がある。<br>
 その他、API も用意されているので自前で管理ツールを作成することも可能。</p>
 
-<h3 id="toc_555">感想</h3>
+<h3 id="toc_529">感想</h3>
 
 <ul>
 <li>良かった点
@@ -187,11 +187,11 @@
 
 <p>来月より検証環境で運用するとのことで、今後のレポートにも注目したいところです。</p>
 
-<h2 id="toc_556">AmebaPico を支える技術 - AWS上に構築された AmebaPico で使用されている技術・開発体制について</h2>
+<h2 id="toc_530">AmebaPico を支える技術 - AWS上に構築された AmebaPico で使用されている技術・開発体制について</h2>
 
 <p>サイバーエージェントの森野耕平 (<a href="http://twitter.com/kohei_april20">@kohei_april20</a>) さんの発表。AmebaPico のアーキテクチャや体制に関して。</p>
 
-<h3 id="toc_557">Ameba Pico</h3>
+<h3 id="toc_531">Ameba Pico</h3>
 
 <p>アメーバピグの海外版として位置づけられているサービス。</p>
 
@@ -212,7 +212,7 @@
 </ul></li>
 </ul>
 
-<h3 id="toc_558">アーキテクチャ</h3>
+<h3 id="toc_532">アーキテクチャ</h3>
 
 <p>すべて AWS で運用されている。</p>
 
@@ -262,7 +262,7 @@
 </ul></li>
 </ul>
 
-<h3 id="toc_559">AWS の利用</h3>
+<h3 id="toc_533">AWS の利用</h3>
 
 <ul>
 <li>S3
@@ -298,7 +298,7 @@
 </ul></li>
 </ul>
 
-<h2 id="toc_560">Flash の利用</h2>
+<h2 id="toc_534">Flash の利用</h2>
 
 <p>クライアントサイドではまず main.swf のみをロードし、必要に応じてサブモジュールをロードする。</p>
 
@@ -308,7 +308,7 @@
 <li>profile.swf delegate 実装でサーバ接続とモック用を切り分けることで、サーバサイドとクライアントサイド別々の開発が行えるようにしている。</li>
 </ul>
 
-<h2 id="toc_561">運用してみて</h2>
+<h2 id="toc_535">運用してみて</h2>
 
 <p>EC2 上でサービスを運用してみての総括。</p>
 
@@ -380,11 +380,11 @@
 
 <p>MongoDB を大規模に利用しているケースなので、とても興味深いものでした。海外展開の際に DC の場所を気にしなくても良い、というのは AWS ならではのメリットに感じました。</p>
 
-<h2 id="toc_562">毎日の料理を楽しくする画像配信技術</h2>
+<h2 id="toc_536">毎日の料理を楽しくする画像配信技術</h2>
 
 <p>クックパッドの成田一生 (<a href="http://twitter.com/mirakui">@mirakui</a>) さんの発表。レシピに必須の画像をリアルタイムでリサイズするための Apache モジュール &quot;TOFU&quot; について。</p>
 
-<h3 id="toc_563">従来の画像アップロードの仕組み</h3>
+<h3 id="toc_537">従来の画像アップロードの仕組み</h3>
 
 <ul>
 <li>アップロードされた画像はアプリケーションサーバがリサイズ
@@ -411,7 +411,7 @@
 </ul></li>
 </ul>
 
-<h3 id="toc_564">そこで新しい方法を模索</h3>
+<h3 id="toc_538">そこで新しい方法を模索</h3>
 
 <ul>
 <li>現在の規模
@@ -431,7 +431,7 @@
 </ul></li>
 </ul>
 
-<h3 id="toc_565">TOFU</h3>
+<h3 id="toc_539">TOFU</h3>
 
 <p>URL に処理内容をマッピングし、リクエストの度に画像をリサイズする Apache モジュール (mod_tofu.so)。</p>
 <div class="highlight"><pre><code class="text">/recipes/{:recipe_id}/{:size}/{:hash}
@@ -464,7 +464,7 @@
 </ul></li>
 </ul>
 
-<h2 id="toc_566">苦労話など</h2>
+<h2 id="toc_540">苦労話など</h2>
 
 <ul>
 <li>ImageMagick と Imlib2
@@ -503,11 +503,11 @@
 
 <p>画像種類もリクエストも多いのにリアルタイムに変換するのは大変そうに思ったのですが、Apache モジュールと聞いて少し納得。キャッシュもうまく組み込んでいて、かなりコストを意識した工夫がされている印象を受けました。</p>
 
-<h2 id="toc_567">AWS移行に向けたクックパッドの取り組み＋α</h2>
+<h2 id="toc_541">AWS移行に向けたクックパッドの取り組み＋α</h2>
 
 <p>クックパッドの菅原元気さんの発表。先日の<a href="http://techlife.cookpad.com/2011/04/22/aws-advantage-seminar/">アマゾンウェブサービスクラウドアドバンテージセミナーで発表された内容</a>をベースに、AWS 移行に向けた全体的なお話。 プレゼン資料がとてもまとまっているので、そちらを直接見たほうが。。。</p>
 
-<h3 id="toc_568">サーバ・ネットワーク構成</h3>
+<h3 id="toc_542">サーバ・ネットワーク構成</h3>
 
 <ul>
 <li>現在
@@ -526,7 +526,7 @@
 </ul></li>
 </ul>
 
-<h3 id="toc_569">AWS でのサーバ</h3>
+<h3 id="toc_543">AWS でのサーバ</h3>
 
 <ul>
 <li>DNS
@@ -566,7 +566,7 @@
 </ul></li>
 </ul>
 
-<h3 id="toc_570">分散DNSについて</h3>
+<h3 id="toc_544">分散DNSについて</h3>
 
 <p>さすがに全台で resolv.conf を書き換えていくのは大変なのと、いくつかの問題点がクリア出来ない。</p>
 
@@ -672,6 +672,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/02/15/twitter-bot/">Perl 製の Twitter bot を書き直した</a>
+      </li>
+    
+      <li class="post">
         <a href="/2012/12/17/17651">0歳児との生活</a>
       </li>
     
@@ -687,15 +691,11 @@
         <a href="/2012/10/24/17562">Homebrew で mroonga ストレージエンジンを入れる</a>
       </li>
     
-      <li class="post">
-        <a href="/2012/10/12/17536">&#8220;Server Manage Deep Talk #1&#8243; の振り返りメモ</a>
-      </li>
-    
   </ul>
 </section>
 <section>
   <h1><i class="fa fa-tags"></i> Tag Cloud</h1>
-    <span id="tag-cloud"><a href='/blog/tags/adventcalendar' style='font-size: 120.0%'>adventcalendar(2)</a> <a href='/blog/tags/apache' style='font-size: 110.0%'>apache(1)</a> <a href='/blog/tags/archlinux' style='font-size: 110.0%'>archlinux(1)</a> <a href='/blog/tags/aws' style='font-size: 110.0%'>aws(1)</a> <a href='/blog/tags/carton' style='font-size: 110.0%'>carton(1)</a> <a href='/blog/tags/casual' style='font-size: 120.0%'>casual(2)</a> <a href='/blog/tags/centos' style='font-size: 120.0%'>centos(2)</a> <a href='/blog/tags/conference' style='font-size: 120.0%'>conference(2)</a> <a href='/blog/tags/development' style='font-size: 120.0%'>development(2)</a> <a href='/blog/tags/dns' style='font-size: 120.0%'>dns(2)</a> <a href='/blog/tags/geo' style='font-size: 110.0%'>geo(1)</a> <a href='/blog/tags/git' style='font-size: 130.0%'>git(3)</a> <a href='/blog/tags/groonga' style='font-size: 110.0%'>groonga(1)</a> <a href='/blog/tags/hachiojipm' style='font-size: 110.0%'>hachiojipm(1)</a> <a href='/blog/tags/infrastructure' style='font-size: 120.0%'>infrastructure(2)</a> <a href='/blog/tags/ios' style='font-size: 110.0%'>ios(1)</a> <a href='/blog/tags/life' style='font-size: 110.0%'>life(1)</a> <a href='/blog/tags/location' style='font-size: 110.0%'>location(1)</a> <a href='/blog/tags/mac' style='font-size: 120.0%'>mac(2)</a> <a href='/blog/tags/mecab' style='font-size: 110.0%'>mecab(1)</a> <a href='/blog/tags/mroonga' style='font-size: 110.0%'>mroonga(1)</a> <a href='/blog/tags/mysql' style='font-size: 160.0%'>mysql(6)</a> <a href='/blog/tags/nginx' style='font-size: 120.0%'>nginx(2)</a> <a href='/blog/tags/perl' style='font-size: 160.0%'>perl(6)</a> <a href='/blog/tags/plack' style='font-size: 110.0%'>plack(1)</a> <a href='/blog/tags/raspberrypi' style='font-size: 110.0%'>raspberrypi(1)</a> <a href='/blog/tags/redis' style='font-size: 120.0%'>redis(2)</a> <a href='/blog/tags/seminar' style='font-size: 130.0%'>seminar(3)</a> <a href='/blog/tags/server' style='font-size: 120.0%'>server(2)</a> <a href='/blog/tags/supervisord' style='font-size: 110.0%'>supervisord(1)</a> <a href='/blog/tags/test' style='font-size: 110.0%'>test(1)</a> <a href='/blog/tags/varnish' style='font-size: 110.0%'>varnish(1)</a> <a href='/blog/tags/zsh' style='font-size: 110.0%'>zsh(1)</a> </span>
+    <span id="tag-cloud"><a href='/blog/tags/adventcalendar' style='font-size: 117.14285714285714%'>adventcalendar(2)</a> <a href='/blog/tags/apache' style='font-size: 108.57142857142857%'>apache(1)</a> <a href='/blog/tags/archlinux' style='font-size: 108.57142857142857%'>archlinux(1)</a> <a href='/blog/tags/aws' style='font-size: 108.57142857142857%'>aws(1)</a> <a href='/blog/tags/carton' style='font-size: 108.57142857142857%'>carton(1)</a> <a href='/blog/tags/casual' style='font-size: 117.14285714285714%'>casual(2)</a> <a href='/blog/tags/centos' style='font-size: 117.14285714285714%'>centos(2)</a> <a href='/blog/tags/conference' style='font-size: 117.14285714285714%'>conference(2)</a> <a href='/blog/tags/development' style='font-size: 117.14285714285714%'>development(2)</a> <a href='/blog/tags/dns' style='font-size: 117.14285714285714%'>dns(2)</a> <a href='/blog/tags/geo' style='font-size: 108.57142857142857%'>geo(1)</a> <a href='/blog/tags/git' style='font-size: 125.71428571428572%'>git(3)</a> <a href='/blog/tags/groonga' style='font-size: 108.57142857142857%'>groonga(1)</a> <a href='/blog/tags/hachiojipm' style='font-size: 108.57142857142857%'>hachiojipm(1)</a> <a href='/blog/tags/infrastructure' style='font-size: 117.14285714285714%'>infrastructure(2)</a> <a href='/blog/tags/ios' style='font-size: 108.57142857142857%'>ios(1)</a> <a href='/blog/tags/life' style='font-size: 108.57142857142857%'>life(1)</a> <a href='/blog/tags/location' style='font-size: 108.57142857142857%'>location(1)</a> <a href='/blog/tags/mac' style='font-size: 117.14285714285714%'>mac(2)</a> <a href='/blog/tags/mecab' style='font-size: 108.57142857142857%'>mecab(1)</a> <a href='/blog/tags/mroonga' style='font-size: 108.57142857142857%'>mroonga(1)</a> <a href='/blog/tags/mysql' style='font-size: 151.42857142857144%'>mysql(6)</a> <a href='/blog/tags/nginx' style='font-size: 117.14285714285714%'>nginx(2)</a> <a href='/blog/tags/perl' style='font-size: 160.0%'>perl(7)</a> <a href='/blog/tags/plack' style='font-size: 108.57142857142857%'>plack(1)</a> <a href='/blog/tags/raspberrypi' style='font-size: 108.57142857142857%'>raspberrypi(1)</a> <a href='/blog/tags/redis' style='font-size: 117.14285714285714%'>redis(2)</a> <a href='/blog/tags/seminar' style='font-size: 125.71428571428572%'>seminar(3)</a> <a href='/blog/tags/server' style='font-size: 117.14285714285714%'>server(2)</a> <a href='/blog/tags/supervisord' style='font-size: 108.57142857142857%'>supervisord(1)</a> <a href='/blog/tags/test' style='font-size: 108.57142857142857%'>test(1)</a> <a href='/blog/tags/twitter' style='font-size: 108.57142857142857%'>twitter(1)</a> <a href='/blog/tags/varnish' style='font-size: 108.57142857142857%'>varnish(1)</a> <a href='/blog/tags/zsh' style='font-size: 108.57142857142857%'>zsh(1)</a> </span>
 </section>
 
   

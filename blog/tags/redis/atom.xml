@@ -4,7 +4,7 @@
   <title><![CDATA[tag: redis | Hatak::Techlog]]></title>
   <link href="http://blog.hatak.net/blog/tags/redis/atom.xml" rel="self"/>
   <link href="http://blog.hatak.net/"/>
-  <updated>2014-02-15T16:37:06+09:00</updated>
+  <updated>2014-02-15T18:26:18+09:00</updated>
   <id>http://blog.hatak.net/</id>
   <author>
     <name><![CDATA[hatak]]></name>
@@ -30,7 +30,7 @@
 
 <!--more-->
 
-<h3 id="toc_415">VirtualMemory</h3>
+<h3 id="toc_383">VirtualMemory</h3>
 <div class="highlight"><pre><code class="text">$ redis-server /usr/local/etc/redis.conf
 *** FATAL CONFIG FILE ERROR
 *** Reading the configuration file, at line 389
@@ -58,7 +58,7 @@
 <li>  vm-max-threads</li>
 </ul>
 
-<h3 id="toc_416">CONFIG SET parameters</h3>
+<h3 id="toc_384">CONFIG SET parameters</h3>
 <div class="highlight"><pre><code class="text">$ redis-server /usr/local/etc/redis.conf
 *** FATAL CONFIG FILE ERROR
 *** Reading the configuration file, at line 367
@@ -80,7 +80,7 @@ The following redis.conf and CONFIG GET / SET parameters changed:
 
 <p>リリースノートを参考にリネームします。</p>
 
-<h2 id="toc_417">参考</h2>
+<h2 id="toc_385">参考</h2>
 
 <ul>
 <li>  <a href="https://github.com/antirez/redis/blob/2.6/00-RELEASENOTES">redis/00-RELEASENOTES at 2.6 · antirez/redis · GitHub</a></li>

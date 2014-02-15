@@ -9,7 +9,8 @@
   <meta name="author" content="hatak">
 
   
-  <meta name="description" content="この記事は 子育てエンジニア advent calendar 2012 への参加エントリー（16日目）です。 選挙速報を見ながら書いていたのですが、ぎりぎりになったところで子供に泣かれてあやしていたら日付を超えてしまいましたすみません。。。 様々な政策が再び大きく変わりそうですが、 &hellip;">
+  <meta name="description" content="3年以上前に作成したまま放置していた Twitter bot を作り直して再リリースしました。
+&quot;にちぼついったー&quot; という，東京の日の出・日の入りの時刻につぶやくだけのシンプルな bot です。 6時28分、日の出だよ。朝が来たことをお知らせするよ。&mdash; &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -73,6 +74,140 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/02/15/twitter-bot/">Perl 製の Twitter Bot を書き直した</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-02-15T18:25:42+09:00" pubdate data-updated="true">2014/02/15</time>
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>3年以上前に作成したまま放置していた Twitter bot を作り直して再リリースしました。<br>
+&quot;<a href="https://twitter.com/nichibotwit">にちぼついったー</a>&quot; という，東京の日の出・日の入りの時刻につぶやくだけのシンプルな bot です。</p>
+
+<blockquote class="twitter-tweet"><p>6時28分、日の出だよ。朝が来たことをお知らせするよ。</p>&mdash; にちぼついったー (@nichibotwit) <a href="https://twitter.com/nichibotwit/statuses/434438925411553280">February 14, 2014</a></blockquote>
+
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<p>久しぶりにまともなコードを書いたので，ちょっと作業内容などを記録しておこうかなと思いました。</p>
+
+<h2 id="toc_638">旧にちぼくんの仕組み</h2>
+
+<p>旧バージョンは 2009 年の秋頃に作成・リリースしていました。ちょうど Moose を使いたくて仕方ない頃だったらしく <a href="https://metacpan.org/pod/MooseX::App::Cmd">MooseX::App::Cmd</a> という Moose ベースでコマンドラインツールを書くためのフレームワークを使って書いていました。</p>
+
+<ul>
+<li>set
+
+<ul>
+<li>実行時間を調べて Cron を書き換える
+
+<ul>
+<li>日の出時刻は &quot;sunrise&quot; モード</li>
+<li>日の入り時刻は &quot;sunset&quot; モード</li>
+</ul></li>
+<li>日の出・日の入り時間はメタデータとしてローカルの DB に格納
+
+<ul>
+<li><a href="http://eco.mtk.nao.ac.jp/koyomi/dni/">国立天文台のこよみ</a> を気が向いたときに scrape して DB に突っ込む</li>
+</ul></li>
+</ul></li>
+<li>tweet
+
+<ul>
+<li>モードによってメッセージリストの中からランダムでツイート</li>
+</ul></li>
+</ul>
+
+<p>&quot;set&quot; コマンドを AM 1:00 に実行し，その日の日の出・日の入りの時間を調べて Cron 書き換え，そしてその時間に &quot;tweet&quot; コマンドが起動してつぶやくというイケてない実装でした。もともとは <code>at</code> で実行時間をセットするように書いていたものの，実際にデプロイした VPS で <code>at</code> を使えないというトラブルのためリリース前に cron を使う方式に書き直した経緯があります。<br>
+この旧 bot には致命的な欠点が 2 つありました。</p>
+
+<ul>
+<li>メタデータ更新が必要
+
+<ul>
+<li>公開されているこよみは翌年分までしかないため，適宜 DB を更新しなければならない</li>
+</ul></li>
+<li>Cron 書き換えがイケてないというか危ない
+
+<ul>
+<li>古い行を消して新しい行を追加，という処理が微妙</li>
+<li>しかし，毎日つぶやく時間が異なるため困る</li>
+</ul></li>
+</ul>
+
+<p>結果的にメタデータの更新を忘れてしまったことや，別サーバに移したときに cron 書き換えをしたくないために止めてしまっていました。</p>
+
+<h2 id="toc_639">新にちぼくんの仕組み</h2>
+
+<p>そこで，欠点それぞれに対しての解決策を考えてにちぼくんを再実装しました。</p>
+
+<p><a href="https://github.com/hatak/twitter-bot">hatak/twitter-bot</a></p>
+
+<ul>
+<li>日の出日の入り時刻問題
+
+<ul>
+<li><a href="https://metacpan.org/pod/Astro::Sunrise">Astro::Sunrise</a> 使って計算</li>
+</ul></li>
+<li>つぶやく時間問題
+
+<ul>
+<li><a href="https://metacpan.org/pod/AnyEvent">AnyEvent</a> でループ</li>
+</ul></li>
+</ul>
+
+<p>Astro::Sunrise は緯度・経度を基にその場所の日の出・日の入り時刻を計算してくれるモジュールです。<br>
+使い方もとてもシンプル。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='perl'><span class='line'><span class="k">use</span> <span class="nn">Astro::</span><span class="n">Sunrise</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># YYYY,MM,DD,longitude,latitude,Time Zone,DST,ALT</span>
+</span><span class='line'><span class="c1"># ここでは東京とする</span>
+</span><span class='line'><span class="c1"># -0.583 は太陽の中心が地平線に接したときの角度を示す</span>
+</span><span class='line'><span class="p">(</span><span class="nv">$sunrise</span><span class="p">,</span> <span class="nv">$sunset</span><span class="p">)</span> <span class="o">=</span> <span class="n">sunrise</span><span class="p">(</span><span class="mi">2014</span><span class="p">,</span> <span class="mo">02</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mf">139.7414</span><span class="p">,</span> <span class="mf">35.6581</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.583</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>結果はそれぞれ &quot;hh:mm&quot; という文字列で返ってくるので，split して時と分に分けるなり，再度オブジェクトにするなり自由に加工できます。<br>
+毎回計算することでメタデータを利用する必要がなくなりました。弊害としては，計算方式の違いで国立天文台のこよみと少し違う時間となるケースが起きてしまいました。しかし，ずれていても 1 分程度なので，今回のサービス的には許容できる誤差と考えています。</p>
+
+<p>AnyEvent は定番過ぎるので，紹介については割愛します。一日 2 回しかつぶやかないのでループにしておくのは勿体ないようにも思えましたが，毎回つぶやくタイミングが違うことに対する解決策が思い浮かばなかったためこうなりました。。</p>
+
+<h2 id="toc_640">今後の改良とか</h2>
+
+<p>せっかく Astro::Sunrise で動的に計算できるようにしたので，今後は mention を受けて東京以外の場所や別の日の計算もしてくれるようにしたいですね！<br>
+それ以前にコード内に consumer_key や access_token を直接書いてしまっているので，このあたりの設定切り出しはしておきたいです。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -246,50 +381,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2012/10/12/17536">&#8220;Server Manage Deep Talk #1&#8243; の振り返りメモ</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-10-12T00:00:00+09:00" pubdate data-updated="true">2012/10/12</time>
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>先日、&#8221;<a href="https://www.facebook.com/events/346462502114960/">Server Manage Deep Talk #1</a>&#8221; に参加してきました。</p>
-
-<p>YAPC の懇親会での話がきっかけで @riywo さんに企画していただいたイベントでした。趣旨としては、既成のツールに焦点を絞るのではなく、サーバを効率的（かつ、可能であれば統一的）に管理するにはどうすればいいかというざっくりとした情報交換の場だったのですが、各社の苦悩が感じられてとても面白いものでした。</p>
-
-<p>そのあと、ちょっと自分なりに考えてみたので覚え書きしてみます。</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/2012/10/12/17536">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -319,6 +410,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/02/15/twitter-bot/">Perl 製の Twitter bot を書き直した</a>
+      </li>
+    
+      <li class="post">
         <a href="/2012/12/17/17651">0歳児との生活</a>
       </li>
     
@@ -334,15 +429,11 @@
         <a href="/2012/10/24/17562">Homebrew で mroonga ストレージエンジンを入れる</a>
       </li>
     
-      <li class="post">
-        <a href="/2012/10/12/17536">&#8220;Server Manage Deep Talk #1&#8243; の振り返りメモ</a>
-      </li>
-    
   </ul>
 </section>
 <section>
   <h1><i class="fa fa-tags"></i> Tag Cloud</h1>
-    <span id="tag-cloud"><a href='/blog/tags/adventcalendar' style='font-size: 120.0%'>adventcalendar(2)</a> <a href='/blog/tags/apache' style='font-size: 110.0%'>apache(1)</a> <a href='/blog/tags/archlinux' style='font-size: 110.0%'>archlinux(1)</a> <a href='/blog/tags/aws' style='font-size: 110.0%'>aws(1)</a> <a href='/blog/tags/carton' style='font-size: 110.0%'>carton(1)</a> <a href='/blog/tags/casual' style='font-size: 120.0%'>casual(2)</a> <a href='/blog/tags/centos' style='font-size: 120.0%'>centos(2)</a> <a href='/blog/tags/conference' style='font-size: 120.0%'>conference(2)</a> <a href='/blog/tags/development' style='font-size: 120.0%'>development(2)</a> <a href='/blog/tags/dns' style='font-size: 120.0%'>dns(2)</a> <a href='/blog/tags/geo' style='font-size: 110.0%'>geo(1)</a> <a href='/blog/tags/git' style='font-size: 130.0%'>git(3)</a> <a href='/blog/tags/groonga' style='font-size: 110.0%'>groonga(1)</a> <a href='/blog/tags/hachiojipm' style='font-size: 110.0%'>hachiojipm(1)</a> <a href='/blog/tags/infrastructure' style='font-size: 120.0%'>infrastructure(2)</a> <a href='/blog/tags/ios' style='font-size: 110.0%'>ios(1)</a> <a href='/blog/tags/life' style='font-size: 110.0%'>life(1)</a> <a href='/blog/tags/location' style='font-size: 110.0%'>location(1)</a> <a href='/blog/tags/mac' style='font-size: 120.0%'>mac(2)</a> <a href='/blog/tags/mecab' style='font-size: 110.0%'>mecab(1)</a> <a href='/blog/tags/mroonga' style='font-size: 110.0%'>mroonga(1)</a> <a href='/blog/tags/mysql' style='font-size: 160.0%'>mysql(6)</a> <a href='/blog/tags/nginx' style='font-size: 120.0%'>nginx(2)</a> <a href='/blog/tags/perl' style='font-size: 160.0%'>perl(6)</a> <a href='/blog/tags/plack' style='font-size: 110.0%'>plack(1)</a> <a href='/blog/tags/raspberrypi' style='font-size: 110.0%'>raspberrypi(1)</a> <a href='/blog/tags/redis' style='font-size: 120.0%'>redis(2)</a> <a href='/blog/tags/seminar' style='font-size: 130.0%'>seminar(3)</a> <a href='/blog/tags/server' style='font-size: 120.0%'>server(2)</a> <a href='/blog/tags/supervisord' style='font-size: 110.0%'>supervisord(1)</a> <a href='/blog/tags/test' style='font-size: 110.0%'>test(1)</a> <a href='/blog/tags/varnish' style='font-size: 110.0%'>varnish(1)</a> <a href='/blog/tags/zsh' style='font-size: 110.0%'>zsh(1)</a> </span>
+    <span id="tag-cloud"><a href='/blog/tags/adventcalendar' style='font-size: 117.14285714285714%'>adventcalendar(2)</a> <a href='/blog/tags/apache' style='font-size: 108.57142857142857%'>apache(1)</a> <a href='/blog/tags/archlinux' style='font-size: 108.57142857142857%'>archlinux(1)</a> <a href='/blog/tags/aws' style='font-size: 108.57142857142857%'>aws(1)</a> <a href='/blog/tags/carton' style='font-size: 108.57142857142857%'>carton(1)</a> <a href='/blog/tags/casual' style='font-size: 117.14285714285714%'>casual(2)</a> <a href='/blog/tags/centos' style='font-size: 117.14285714285714%'>centos(2)</a> <a href='/blog/tags/conference' style='font-size: 117.14285714285714%'>conference(2)</a> <a href='/blog/tags/development' style='font-size: 117.14285714285714%'>development(2)</a> <a href='/blog/tags/dns' style='font-size: 117.14285714285714%'>dns(2)</a> <a href='/blog/tags/geo' style='font-size: 108.57142857142857%'>geo(1)</a> <a href='/blog/tags/git' style='font-size: 125.71428571428572%'>git(3)</a> <a href='/blog/tags/groonga' style='font-size: 108.57142857142857%'>groonga(1)</a> <a href='/blog/tags/hachiojipm' style='font-size: 108.57142857142857%'>hachiojipm(1)</a> <a href='/blog/tags/infrastructure' style='font-size: 117.14285714285714%'>infrastructure(2)</a> <a href='/blog/tags/ios' style='font-size: 108.57142857142857%'>ios(1)</a> <a href='/blog/tags/life' style='font-size: 108.57142857142857%'>life(1)</a> <a href='/blog/tags/location' style='font-size: 108.57142857142857%'>location(1)</a> <a href='/blog/tags/mac' style='font-size: 117.14285714285714%'>mac(2)</a> <a href='/blog/tags/mecab' style='font-size: 108.57142857142857%'>mecab(1)</a> <a href='/blog/tags/mroonga' style='font-size: 108.57142857142857%'>mroonga(1)</a> <a href='/blog/tags/mysql' style='font-size: 151.42857142857144%'>mysql(6)</a> <a href='/blog/tags/nginx' style='font-size: 117.14285714285714%'>nginx(2)</a> <a href='/blog/tags/perl' style='font-size: 160.0%'>perl(7)</a> <a href='/blog/tags/plack' style='font-size: 108.57142857142857%'>plack(1)</a> <a href='/blog/tags/raspberrypi' style='font-size: 108.57142857142857%'>raspberrypi(1)</a> <a href='/blog/tags/redis' style='font-size: 117.14285714285714%'>redis(2)</a> <a href='/blog/tags/seminar' style='font-size: 125.71428571428572%'>seminar(3)</a> <a href='/blog/tags/server' style='font-size: 117.14285714285714%'>server(2)</a> <a href='/blog/tags/supervisord' style='font-size: 108.57142857142857%'>supervisord(1)</a> <a href='/blog/tags/test' style='font-size: 108.57142857142857%'>test(1)</a> <a href='/blog/tags/twitter' style='font-size: 108.57142857142857%'>twitter(1)</a> <a href='/blog/tags/varnish' style='font-size: 108.57142857142857%'>varnish(1)</a> <a href='/blog/tags/zsh' style='font-size: 108.57142857142857%'>zsh(1)</a> </span>
 </section>
 
   

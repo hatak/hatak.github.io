@@ -4,7 +4,7 @@
   <title><![CDATA[tag: raspberrypi | Hatak::Techlog]]></title>
   <link href="http://blog.hatak.net/blog/tags/raspberrypi/atom.xml" rel="self"/>
   <link href="http://blog.hatak.net/"/>
-  <updated>2014-02-15T16:37:06+09:00</updated>
+  <updated>2014-02-15T18:26:18+09:00</updated>
   <id>http://blog.hatak.net/</id>
   <author>
     <name><![CDATA[hatak]]></name>
@@ -34,7 +34,7 @@
 
 <p>イギリスからの発送なのでそれなりに時間がかかりますが、それでも元々の代理店よりはかなり早いと思います。値段は £29.99 + £4.99 (送料) の計 £34.98。日本円換算で 4,500 円程度です。</p>
 
-<h3 id="toc_434">組み立て</h3>
+<h3 id="toc_402">組み立て</h3>
 
 <p><a href="https://www.modmypi.com/">ModMyPi</a> は RaspberryPi 専用のカスタムケースなどを取り扱うネットショップです。今回は本体セットを購入したので、本体ボードとケースが送られてきます。が、組み立てというほどではなく載せてはめれば完了です。上下で色を選べるので、上を白、下を青にしてみました。</p>
 
@@ -44,7 +44,7 @@
 
 <p>あとは OS イメージを書き込んだ SD カードをスロットにいれ、LAN と電源を接続すれば準備完了です。</p>
 
-<h3 id="toc_435">SD カードの準備</h3>
+<h3 id="toc_403">SD カードの準備</h3>
 
 <p>RaspberryPi の公式から OS イメージがダウンロードできます。展開すると 2GB くらいになるので、利用する SD カードは 4GB 以上が推奨されています。今回は手元に余ってた Transcend の SDHC 16GB (Class10) を用意しました。</p>
 
@@ -63,7 +63,7 @@
 
 <p>これでイメージ完成です。簡単ですね。 スクリプトに sudo が必要なのはマウント周りの操作を行うためかと思いますが、複数ディスクがある場合などは全部フォーマットされてしまう可能性もあるので十分に注意が必要です。</p>
 
-<h3 id="toc_436">起動</h3>
+<h3 id="toc_404">起動</h3>
 
 <p>できあがった SD カードを入れ、LAN ケーブルを挿し、電源を挿します。スイッチはないので、電源をつないだら基板の LED がひかり、10秒ほどで起動します。デフォルトは DHCP 取得になっているので、ルータ等で割り当て IP を調べて ssh するのがよさそうです。</p>
 <div class="highlight"><pre><code class="text">[root@alarmpi ~]# pacman -Sy
@@ -185,7 +185,7 @@ Serial : xxxxxxxxxxxxxxxx
 
 <p>とても手軽です。類似のものとしては Openblocks がありますが、桁一つ違うのは大きいですね。 Openblocks が一般的なサーバ機器で、RaspberryPi がパソコンくらいのイメージでしょうか。</p>
 
-<h2 id="toc_437">参考</h2>
+<h2 id="toc_405">参考</h2>
 
 <ul>
 <li>  <a href="http://blog.mobilehackerz.jp/2012/10/raspberry-pi10.html">MobileHackerz再起動日記: いつまでも届かないRaspberry Piは一手間かけると10日で新型が手に入る</a></li>

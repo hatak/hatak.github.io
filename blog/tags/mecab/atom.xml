@@ -4,7 +4,7 @@
   <title><![CDATA[tag: mecab | Hatak::Techlog]]></title>
   <link href="http://blog.hatak.net/blog/tags/mecab/atom.xml" rel="self"/>
   <link href="http://blog.hatak.net/"/>
-  <updated>2014-02-15T16:37:06+09:00</updated>
+  <updated>2014-02-15T18:26:18+09:00</updated>
   <id>http://blog.hatak.net/</id>
   <author>
     <name><![CDATA[hatak]]></name>
@@ -22,7 +22,7 @@
 
 <!--more-->
 
-<h2 id="toc_422">MeCab</h2>
+<h2 id="toc_390">MeCab</h2>
 
 <p>mroonga で TokenMecab トークナイザーを利用するためには MeCab が必要です。 Homebrew で IPA 辞書と合わせてインストールします。</p>
 <div class="highlight"><pre><code class="text">$ brew install mecab mecab-ipadic
@@ -54,7 +54,7 @@ $ brew doctor
 
 <p>私の場合、10.8 にアップデートする以前に Homebrew で入れた libiconv が中途半端に残ってたことでおかしくなっていたようでした。</p>
 
-<h2 id="toc_423">groonga</h2>
+<h2 id="toc_391">groonga</h2>
 
 <p>MeCab の次は groonga をインストールします。</p>
 <div class="highlight"><pre><code class="text">$ brew install groonga
@@ -93,7 +93,7 @@ configure options: &lt; &#39;--prefix=/usr/local/Cellar/groonga/2.0.7&#39; &#39;
 </code></pre>
 </div>
 
-<h2 id="toc_424">mroonga</h2>
+<h2 id="toc_392">mroonga</h2>
 
 <p>次は mroonga をインストールします。Homebrew には内包されていませんが、mroonga のリポジトリに Fomula があるのでこちらを使います。</p>
 <div class="highlight"><pre><code class="text">$ brew install https://raw.github.com/mroonga/Homebrew/master/mroonga.rb --use-Homebrew-mysql
@@ -133,7 +133,7 @@ $ brew install https://raw.github.com/mroonga/Homebrew/master/mroonga.rb --with-
 
 <p>個人的には、複数のユーザで利用している mac でユーザ共通に自動起動させたい（もしくはどうしてもオフィシャルバイナリを使いたい）という条件でなければ Homebrew で良いのかなと思いました。</p>
 
-<h2 id="toc_425">動作確認</h2>
+<h2 id="toc_393">動作確認</h2>
 
 <p>MySQL Server が起動していれば、mroonga の Fomula の中でプラグインと関数の追加も行われています。停止していた場合は起動後に追加のコマンドを入力します。</p>
 <div class="highlight"><pre><code class="text">$ mysql -uroot -e &#39;INSTALL PLUGIN mroonga SONAME &quot;ha_mroonga.so&quot;; CREATE FUNCTION last_insert_grn_id RETURNS INTEGER SONAME &quot;ha_mroonga.so&quot;; CREATE FUNCTION mroonga_snippet RETURNS STRING SONAME &quot;ha_mroonga.so&quot;;&#39;
