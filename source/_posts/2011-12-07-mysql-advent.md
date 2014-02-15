@@ -1,5 +1,6 @@
 ---
 title: レプリケーションが追いつかないときに試すこと
+date: 2011-12-07 00:00:00 +0900
 author: hatak
 layout: post
 permalink: /2011/12/07/9407

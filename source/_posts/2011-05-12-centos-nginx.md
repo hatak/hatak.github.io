@@ -1,5 +1,6 @@
 ---
 title: CentOS + Nginx で WordPress を構築
+date: 2011-05-12 00:00:00 +0900
 author: hatak
 layout: post
 permalink: /2011/05/12/178

@@ -1,5 +1,6 @@
 ---
 title: Homebrew で mroonga ストレージエンジンを入れる
+date: 2012-10-24 00:00:00 +0900
 author: hatak
 layout: post
 permalink: /2012/10/24/17562

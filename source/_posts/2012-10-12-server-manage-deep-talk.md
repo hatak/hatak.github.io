@@ -1,5 +1,6 @@
 ---
 title: '&#8220;Server Manage Deep Talk #1&#8243; の振り返りメモ'
+date: 2012-10-12 00:00:00 +0900
 author: hatak
 layout: post
 permalink: /2012/10/12/17536

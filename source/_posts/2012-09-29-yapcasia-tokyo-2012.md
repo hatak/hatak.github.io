@@ -1,5 +1,6 @@
 ---
 title: YAPC::Asia Tokyo 2012 で話してきた
+date: 2012-09-29 00:00:00 +0900
 author: hatak
 layout: post
 permalink: /2012/09/29/17281

@@ -1,5 +1,6 @@
 ---
 title: MySQL Casual Talks Vol.3 で話してきた
+date: 2012-04-20 00:00:00 +0900
 author: hatak
 layout: post
 permalink: /2012/04/20/12428

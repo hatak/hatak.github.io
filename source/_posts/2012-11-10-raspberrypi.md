@@ -1,5 +1,6 @@
 ---
 title: RaspberryPi で遊んでみた
+date: 2012-11-10 00:00:00 +0900
 author: hatak
 layout: post
 permalink: /2012/11/10/17630
