@@ -97,6 +97,8 @@
 
 <time datetime="2012-10-12T00:00:00+09:00" pubdate data-updated="true">2012/10/12</time>
         
+         | <a href="#disqus_thread">Comments</a>
+        
       </p>
     
   </header>
@@ -112,7 +114,7 @@
 
 <p>今回の話を踏まえると、最初に考えなければならないのは大きく2つの点だと思います。 （解釈間違えなどあればご指摘ください。。）</p>
 
-<h3 id="toc_319">「管理」の対象がどこまでなのか</h3>
+<h3 id="toc_207">「管理」の対象がどこまでなのか</h3>
 
 <p>サーバ管理といっても様々な管理があります。</p>
 
@@ -133,7 +135,7 @@
 
 <p>このほかにも、オンプレミス/クラウド(VM含)やスペック毎/役割毎など、いろんな分類基準があるわけです。全てをカバーするのも一つの選択肢ですが、ここは目的から軸となる区分を明確化しておく必要がありそうです。 @kentaro さんがおっしゃられていたように、まさに利用シーンの現状や想定を整理した上で、実際どのあたりを吸収するか考える必要があるのだろうと思います。</p>
 
-<h3 id="toc_320">データを集約するか、proxy するか</h3>
+<h3 id="toc_208">データを集約するか、proxy するか</h3>
 
 <p>@riywo さんのアイディアでは、既存ツールのデータを活かすために Core が欲しいデータを持っている各ツールに問い合わせて返ってきた情報を集約する形になっています。 一方で、@kuwa_tw さんからの意見で全部まとめた箱としてしまうというアイディアもあり、これもありだと思います。</p>
 
@@ -189,7 +191,7 @@
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/sabaguan-li/'>サーバ管理</a>
+    <a class='category' href='/blog/categories/report/'>report</a>
   
 </span>
 
@@ -201,6 +203,8 @@
   <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://blog.hatak.net/2012/10/12/17536" data-via="hisashi" data-counturl="http://blog.hatak.net/2012/10/12/17536" >Tweet</a>
   
   
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
   
 </div>
 
@@ -267,7 +271,7 @@
 
         github.showRepos({
             user: 'hatak',
-            count: 0,
+            count: 3,
             skip_forks: true,
             target: '#gh_repos'
         });
@@ -294,7 +298,29 @@
 </footer>
   
 
+<script type="text/javascript">
+      var disqus_shortname = 'idhatak';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
 
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
 
 
 

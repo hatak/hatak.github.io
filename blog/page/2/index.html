@@ -9,7 +9,7 @@
   <meta name="author" content="Hisashi HATAKEYAMA">
 
   
-  <meta name="description" content="4/19 にオラクルセンター青山で MySQL Casual Talks Vol.3 が開催されました。 今回は @myfinder さんにお声がけいただきトーク枠をいただけたので、挑戦させていただきました。 MySQL Casual な生活 View more presentations &hellip;">
+  <meta name="description" content="9/27-29 の日程で東京大学で YAPC::Asia Tokyo 2012 が開催されています。 応募したトークを採用していただいたので、スピーカーとして参加させていただきました。 スマートフォン向けサービスにおけるサーバサイド設計入門 from Hisashi HATAKEYAMA ">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -82,7 +82,7 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/2012/04/20/12428">MySQL Casual Talks Vol.3 で話してきた</a></h1>
+      <h1 class="entry-title"><a href="/2012/09/29/17281">YAPC::Asia Tokyo 2012 で話してきた</a></h1>
     
     
       <p class="meta">
@@ -98,26 +98,24 @@
   
 
 
-<time datetime="2012-04-20T00:00:00+09:00" pubdate data-updated="true">2012/04/20</time>
+<time datetime="2012-09-29T00:00:00+09:00" pubdate data-updated="true">2012/09/29</time>
+        
+         | <a href="/2012/09/29/17281#disqus_thread">Comments</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>4/19 にオラクルセンター青山で <a href="http://atnd.org/events/26373" title="MySQL Casual Talks Vol.3">MySQL Casual Talks Vol.3</a> が開催されました。 今回は <a href="http://twitter.com/myfinder" title="@myfinder">@myfinder</a> さんにお声がけいただきトーク枠をいただけたので、挑戦させていただきました。</p>
+  <div class="entry-content"><p>9/27-29 の日程で東京大学で <a href="http://yapcasia.org/2012/" title="YAPC::Asia 2012">YAPC::Asia Tokyo 2012</a> が開催されています。 応募したトークを採用していただいたので、スピーカーとして参加させていただきました。</p>
 
-<div style="width:425px" id="__ss_12602397">
-  <strong style="display:block;margin:12px 0 4px"><a href="http://www.slideshare.net/idhatak/mysql-casual" title="MySQL Casual な生活" target="_blank">MySQL Casual な生活</a></strong> <div style="padding:5px 0 12px">
-    View more <a href="http://www.slideshare.net/" target="_blank">presentations</a> from <a href="http://www.slideshare.net/idhatak" target="_blank">Hisashi Hatakeyama</a>
-  </div>
-</div>
+<p><iframe src="http://www.slideshare.net/slideshow/embed_code/14499185" width="427" height="356" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC; border-width:1px 1px 0; margin-bottom:5px; max-width: 100%;" allowfullscreen> </iframe> <div style="margin-bottom:5px"> <strong> <a href="https://www.slideshare.net/idhatak/ss-14499185" title="スマートフォン向けサービスにおけるサーバサイド設計入門" target="_blank">スマートフォン向けサービスにおけるサーバサイド設計入門</a> </strong> from <strong><a href="http://www.slideshare.net/idhatak" target="_blank">Hisashi HATAKEYAMA</a></strong> </div></p>
 
 </div>
   
   
     <footer>
-      <a rel="full-article" href="/2012/04/20/12428">Read on &rarr;</a>
+      <a rel="full-article" href="/2012/09/29/17281">Read on &rarr;</a>
     </footer>
   
 
@@ -129,7 +127,7 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/2011/12/07/9407">レプリケーションが追いつかないときに試すこと</a></h1>
+      <h1 class="entry-title"><a href="/2012/08/16/15712">テストのために Redis を立ち上げたかった</a></h1>
     
     
       <p class="meta">
@@ -145,20 +143,22 @@
   
 
 
-<time datetime="2011-12-07T00:00:00+09:00" pubdate data-updated="true">2011/12/07</time>
+<time datetime="2012-08-16T00:00:00+09:00" pubdate data-updated="true">2012/08/16</time>
+        
+         | <a href="/2012/08/16/15712#disqus_thread">Comments</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>&#8220;<a href="http://mysql-casual.org/2011/11/mysql-casual-advent-calendar-2011.html" title="MySQL Casual Advent Calendar 2011">MySQL Casual Advent Calendar 2011</a>&#8221; 7 日目を担当させていただく、hatak (<a href="http://twitter.com/hisashi" title="@hisashi">@hisashi</a>) です。 普段はモバイルゲームのインフラをメインにみているのですが、今回はそんな業務で経験したことを基に記事を書かせていただきます。 カジュアルすぎる内容かもしれませんが、お付き合いいただければと思います。</p>
+  <div class="entry-content"><p>ミドルウェアを使った処理のテストでは、テストのための設定でその時限りのデーモンを立ち上げて使いたいものです。 例えば MySQL であれば <a href="https://metacpan.org/module/Test::mysqld">Test::mysqld</a> 、memcached であれば <a href="https://metacpan.org/module/Test::TCP">Test::TCP</a> などを使うことで手軽にデーモンを立ち上げる仕掛けを作ることができます。これを prove にフックさせたりすると、マニュアルでテスト用のデーモンを立ち上げる必要がなくなるという方法がとれます。</p>
 
 </div>
   
   
     <footer>
-      <a rel="full-article" href="/2011/12/07/9407">Read on &rarr;</a>
+      <a rel="full-article" href="/2012/08/16/15712">Read on &rarr;</a>
     </footer>
   
 
@@ -170,7 +170,7 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/2011/12/04/9188">Hachioji.pm #11 に行ってきた</a></h1>
+      <h1 class="entry-title"><a href="/2012/08/08/14714">PSGI アプリを Supervisord + Server::Starter で動作させる</a></h1>
     
     
       <p class="meta">
@@ -186,28 +186,22 @@
   
 
 
-<time datetime="2011-12-04T00:00:00+09:00" pubdate data-updated="true">2011/12/04</time>
+<time datetime="2012-08-08T00:00:00+09:00" pubdate data-updated="true">2012/08/08</time>
+        
+         | <a href="/2012/08/08/14714#disqus_thread">Comments</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>町田で行われた hachioji.pm #11 に参加してきました。 前回参加した hachioji.pm が 2 月実施の #2 だったので、9 回ぶり 2 回目の参加でした。振り返れば震災以降ドタバタといろんなことがあって参加できないままだったわけで、ちょっと勿体ないことしたなと反省したりもしてました。</p>
-
-<p>町田も久しぶりすぎて変化に戸惑いが隠せない感じでした。資料作成しようと思ったカフェとかなくなってたし！</p>
-
-<h2 id="toc_308">全体的な感想など</h2>
-
-<p>自己紹介代わりの LT はやっぱりおもしろいと思います。規模が大きくなると難しくなりますが、全員に向かって各々が話す hachioji.pm ならではの雰囲気は好きです。</p>
-
-<p>かなり様々なお話を聞けたことも大きな収穫でした。同時に、モチベーションが上がるような刺激を受けることができました。</p>
+  <div class="entry-content"><p>PSGI で動作する Perl の Web アプリをデプロイする環境をどのように作ろうかと思って試してみたので、その手順をまとめてみます。 記事を書きかけて放置してしまっていたので、diff が古かったりするのはご愛敬で。。</p>
 
 </div>
   
   
     <footer>
-      <a rel="full-article" href="/2011/12/04/9188">Read on &rarr;</a>
+      <a rel="full-article" href="/2012/08/08/14714">Read on &rarr;</a>
     </footer>
   
 
@@ -219,7 +213,7 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/2011/10/16/6777">YAPC::Asia Tokyo 2011 (2日目) に行ってきた</a></h1>
+      <h1 class="entry-title"><a href="/2012/06/19/14234">Perl で Segmentation Fault が起きたときの調べかた</a></h1>
     
     
       <p class="meta">
@@ -235,31 +229,27 @@
   
 
 
-<time datetime="2011-10-16T00:00:00+09:00" pubdate data-updated="true">2011/10/16</time>
+<time datetime="2012-06-19T00:00:00+09:00" pubdate data-updated="true">2012/06/19</time>
+        
+         | <a href="/2012/06/19/14234#disqus_thread">Comments</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>昨日に引き続いて、 <a href="http://yapcasia.org/2011/" title="YAPC::Asia">YAPC::Asia</a> に参加してきました。</p>
+  <div class="entry-content"><p>サーバを構築した際に嵌まったのでメモしておきます。</p>
 
-<p>個人的な視点で、今回の YAPC から感じた Perl とそれを取り巻く Web サービス系の世界の現状をいくつかまとめると、</p>
-
-<ul>
-<li>前回参加した 2 年前に発表された PSGI はもはや標準</li>
-<li>プラットフォーマーを中心に大規模サービスのノウハウが溜まってきている</li>
-<li>アプリケーションの設計・実装でも、ミドルウェアやハードウェアも含めた視点がより大事になっている</li>
-<li>組織が大きくなった会社では、開発者と運用者の良い関係づくり (DevOps の考え方) に取り組んでいる</li>
-</ul>
-
-<p>といったところかなと思います。 会社で標準的に使われている開発言語が違っても、根底の考え方や Web サービス系全般での動きは同じだなと痛感しました。</p>
+<p>CentOS6 系のサーバに perlbrew + Carton で環境を構築していたのですが、一通り構築が終わって plackup すると segmentation fault となってしまったのでした。 /var/log/messages を見てもこんなログばかり。</p>
+<div class="highlight"><pre><code class="text">Jun 18 19:28:48 xx-xxxx kernel: app.psgi[2084] general protection ip:322fe17088 sp:49302b8e8cb3704b error:0 in ld-2.12.so[322fe00000+20000]
+</code></pre>
+</div>
 
 </div>
   
   
     <footer>
-      <a rel="full-article" href="/2011/10/16/6777">Read on &rarr;</a>
+      <a rel="full-article" href="/2012/06/19/14234">Read on &rarr;</a>
     </footer>
   
 
@@ -271,7 +261,7 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/2011/10/15/6689">YAPC::Asia Tokyo 2011 (1日目) に行ってきた</a></h1>
+      <h1 class="entry-title"><a href="/2012/06/15/14100">Vcs_info でプロンプトにリポジトリ名を表示</a></h1>
     
     
       <p class="meta">
@@ -287,293 +277,36 @@
   
 
 
-<time datetime="2011-10-15T00:00:00+09:00" pubdate data-updated="true">2011/10/15</time>
+<time datetime="2012-06-15T00:00:00+09:00" pubdate data-updated="true">2012/06/15</time>
+        
+         | <a href="/2012/06/15/14100#disqus_thread">Comments</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>Perl のおまつり、 <a href="http://yapcasia.org/2011/" title="YAPC::Asia">YAPC::Asia</a> に参加しています。<br>
-昨年はプライベートでドタバタしていたので、2 年ぶりの参加でした。前回に比べて参加者も多く、それでいてスムーズなイベント進行と素敵なトークの数々でとても楽しい時間を過ごしています。 ひとまず 1 日目を振り返りつつ、聞いたトークをまとめておこうと思いました。</p>
+  <div class="entry-content"><p>最近特にターミナルでコードを書くことが増えてきたため、プロンプトでブランチ名であったりそのほかの情報も適宜だせるようにしたいなと設定を調べたり試したりしてみました。</p>
 
-<p>振り返ると、インフラ寄りな内容を選んでいたこともありますが、今日は Perl に限らない話も多かったように思います。それだけ広い知識と経験が必要で、いろんな所でいろんなひとが挑戦していることがわかってわくわくしましたが！</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/2011/10/15/6689">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2011/05/31/2165">Github 上のプロジェクトの Fork をプライベートな Git サーバで管理</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-05-31T00:00:00+09:00" pubdate data-updated="true">2011/05/31</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>github で管理されている OSS を利用するとき、少しカスタムして使いたいという場合があったりします。もちろん、fork すれば github 上で自分が push できる状態にはなりますが、カスタムしたバージョンを利用する範囲が社内だったりすると github 以外で管理したくなったりもします。</p>
-
-<p>そこで、こんな感じの構成を目指して、github 上のプロジェクトの fork をプライベートな git サーバで管理してみました。</p>
-
-<p>|プライベートなリモートリポジトリのメインブランチ|origin/master| |github のプロジェクトのメインブランチ|github/upstream|</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/2011/05/31/2165">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2011/05/26/1786">サイバーエージェント×クックパッド合同勉強会に行ってきた</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-05-26T00:00:00+09:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>クックパッドさんのオフィスで開催された「<a href="http://techlife.cookpad.com/2011/05/16/amepad/">サイバーエージェント×クックパッド合同勉強会</a>」に参加してきました。 両社で検証や本番導入しているクラウドサービスな話題がメインで、とても興味深いものでした。</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/2011/05/26/1786">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2011/05/22/1062">Git のバックアップ</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-05-22T00:00:00+09:00" pubdate data-updated="true">2011/05/22</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>分散 SCM とはいえ、バックアップはあるとうれしいものです。git のリモートリポジトリが破損した場合などに復元元を探すために、誰が持っているのが最新のリビジョンで、、というような作業が発生することは避けたいからです。</p>
-
-<p>git のリモートリポジトリから別のサーバにバックアップを作成するのは、hooks を利用することで簡単に設定できます。例えば、対象となるリポジトリの post-receive で下記のようなコマンドを設定しておくとできます。</p>
-
-<ul>
-<li>バックアップ先のサーバ:ディレクトリは targethost.example.jp:/var/lib/git</li>
-<li>バックアップのための SSH 接続で利用するユーザは syncuser</li>
-<li>gitosis ユーザは syncuser 権限で git コマンドが利用出来るように visudo を設定</li>
-</ul>
+<p>以前までは、bash_completion を利用して表示するということをしていました。.bashrc の例ですが、こんな感じです。</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#!/bin/sh</span>
-</span><span class='line'><span class="c">#####</span>
-</span><span class='line'><span class="c"># hooks/post-receive</span>
-</span><span class='line'><span class="c">#####</span>
-</span><span class='line'>
-</span><span class='line'><span class="nv">MIRROR_HOST</span><span class="o">=</span><span class="s1">&#39;targethost.example.jp&#39;</span>
-</span><span class='line'><span class="nv">REPO_NAME</span><span class="o">=</span><span class="sb">`</span><span class="nb">pwd</span> | perl -e <span class="s1">&#39;$t=&lt;stdin&gt;;$t=~ s!^.*/!!;print $t&#39;</span><span class="sb">`</span>
-</span><span class='line'>sudo -u syncuser -H git push :mirror syncuser@<span class="k">${</span><span class="nv">MIRROR_HOST</span><span class="k">}</span>:/var/lib/git/<span class="k">${</span><span class="nv">REPO_NAME</span><span class="k">}</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># custom prompt for .bashrc</span>
+</span><span class='line'><span class="k">if</span> <span class="o">[</span> -r <span class="s2">&quot;/etc/bash_completion.d/git&quot;</span> <span class="o">]</span>;
+</span><span class='line'>    <span class="k">then </span><span class="nv">PS1</span><span class="o">=</span><span class="s2">&quot;[u@h w]$(__git_ps1 &quot;</span><span class="o">(</span>e<span class="o">[</span>0;32m%se<span class="o">[</span>0m<span class="o">)</span><span class="s2">&quot;)$ &quot;</span>
+</span><span class='line'><span class="k">fi</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<p>&quot;:mirror&quot; オプションを付けることで、バックアップ先にも bare のままディレクトリが作成されます。 リモートリポジトリとして利用するサーバと別のサーバで Redmine や Trac、あるいは gitweb などを動作させてリポジトリブラウザを利用する場合などでも bare を付けます。</p>
-
-<p>hooks/post-receive は、リポジトリに加わる変更を受信したタイミングで実行される hook script です。cron などで仕込むものとは異なり、push されたタイミングで sync されるので無駄にコネクションが張られることがありません。 ただし、push するタイミングで別サーバへの push が実行されるため、ユーザからみると push 自体の時間が少し長くなるのが欠点です。</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2011/05/18/571">Gitosis で作るプライベートな Git サーバ</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-05-18T00:00:00+09:00" pubdate data-updated="true">2011/05/18</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>業務で使い始めた Git ですが、高機能過ぎて未だに使いこなせている自信がありません。 一方で、かつて利用していた Subversion はコマンドを忘れてしまって使うたびにググるほどに記憶が抜けつつあります。</p>
-
-<p>そんな Git を複数メンバー・複数環境で利用する場合、マスターリポジトリを利用することがあります。これにより、Subversion のような中央集約型のソースコード管理をしつつも Git の恩恵を受ける開発スタイルを取ることができるます。 マスターリポジトリとして <a href="http://github.com/">GitHub</a> を利用するのが最も手っ取り早いですが、プライベート（= メンバーのみが閲覧できる）なリポジトリを作成するためには有料オプションにしなければなりません。しかも地味に高い。</p>
-
-<p>こんな時、gitosis を利用すると手軽にプライベートな Git サーバを構築することができます。もちろん、リポジトリを利用するメンバー全員が SSH での接続ができるサーバに bare リポジトリを作ることでも Git サーバとして機能しますが、それでも gitosis を使う優位性は以下のような点にあります。</p>
-
-<ul>
-<li>公開鍵認証を用い、通信にSSHを利用するため安全に利用できる</li>
-<li>公開鍵でユーザを識別し、リポジトリに対するアクセス制御が設定できる</li>
-<li>サーバにアカウントとは切り離して、リポジトリへのアクセスアカウントの作成ができる</li>
-</ul>
-
-<p>gitosis はマスターリポジトリとして利用するサーバのみインストールします。リモートから clone / pull / push をするクライアントには、通常通りの Git がインストールされていれば利用することができます。</p>
+<p>これはこれで良いのですが、git でしか利用できません。メインで利用する VCS は git なので問題ありませんが、それ以外の VCS で管理されたコードを読んだりする機会も多々あります。 調べてみたところ、zsh に vcs_info という関数があることを知りました。そこで、これを使ってプロンプトを少し派手にしてみました。</p>
 
 </div>
   
   
     <footer>
-      <a rel="full-article" href="/2011/05/18/571">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2011/05/17/335">MacOSX のローカルの DNS キャッシュ</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-05-17T00:00:00+09:00" pubdate data-updated="true">2011/05/17</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>DNS の設定を触るとき、ローカルのキャッシュが変わっていないためにハマることが多々あります。Mac の場合、ターミナルで dig して変更を確認してもブラウザで開けなかったりするわけで。</p>
-
-<p>これは、MacOSX 内部で DNS 解決の結果をキャッシュする機能が働いているためです。 キャッシュをコントロールするためには dscacheutil コマンドを使います。</p>
-
-<figure class='code'><figcaption><span>dscacheutil</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='console'><span class='line'><span class="go">Usage: dscacheutil -h</span>
-</span><span class='line'><span class="go">       dscacheutil -q category [-a key value]</span>
-</span><span class='line'><span class="go">       dscacheutil -cachedump [-buckets] [-entries [category]]</span>
-</span><span class='line'><span class="go">       dscacheutil -configuration</span>
-</span><span class='line'><span class="go">       dscacheutil -flushcache</span>
-</span><span class='line'><span class="go">       dscacheutil -statistics</span>
-</span></code></pre></td></tr></table></div></figure>
-
-<p>キャッシュをクリアするのは &quot;-flushcache&quot; オプションをつけます。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='console'><span class='line'><span class="gp">$</span> dscacheutil -flushcache
-</span></code></pre></td></tr></table></div></figure>
-
-<p>sudo しなくてもユーザ権限でできるので安心。</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/2011/05/17/335">Read on &rarr;</a>
+      <a rel="full-article" href="/2012/06/15/14100">Read on &rarr;</a>
     </footer>
   
 
@@ -639,7 +372,7 @@
 
         github.showRepos({
             user: 'hatak',
-            count: 0,
+            count: 3,
             skip_forks: true,
             target: '#gh_repos'
         });
@@ -665,7 +398,29 @@
 </footer>
   
 
+<script type="text/javascript">
+      var disqus_shortname = 'idhatak';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
 
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
 
 
 

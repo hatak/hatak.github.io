@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: 構築手順 | Hatak::Techlog]]></title>
-  <link href="http://blog.hatak.net/blog/categories/gou-zhu-shou-shun/atom.xml" rel="self"/>
+  <title><![CDATA[Category: instruction | Hatak::Techlog]]></title>
+  <link href="http://blog.hatak.net/blog/categories/instruction/atom.xml" rel="self"/>
   <link href="http://blog.hatak.net/"/>
-  <updated>2014-02-15T10:26:12+09:00</updated>
+  <updated>2014-02-15T13:40:29+09:00</updated>
   <id>http://blog.hatak.net/</id>
   <author>
     <name><![CDATA[Hisashi HATAKEYAMA]]></name>
@@ -34,7 +34,7 @@
 
 <p>イギリスからの発送なのでそれなりに時間がかかりますが、それでも元々の代理店よりはかなり早いと思います。値段は £29.99 + £4.99 (送料) の計 £34.98。日本円換算で 4,500 円程度です。</p>
 
-<h3 id="toc_142">組み立て</h3>
+<h3 id="toc_42">組み立て</h3>
 
 <p><a href="https://www.modmypi.com/">ModMyPi</a> は RaspberryPi 専用のカスタムケースなどを取り扱うネットショップです。今回は本体セットを購入したので、本体ボードとケースが送られてきます。が、組み立てというほどではなく載せてはめれば完了です。上下で色を選べるので、上を白、下を青にしてみました。</p>
 
@@ -44,7 +44,7 @@
 
 <p>あとは OS イメージを書き込んだ SD カードをスロットにいれ、LAN と電源を接続すれば準備完了です。</p>
 
-<h3 id="toc_143">SD カードの準備</h3>
+<h3 id="toc_43">SD カードの準備</h3>
 
 <p>RaspberryPi の公式から OS イメージがダウンロードできます。展開すると 2GB くらいになるので、利用する SD カードは 4GB 以上が推奨されています。今回は手元に余ってた Transcend の SDHC 16GB (Class10) を用意しました。</p>
 
@@ -63,7 +63,7 @@
 
 <p>これでイメージ完成です。簡単ですね。 スクリプトに sudo が必要なのはマウント周りの操作を行うためかと思いますが、複数ディスクがある場合などは全部フォーマットされてしまう可能性もあるので十分に注意が必要です。</p>
 
-<h3 id="toc_144">起動</h3>
+<h3 id="toc_44">起動</h3>
 
 <p>できあがった SD カードを入れ、LAN ケーブルを挿し、電源を挿します。スイッチはないので、電源をつないだら基板の LED がひかり、10秒ほどで起動します。デフォルトは DHCP 取得になっているので、ルータ等で割り当て IP を調べて ssh するのがよさそうです。</p>
 <div class="highlight"><pre><code class="text">[root@alarmpi ~]# pacman -Sy
@@ -185,88 +185,12 @@ Serial : xxxxxxxxxxxxxxxx
 
 <p>とても手軽です。類似のものとしては Openblocks がありますが、桁一つ違うのは大きいですね。 Openblocks が一般的なサーバ機器で、RaspberryPi がパソコンくらいのイメージでしょうか。</p>
 
-<h2 id="toc_145">参考</h2>
+<h2 id="toc_45">参考</h2>
 
 <ul>
 <li>  <a href="http://blog.mobilehackerz.jp/2012/10/raspberry-pi10.html">MobileHackerz再起動日記: いつまでも届かないRaspberry Piは一手間かけると10日で新型が手に入る</a></li>
 <li>  <a href="http://hitoriblog.com/?p=9733"> 約3,300円で買えるLinuxパソコンRaspberry PiをMacで使う | ひとりぶろぐ</a></li>
 <li>  <a href="https://wiki.archlinux.org/index.php/Beginners%27_Guide">Beginners&#39; Guide - ArchWiki</a></li>
-</ul>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Redis 2.4 -> 2.6 のアップグレード]]></title>
-    <link href="http://blog.hatak.net/2012/10/25/17582"/>
-    <updated>2012-10-25T00:00:00+09:00</updated>
-    <id>http://blog.hatak.net/2012/10/25/redis</id>
-    <content type="html"><![CDATA[<p>Redis 2.6 が正式リリースされました。大きな機能追加に隠れて、いくつかの変更があります。</p>
-
-<ul>
-<li>  Lua のサポート</li>
-<li>  クライアント接続数の制限解除</li>
-<li>  expires のミリ秒対応</li>
-</ul>
-
-<p>2.4 以前の config では deprecated になっている設定項目があるため、一部手を入れる必要があります。mac で launchctl を使っている場合、自動起動に失敗していても気づきにくいので注意が必要です。</p>
-
-<!--more-->
-
-<h3 id="toc_146">VirtualMemory</h3>
-<div class="highlight"><pre><code class="text">$ redis-server /usr/local/etc/redis.conf
-*** FATAL CONFIG FILE ERROR
-*** Reading the configuration file, at line 389
-&gt;&gt;&gt; &#39;vm-enabled no&#39; Bad directive or wrong number of arguments
-</code></pre>
-</div>
-
-<p>Virtual Memory (仮想メモリ) の設定は非サポートになっているので、丸ごと削除してしまいます。</p>
-<div class="highlight"><pre><code class="text">An overview of new features and changes in Redis 2.6.x
-======================================================
-...
-* Virtual Memory removed (was deprecated in 2.4)
-...
-</code></pre>
-</div>
-
-<p>2.4 以降で depricated になっている下記のプロパティが対象のようです。</p>
-
-<ul>
-<li>  vm-enabled</li>
-<li>  vm-swap-file</li>
-<li>  vm-max-memory</li>
-<li>  vm-page-size</li>
-<li>  vm-pages</li>
-<li>  vm-max-threads</li>
-</ul>
-
-<h3 id="toc_147">CONFIG SET parameters</h3>
-<div class="highlight"><pre><code class="text">$ redis-server /usr/local/etc/redis.conf
-*** FATAL CONFIG FILE ERROR
-*** Reading the configuration file, at line 367
-&gt;&gt;&gt; &#39;hash-max-zipmap-entries 512&#39; Bad directive or wrong number of arguments
-</code></pre>
-</div>
-
-<p>2つの設定の設定項目の名称が変更になっています。</p>
-<div class="highlight"><pre><code class="text">Migrating from 2.4 to 2.6
-=========================
-...
-The following redis.conf and CONFIG GET / SET parameters changed:
-
-* hash-max-zipmap-entries, now replaced by hash-max-ziplist-entries
-* hash-max-zipmap-value, now replaced by hash-max-ziplist-value
-...
-</code></pre>
-</div>
-
-<p>リリースノートを参考にリネームします。</p>
-
-<h2 id="toc_148">参考</h2>
-
-<ul>
-<li>  <a href="https://github.com/antirez/redis/blob/2.6/00-RELEASENOTES">redis/00-RELEASENOTES at 2.6 · antirez/redis · GitHub</a></li>
-<li>  <a href="http://oldblog.antirez.com/post/redis-2.6-is-near.html">Redis 2.6 is near, and a few more updates</a></li>
 </ul>
 ]]></content>
   </entry>
@@ -280,7 +204,7 @@ The following redis.conf and CONFIG GET / SET parameters changed:
 
 <!--more-->
 
-<h2 id="toc_149">MeCab</h2>
+<h2 id="toc_46">MeCab</h2>
 
 <p>mroonga で TokenMecab トークナイザーを利用するためには MeCab が必要です。 Homebrew で IPA 辞書と合わせてインストールします。</p>
 <div class="highlight"><pre><code class="text">$ brew install mecab mecab-ipadic
@@ -312,7 +236,7 @@ $ brew doctor
 
 <p>私の場合、10.8 にアップデートする以前に Homebrew で入れた libiconv が中途半端に残ってたことでおかしくなっていたようでした。</p>
 
-<h2 id="toc_150">groonga</h2>
+<h2 id="toc_47">groonga</h2>
 
 <p>MeCab の次は groonga をインストールします。</p>
 <div class="highlight"><pre><code class="text">$ brew install groonga
@@ -351,7 +275,7 @@ configure options: &lt; &#39;--prefix=/usr/local/Cellar/groonga/2.0.7&#39; &#39;
 </code></pre>
 </div>
 
-<h2 id="toc_151">mroonga</h2>
+<h2 id="toc_48">mroonga</h2>
 
 <p>次は mroonga をインストールします。Homebrew には内包されていませんが、mroonga のリポジトリに Fomula があるのでこちらを使います。</p>
 <div class="highlight"><pre><code class="text">$ brew install https://raw.github.com/mroonga/Homebrew/master/mroonga.rb --use-Homebrew-mysql
@@ -391,7 +315,7 @@ $ brew install https://raw.github.com/mroonga/Homebrew/master/mroonga.rb --with-
 
 <p>個人的には、複数のユーザで利用している mac でユーザ共通に自動起動させたい（もしくはどうしてもオフィシャルバイナリを使いたい）という条件でなければ Homebrew で良いのかなと思いました。</p>
 
-<h2 id="toc_152">動作確認</h2>
+<h2 id="toc_49">動作確認</h2>
 
 <p>MySQL Server が起動していれば、mroonga の Fomula の中でプラグインと関数の追加も行われています。停止していた場合は起動後に追加のコマンドを入力します。</p>
 <div class="highlight"><pre><code class="text">$ mysql -uroot -e &#39;INSTALL PLUGIN mroonga SONAME &quot;ha_mroonga.so&quot;; CREATE FUNCTION last_insert_grn_id RETURNS INTEGER SONAME &quot;ha_mroonga.so&quot;; CREATE FUNCTION mroonga_snippet RETURNS STRING SONAME &quot;ha_mroonga.so&quot;;&#39;
@@ -484,7 +408,7 @@ FULLTEXT KEY `content` (`content`) COMMENT &#39;PARSER &quot;TokenMecab&quot;&#3
 
 <!--more-->
 
-<h2 id="toc_153">構成の概要</h2>
+<h2 id="toc_50">構成の概要</h2>
 
 <p>今回構築しようと思う構成は次の通りです。</p>
 
@@ -504,7 +428,7 @@ FULLTEXT KEY `content` (`content`) COMMENT &#39;PARSER &quot;TokenMecab&quot;&#3
 <li>Server::Starter のプロセスは Supervisord で管理</li>
 </ul>
 
-<h2 id="toc_154">supervisord の導入</h2>
+<h2 id="toc_51">supervisord の導入</h2>
 
 <p><a href="http://blog.glidenote.com/blog/2011/11/25/install-supervisor/">スーパーサーバーSupervisorの導入手順メモ &#8211; Glide Note &#8211; グライドノート</a> を参考に supervisord を導入します。<br>
 今回は CentOS 6 系のサーバで system python に pip 経由でインストールします。 pythonbrew などを利用してシステムと切り離すことも検討したのですが、supervisord を使う目的が OS とアプリの間でプロセス管理をすることなので system python で問題ないと考えました。</p>
@@ -535,7 +459,7 @@ respawn exec /usr/bin/supervisord -n
 
 <p>supervisord のプロセスが正常に起動していて、ログファイル (/var/log/supervisord/supervisord.log) に正常に出力されていれば OK です。</p>
 
-<h2 id="toc_155">supervisord 用の設定を用意する</h2>
+<h2 id="toc_52">supervisord 用の設定を用意する</h2>
 
 <p>PSGI アプリを supervisord で管理するための設定を用意します。 ここで、環境変数が必要となるのでコマンドラインで調べておきます。</p>
 
@@ -580,6 +504,158 @@ respawn exec /usr/bin/supervisord -n
   </entry>
   
   <entry>
+    <title type="html"><![CDATA[レプリケーションが追いつかないときに試すこと]]></title>
+    <link href="http://blog.hatak.net/2011/12/07/9407"/>
+    <updated>2011-12-07T00:00:00+09:00</updated>
+    <id>http://blog.hatak.net/2011/12/07/mysql-advent</id>
+    <content type="html"><![CDATA[<p>&#8220;<a href="http://mysql-casual.org/2011/11/mysql-casual-advent-calendar-2011.html" title="MySQL Casual Advent Calendar 2011">MySQL Casual Advent Calendar 2011</a>&#8221; 7 日目を担当させていただく、hatak (<a href="http://twitter.com/hisashi" title="@hisashi">@hisashi</a>) です。 普段はモバイルゲームのインフラをメインにみているのですが、今回はそんな業務で経験したことを基に記事を書かせていただきます。 カジュアルすぎる内容かもしれませんが、お付き合いいただければと思います。</p>
+
+<!--more-->
+
+<h2 id="toc_53">MySQL のレプリケーション</h2>
+
+<p>MySQL のレプリケーションは、安定稼働やバックアップ、負荷分散などの目的に利用できる優れた機能です。 bin-log (バイナリログ) を利用して Master サーバから Slave サーバに更新を伝播させ、データの複製を行います。Slave サーバでは、2 つのスレッドが動作しています。</p>
+
+<ul>
+<li>IO_THREAD &#8211; Master から送られてきたデータを受け取り、relay-log (リレーログ) として書き出す</li>
+<li>SQL_THREAD &#8211; relay-log を読み出し、DB を更新する</li>
+</ul>
+
+<h2 id="toc_54">遅延の調べ方</h2>
+
+<p>&#8220;SQL_THREAD&#8221; による遅延の場合は、Slave サーバで &#8220;SHOW SLAVE STATUS&#8221; コマンドを実行することで確認ができます。</p>
+<div class="highlight"><pre><code class="text">hatak@dbslave&gt; SHOW SLAVE STATUS G\
+*************************** 1. row ***************************
+Slave_IO_State: Waiting for master to send event
+Master_Host: 192.168.12.2
+Master_User: replicator
+Master_Port: 3306
+Connect_Retry: 60
+Master_Log_File: mysql-bin.012863
+Read_Master_Log_Pos: 205295676
+Relay_Log_File: mysqld-relay-bin.026640
+Relay_Log_Pos: 75468325
+Relay_Master_Log_File: mysql-bin.012863
+Slave_IO_Running: Yes
+Slave_SQL_Running: Yes
+Replicate_Do_DB:
+Replicate_Ignore_DB:
+Replicate_Do_Table:
+Replicate_Ignore_Table:
+Replicate_Wild_Do_Table:
+Replicate_Wild_Ignore_Table:
+Last_Errno: 0
+Last_Error:
+Skip_Counter: 0
+Exec_Master_Log_Pos: 205295676
+Relay_Log_Space: 205296082
+Until_Condition: None
+Until_Log_File:
+Until_Log_Pos: 0
+Master_SSL_Allowed: No
+Master_SSL_CA_File:
+Master_SSL_CA_Path:
+Master_SSL_Cert:
+Master_SSL_Cipher:
+Master_SSL_Key:
+Seconds_Behind_Master: 0
+Master_SSL_Verify_Server_Cert: No
+Last_IO_Errno: 0
+Last_IO_Error:
+Last_SQL_Errno: 0
+Last_SQL_Error:
+Replicate_Ignore_Server_Ids:
+Master_Server_Id:100
+1 row in set (0.00 sec)
+</code></pre>
+</div>
+
+<p>ここに示されている &#8220;Seconds_Behind_Master&#8221; の値が、「現在 SQL_THREAD が実行しているクエリの実行時刻」と「Slave サーバが保持しているリレーログの時刻」の差となり、遅延を表しています。</p>
+
+<p>&#8220;IO_THREAD&#8221; による遅延の場合は、Master からのバイナリログが受信しきっていないため、Master における &#8220;SHOW MASTER STATUS&#8221; の結果も参考にする必要があります。</p>
+<div class="highlight"><pre><code class="text">hatak@dbmaster&gt; SHOW MASTER STATUS G\
+*************************** 1. row ***************************
+File: mysql-bin.012863
+Position: 205295676
+Binlog_Do_DB:
+Binlog_Ignore_DB:
+1 row in set (0.00 sec)
+</code></pre>
+</div>
+
+<p>この結果を基に、どれくらいずれているかを見なければなりません。</p>
+
+<p>Master と Slave で &#8220;File&#8221; と &#8220;Master_Log_File&#8221;、&#8221;Position&#8221; と &#8220;Read_Master_Log_Pos&#8221; をそれぞれ比較し、どの程度転送が遅れているかをチェックします。 &#8220;IO_THREAD&#8221; に起因した遅延の場合は、サーバの処理というよりはネットワーク帯域の問題である可能性が高いと思います。</p>
+
+<p>今回は &#8220;SQL_THREAD&#8221; による遅延を想定してまとめていきます。</p>
+
+<h3 id="toc_55">Master の更新をブロックする</h3>
+
+<p>レプリケーションで送られてくるクエリの流量が多すぎる場合、つまり Master の更新が激しすぎて追いつかないケースでは、そもそも Master での更新を止めてしまうという方法があります。</p>
+
+<p>これは、MASTER_POS_WAIT() 関数を利用することで実現できます。</p>
+
+<p>手順については、<a href="http://dev.mysql.com/doc/refman/5.1/ja/" title="MySQL5.1 リファレンスマニュアル">MySQL5.1 リファレンスマニュアル</a>の FAQ 項目内に「<a href="http://dev.mysql.com/doc/refman/5.1/ja/replication-faq.html#qandaitem-5-4-4-1-4" title="レプリケーションが追いつくまでマスタの更新をブロックする方法">レプリケーションが追いつくまでマスタの更新をブロックする方法</a>」として紹介されています。</p>
+
+<p>この方法では同期化をコントロールすることで追いつかせることができますが、実際にサービス運用中のサーバではなかなか使いづらいところもあります。</p>
+
+<h3 id="toc_56">Slave のパフォーマンスを調整する</h3>
+
+<p>このとき、レプリケーションで伝播するクエリは全て直列化されるため、更新が激しい場合はどうしても遅れてしまうことがあります。 DiskI/O への負荷が高いとき &#8220;innodb-flush-log-at-trx-commit&#8221; の値を変更することで、ディスクへのフラッシュを減らすことができます。このパラメータではログバッファからログファイルへの書き込み、およびディスクへのフラッシュをコントロールすることができます。</p>
+
+<table><thead>
+<tr>
+<th>設定値</th>
+<th>ログバッファのファイルへの書き込み</th>
+<th>ディスクへのフラッシュ</th>
+<th>備考</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>0</td>
+<td>毎秒</td>
+<td>ログファイル上</td>
+<td></td>
+</tr>
+<tr>
+<td>1</td>
+<td>コミット時</td>
+<td>ログファイル上</td>
+<td>デフォルト値</td>
+</tr>
+<tr>
+<td>2</td>
+<td>コミット時</td>
+<td>毎秒</td>
+<td></td>
+</tr>
+</tbody></table>
+
+<p>この設定値によるパフォーマンス向上度合いは、経験的には効果の大きい順に 0 &gt; 2 &gt; 1 の順と思っています。</p>
+
+<p>my.cnf に記述し起動時に適用することもできますが、 mysqld の再起動をせずに変更・反映が可能です。</p>
+<div class="highlight"><pre><code class="sql"><span class="k">SELECT</span> <span class="o">@@</span><span class="n">innodb_flush_log_at_trx_commit</span><span class="p">;</span>
+<span class="k">SET</span> <span class="k">GLOBAL</span> <span class="n">innodb_flush_log_at_trx_commit</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+</code></pre>
+</div>
+
+<p>この設定値はパフォーマンス向上の代わりに、信頼性を犠牲にします。プロセスが突然落ちた場合などにディスクにフラッシュされていないデータをロストする可能性がありますので、状況に応じて（あるいは追いつかせるまでの間だけなど）の使用に抑えることが良いかと思います。</p>
+
+<h2 id="toc_57">まとめ</h2>
+
+<p>MySQL のレプリケーションが追いつかない場合、プロセスの再起動を行わずに簡単に試せて効果の期待できる方法をまとめてみました。</p>
+
+<p>「実践ハイパフォーマンスMySQL」や「エキスパートのためのMySQLトラブルシューティングガイド」などの書籍でもわかりやすく紹介されていますので、ぜひご参照ください。</p>
+
+<p>このほか、サーバ上で不要なデーモン(cpuspeed など)が動いていないかチェックする、ionice(I/O スケジューラを cfq にする必要があります) で mysqld が優先的に DiskI/O を使えるようにするなどサーバ側でもできることはありそうです。</p>
+
+<p>間違っているところや、他にもこんな方法がある、などございましたらぜひお聞かせください。</p>
+
+<p>明日は <a href="http://twitter.com/kamipo" title="@kamipo">@kamipo</a> さんです！</p>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[gitosis で作るプライベートな git サーバ]]></title>
     <link href="http://blog.hatak.net/2011/05/18/571"/>
     <updated>2011-05-18T00:00:00+09:00</updated>
@@ -600,7 +676,7 @@ respawn exec /usr/bin/supervisord -n
 
 <!--more-->
 
-<h2 id="toc_156">パッケージ導入</h2>
+<h2 id="toc_58">パッケージ導入</h2>
 
 <p>gitosis は python で記述され、gitで管理されているプロジェクトです。 CentOS の場合、EPEL リポジトリに Git / gitosis 共にパッケージが存在するので、これを利用することで簡単にインストールできます。</p>
 <div class="highlight"><pre><code class="text">$ sudo yum install git python-setuptools gitosis
@@ -614,7 +690,7 @@ respawn exec /usr/bin/supervisord -n
 <li>home dir: /var/lib/gitosis</li>
 </ul>
 
-<h2 id="toc_157">初期設定</h2>
+<h2 id="toc_59">初期設定</h2>
 
 <p>gitosis の設定は、 gitosis 管理リポジトリのファイルを変更し push することで反映されます。 設定を行うためには、管理ユーザとして最低一人の公開鍵をセットしなければなりません。ここでは、Git サーバ上の現在の操作ユーザの鍵を管理ユーザとしてセットする例を示します。</p>
 <div class="highlight"><pre><code class="text">$ cd /var/lib/gitosis
@@ -631,15 +707,15 @@ $ git clone gitosis@localhost:gitosis-admin.git
 
 <p>設定を変更後、push することで Hooks のスクリプトが実行されることで key が gitosis ユーザの authorized_keys に追記されていきます。 この authorized_keys には command が併記されているため、git のリモートリポジトリを操作する以外のコマンドが実行できないようになっているのです。</p>
 
-<h3 id="toc_158">新規ユーザの追加</h3>
+<h3 id="toc_60">新規ユーザの追加</h3>
 
 <p>新規ユーザの追加は、*.pub ファイルを作成して該当するグループに追記、push するだけです。 gitosis では、グループ毎に権限をコントロールする形式を取ります。このため、ユーザが複数のグループに所属しているとうまく動作しないことがあります。 *.pub は単なる authorized_keys なので、1行にひとつの公開鍵を書く形式になっていれば複数設定可能です。</p>
 
-<h3 id="toc_159">新規リポジトリの追加</h3>
+<h3 id="toc_61">新規リポジトリの追加</h3>
 
 <p>新規リポジトリの追加は、gitosis.conf に変更を加えて push するだけです。空のまま pull すると init されるだけですが、追加して push すれば大丈夫です。</p>
 
-<h2 id="toc_160">設定のコツ</h2>
+<h2 id="toc_62">設定のコツ</h2>
 
 <p>keydir 以下に公開鍵ごとにファイルを作成し、 gitosis.conf に公開鍵のファイル名 (.pub を除く) を設定していきます。</p>
 <div class="highlight"><pre><code class="text">[gitosis]
@@ -654,7 +730,7 @@ members = hatak hoge fuga
 </code></pre>
 </div>
 
-<h3 id="toc_161">サブディレクトリ</h3>
+<h3 id="toc_63">サブディレクトリ</h3>
 
 <p>リポジトリはサブディレクトリに入れることができます。 上記 sandbox の場合は次のようになります。</p>
 
@@ -668,11 +744,11 @@ members = hatak hoge fuga
 </code></pre>
 </div>
 
-<h3 id="toc_162">config の改行</h3>
+<h3 id="toc_64">config の改行</h3>
 
 <p>gitosis.conf ではユーザが多いときなどバックスラッシュを入れることで、設定ファイル内でも改行することができます。 ユーザが多いときなどに可読性を上げることができ、とても便利です。</p>
 
-<h2 id="toc_163">関連するページ</h2>
+<h2 id="toc_65">関連するページ</h2>
 
 <ul>
 <li><a href="http://scie.nti.st/2007/11/14/hosting-git-repositories-the-easy-and-secure-way">Hosting Git repositories, The Easy (and Secure) Way</a></li>

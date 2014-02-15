@@ -1,0 +1,380 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: memo | Hatak::Techlog]]></title>
+  <link href="http://blog.hatak.net/blog/categories/memo/atom.xml" rel="self"/>
+  <link href="http://blog.hatak.net/"/>
+  <updated>2014-02-15T13:40:29+09:00</updated>
+  <id>http://blog.hatak.net/</id>
+  <author>
+    <name><![CDATA[Hisashi HATAKEYAMA]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Redis 2.4 -> 2.6 のアップグレード]]></title>
+    <link href="http://blog.hatak.net/2012/10/25/17582"/>
+    <updated>2012-10-25T00:00:00+09:00</updated>
+    <id>http://blog.hatak.net/2012/10/25/redis</id>
+    <content type="html"><![CDATA[<p>Redis 2.6 が正式リリースされました。大きな機能追加に隠れて、いくつかの変更があります。</p>
+
+<ul>
+<li>  Lua のサポート</li>
+<li>  クライアント接続数の制限解除</li>
+<li>  expires のミリ秒対応</li>
+</ul>
+
+<p>2.4 以前の config では deprecated になっている設定項目があるため、一部手を入れる必要があります。mac で launchctl を使っている場合、自動起動に失敗していても気づきにくいので注意が必要です。</p>
+
+<!--more-->
+
+<h3 id="toc_66">VirtualMemory</h3>
+<div class="highlight"><pre><code class="text">$ redis-server /usr/local/etc/redis.conf
+*** FATAL CONFIG FILE ERROR
+*** Reading the configuration file, at line 389
+&gt;&gt;&gt; &#39;vm-enabled no&#39; Bad directive or wrong number of arguments
+</code></pre>
+</div>
+
+<p>Virtual Memory (仮想メモリ) の設定は非サポートになっているので、丸ごと削除してしまいます。</p>
+<div class="highlight"><pre><code class="text">An overview of new features and changes in Redis 2.6.x
+======================================================
+...
+* Virtual Memory removed (was deprecated in 2.4)
+...
+</code></pre>
+</div>
+
+<p>2.4 以降で depricated になっている下記のプロパティが対象のようです。</p>
+
+<ul>
+<li>  vm-enabled</li>
+<li>  vm-swap-file</li>
+<li>  vm-max-memory</li>
+<li>  vm-page-size</li>
+<li>  vm-pages</li>
+<li>  vm-max-threads</li>
+</ul>
+
+<h3 id="toc_67">CONFIG SET parameters</h3>
+<div class="highlight"><pre><code class="text">$ redis-server /usr/local/etc/redis.conf
+*** FATAL CONFIG FILE ERROR
+*** Reading the configuration file, at line 367
+&gt;&gt;&gt; &#39;hash-max-zipmap-entries 512&#39; Bad directive or wrong number of arguments
+</code></pre>
+</div>
+
+<p>2つの設定の設定項目の名称が変更になっています。</p>
+<div class="highlight"><pre><code class="text">Migrating from 2.4 to 2.6
+=========================
+...
+The following redis.conf and CONFIG GET / SET parameters changed:
+
+* hash-max-zipmap-entries, now replaced by hash-max-ziplist-entries
+* hash-max-zipmap-value, now replaced by hash-max-ziplist-value
+...
+</code></pre>
+</div>
+
+<p>リリースノートを参考にリネームします。</p>
+
+<h2 id="toc_68">参考</h2>
+
+<ul>
+<li>  <a href="https://github.com/antirez/redis/blob/2.6/00-RELEASENOTES">redis/00-RELEASENOTES at 2.6 · antirez/redis · GitHub</a></li>
+<li>  <a href="http://oldblog.antirez.com/post/redis-2.6-is-near.html">Redis 2.6 is near, and a few more updates</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[テストのために Redis を立ち上げたかった]]></title>
+    <link href="http://blog.hatak.net/2012/08/16/15712"/>
+    <updated>2012-08-16T00:00:00+09:00</updated>
+    <id>http://blog.hatak.net/2012/08/16/redis</id>
+    <content type="html"><![CDATA[<p>ミドルウェアを使った処理のテストでは、テストのための設定でその時限りのデーモンを立ち上げて使いたいものです。 例えば MySQL であれば <a href="https://metacpan.org/module/Test::mysqld">Test::mysqld</a> 、memcached であれば <a href="https://metacpan.org/module/Test::TCP">Test::TCP</a> などを使うことで手軽にデーモンを立ち上げる仕掛けを作ることができます。これを prove にフックさせたりすると、マニュアルでテスト用のデーモンを立ち上げる必要がなくなるという方法がとれます。</p>
+
+<!--more-->
+
+<ul>
+<li><a href="http://perl-users.jp/articles/advent-calendar/2011/test/18">テストのためにデーモンを自動的に起動するやりかた2011年版 &#8211; Perl Advent Calendar Japan 2011 Test Track</a></li>
+<li><a href="http://blog.riywo.com/2011/12/28/035420">perlbrew+Carton+Amon2+Test::mysqldみたいな &#8211; As a Futurist&#8230;</a></li>
+</ul>
+
+<p>Redis を使った処理のテストを書く必要があり、これと同じような方法で立ち上げる設定を作ろうとしました。 デフォルトとは異なるポートで Redis のサーバを立ち上げてあげればいいのですが、redis-server コマンドは起動時の引数で直接ポート指定ができず設定ファイルとして渡す必要があります。ちょっと面倒だな、と思って手抜きをしようと探したところ、<a href="https://metacpan.org/module/Redis">p5-Redis</a> のテストコードの中に目的のものを見つけました。</p>
+
+<ul>
+<li><a href="https://github.com/melo/perl-redis/blob/master/t/tlib/Test/SpawnRedisServer.pm">perl-redis/t/tlib/Test/SpawnRedisServer.pm at master · melo/perl-redis · GitHub</a></li>
+</ul>
+
+<p>このモジュールを use して、テスト開始時に呼び出して Redis のデーモンを起動、テスト終了後にデーモンを終了してあげればよさそうです。 フレームワークとして Amon2 を使っていたので、t::Util のようなモジュールを作って必要なテストで use してあげるような仕組みでやってみました。</p>
+<div class="highlight"><pre><code class="perl"><span class="nb">package</span> <span class="nn">t::</span><span class="n">Util</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nn">Test::</span><span class="n">SpawnRedisServer</span><span class="p">;</span>
+
+<span class="k">my</span> <span class="nv">$REDIS</span><span class="p">;</span>
+<span class="k">use</span> <span class="n">MyApp</span><span class="p">;</span>
+
+<span class="p">{</span>
+    <span class="c1"># start redis-server with Test::SpawnRedisServer (via p5-Redis)</span>
+    <span class="nv">$ENV</span><span class="p">{</span><span class="n">REDIS_DEBUG</span><span class="p">}</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+
+    <span class="p">(</span><span class="nv">$REDIS</span><span class="p">,</span> <span class="nv">$ENV</span><span class="p">{</span><span class="n">TEST_REDIS</span><span class="p">})</span> <span class="o">=</span> <span class="n">redis</span><span class="p">();</span>
+    <span class="k">my</span> <span class="nv">$c</span> <span class="o">=</span> <span class="n">MyApp</span><span class="o">-&gt;</span><span class="k">new</span><span class="p">();</span>
+    <span class="nv">$c</span><span class="o">-&gt;</span><span class="n">setup_schema</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="k">END</span> <span class="p">{</span>
+    <span class="c1"># stop redis-server</span>
+    <span class="nv">$REDIS</span><span class="o">-&gt;</span><span class="p">()</span> <span class="k">if</span> <span class="nv">$REDIS</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="mi">1</span><span class="p">;</span>
+</code></pre>
+</div>
+
+<p>$ENV{TEST_REDIS} に格納されるのは &#8220;127.0.0.1:11121&#8243; のような接続先アドレスなので、Redis への接続時に使われるように設定しました。</p>
+
+<p>config はこんな感じ。</p>
+<div class="highlight"><pre><code class="perl"><span class="nb">die</span> <span class="k">unless</span> <span class="p">(</span><span class="nb">defined</span> <span class="nv">$ENV</span><span class="p">{</span><span class="n">TEST_REDIS</span><span class="p">});</span>
+<span class="o">+</span><span class="p">{</span>
+    <span class="s">&quot;Redis&quot;</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="n">server</span> <span class="o">=&gt;</span> <span class="nv">$ENV</span><span class="p">{</span><span class="n">TEST_REDIS</span><span class="p">},</span>
+    <span class="p">},</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>コンストラクタはこんな感じ。(Teng とかとほぼ同じですが。。)</p>
+<div class="highlight"><pre><code class="perl"><span class="nb">package</span> <span class="n">MyApp</span> <span class="mf">0.01</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="n">v5</span><span class="mf">.14</span><span class="p">;</span>
+<span class="k">use</span> <span class="n">parent</span> <span class="sx">qw/Amon2/</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="n">Redis</span><span class="p">;</span>
+
+<span class="k">sub </span><span class="nf">redis</span> <span class="p">{</span>
+    <span class="k">my</span> <span class="nv">$self</span> <span class="o">=</span> <span class="nb">shift</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span> <span class="o">!</span><span class="nb">defined</span> <span class="nv">$self</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">redis</span><span class="p">}</span> <span class="p">)</span> <span class="p">{</span>
+        <span class="k">my</span> <span class="nv">$conf</span> <span class="o">=</span> <span class="nv">$self</span><span class="o">-&gt;</span><span class="n">config</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">Redis</span><span class="p">}</span> <span class="ow">or</span> <span class="nb">die</span> <span class="s">&#39;missing configuration for &quot;Redis&quot;&#39;</span><span class="p">;</span>
+        <span class="nv">$self</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">redis</span><span class="p">}</span> <span class="o">=</span> <span class="n">Redis</span><span class="o">-&gt;</span><span class="k">new</span><span class="p">(</span><span class="nv">%</span><span class="p">{</span><span class="nv">$conf</span><span class="p">});</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="nv">$self</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">redis</span><span class="p">};</span>
+<span class="p">}</span>
+
+<span class="mi">1</span><span class="p">;</span>
+</code></pre>
+</div>
+
+<p>これで無事、テストを走らせるときに一緒に Redis が立ち上がるようになりました。</p>
+<div class="highlight"><pre><code class="perl"><span class="k">use</span> <span class="n">strict</span><span class="p">;</span>
+<span class="k">use</span> <span class="n">warnings</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nn">t::</span><span class="n">Util</span><span class="p">;</span>
+<span class="k">use</span> <span class="nn">Test::</span><span class="n">More</span><span class="p">;</span>
+<span class="k">use</span> <span class="n">MyApp</span><span class="p">;</span>
+
+<span class="k">my</span> <span class="nv">$c</span> <span class="o">=</span> <span class="n">MyApp</span><span class="o">-&gt;</span><span class="n">bootstrap</span><span class="p">;</span>
+
+<span class="n">is</span><span class="p">(</span><span class="nv">$c</span><span class="o">-&gt;</span><span class="n">redis</span><span class="o">-&gt;</span><span class="n">ping</span><span class="p">,</span> <span class="s">&quot;PONG&quot;</span><span class="p">);</span>
+
+<span class="n">done_testing</span><span class="p">;</span>
+</code></pre>
+</div>
+
+<p>めでたしめでたし。</p>
+
+<p>と思ったら、ちゃんと <a href="https://metacpan.org/module/Test::RedisServer">Test::RedisServer</a> というモジュールがつくられていました。</p>
+
+<ul>
+<li>  <a href="http://unknownplace.org/memo/2012/07/31/1/">Test::RedisServer ってのを書いた &#8211; unknownplace.org</a></li>
+</ul>
+
+<p>こちらだと Test::mysqld と同じように書けるのですっきりして見やすそうです。typester++</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[perl で segmentation fault が起きたときの調べかた]]></title>
+    <link href="http://blog.hatak.net/2012/06/19/14234"/>
+    <updated>2012-06-19T00:00:00+09:00</updated>
+    <id>http://blog.hatak.net/2012/06/19/perl</id>
+    <content type="html"><![CDATA[<p>サーバを構築した際に嵌まったのでメモしておきます。</p>
+
+<p>CentOS6 系のサーバに perlbrew + Carton で環境を構築していたのですが、一通り構築が終わって plackup すると segmentation fault となってしまったのでした。 /var/log/messages を見てもこんなログばかり。</p>
+<div class="highlight"><pre><code class="text">Jun 18 19:28:48 xx-xxxx kernel: app.psgi[2084] general protection ip:322fe17088 sp:49302b8e8cb3704b error:0 in ld-2.12.so[322fe00000+20000]
+</code></pre>
+</div>
+
+<!--more-->
+
+<p>こんなとき、Perl に coredump を吐かせて gdb で見ることで当たりをつけることができます。</p>
+<div class="highlight"><pre><code class="text"># core file size を設定（今回は仮に unlimited に）
+limit -c unlimited
+# segfault を起こすコマンドを実行
+carton exec -- plackup app.psgi
+# -&gt; セグフォ
+# gdb [実行ファイル] [コアダンプファイル]
+gdb `which perl` core.2084
+</code></pre>
+</div>
+
+<p>こうすることで、gdb のコンソールが表示されます。 あとは where コマンドで関数の呼び出し順序を調べたり、list を使って該当ソースを見たりして当たりをつけましょう。</p>
+
+<p>ulimit で設定していないと core ファイルが生成されないかもしれない、というお話でした。 このような当たりの付け方は Perl に限らず他のプログラムでも同様にできると思います。</p>
+
+<p>ちなみに今回は MySQL-shared のパッケージが足りず、DBD::mysql がうまく入っていなかったためでした。。 local を丸ごと削除して再度 carton install で解決しました。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[vcs_info でプロンプトにリポジトリ名を表示]]></title>
+    <link href="http://blog.hatak.net/2012/06/15/14100"/>
+    <updated>2012-06-15T00:00:00+09:00</updated>
+    <id>http://blog.hatak.net/2012/06/15/vcs_info</id>
+    <content type="html"><![CDATA[<p>最近特にターミナルでコードを書くことが増えてきたため、プロンプトでブランチ名であったりそのほかの情報も適宜だせるようにしたいなと設定を調べたり試したりしてみました。</p>
+
+<p>以前までは、bash_completion を利用して表示するということをしていました。.bashrc の例ですが、こんな感じです。</p>
+<div class="highlight"><pre><code class="bash"><span class="c"># custom prompt for .bashrc</span>
+<span class="k">if</span> <span class="o">[</span> -r <span class="s2">&quot;/etc/bash_completion.d/git&quot;</span> <span class="o">]</span>;
+    <span class="k">then </span><span class="nv">PS1</span><span class="o">=</span><span class="s2">&quot;[u@h w]$(__git_ps1 &quot;</span><span class="o">(</span>e<span class="o">[</span>0;32m%se<span class="o">[</span>0m<span class="o">)</span><span class="s2">&quot;)$ &quot;</span>
+<span class="k">fi</span>
+</code></pre>
+</div>
+
+<p>これはこれで良いのですが、git でしか利用できません。メインで利用する VCS は git なので問題ありませんが、それ以外の VCS で管理されたコードを読んだりする機会も多々あります。 調べてみたところ、zsh に vcs_info という関数があることを知りました。そこで、これを使ってプロンプトを少し派手にしてみました。</p>
+
+<!--more-->
+<div class="highlight"><pre><code class="bash"><span class="c"># colors</span>
+autoload colors;
+colors
+
+<span class="c"># vcs_info</span>
+autoload -Uz vcs_info zstyle <span class="s1">&#39;:vcs_info:*&#39;</span>
+formats <span class="s1">&#39;%f(%F{cyan}%s%f:%F{green}%b%f)&#39;</span>
+zstyle <span class="s1">&#39;:vcs_info:*&#39;</span>
+actionformats <span class="s1">&#39;%f(%F{cyan}%s%f:%F{green}%b%f|%F{red}%a%f)&#39;</span>
+zstyle <span class="s1">&#39;:vcs_info:(svn|bzr):*&#39;</span>
+branchformat <span class="s1">&#39;%F{green}%b%f:%F{yellow}r%r%f&#39;</span>
+zstyle <span class="s2">&quot;:vcs_info:git:*&quot;</span>
+check-for-changes <span class="nb">true </span>zstyle <span class="s2">&quot;:vcs_info:git:*&quot;</span>
+stagedstr <span class="s1">&#39;+&#39;</span>
+zstyle <span class="s2">&quot;:vcs_info:git:*&quot;</span>
+unstagedstr <span class="s1">&#39;-&#39;</span>
+zstyle <span class="s1">&#39;:vcs_info:git:*&#39;</span>
+formats <span class="s1">&#39;%f(%F{green}%b%f%F{green}%c%F{red}%u%f)&#39;</span>
+zstyle <span class="s1">&#39;:vcs_info:git:*&#39;</span>
+actionformats <span class="s1">&#39;%f(%F{green}%b%f|%F{red}%a%f%F{green}%c%F{red}%u%f)&#39;</span>
+
+<span class="k">function </span>_precmd_vcs_info <span class="o">()</span> <span class="o">{</span>
+    <span class="nv">psvar</span><span class="o">=()</span>
+    <span class="nv">LANG</span><span class="o">=</span>en_US.UTF-8
+    vcs_info
+    psvar<span class="o">[</span>1<span class="o">]=</span><span class="s2">&quot;$vcs_info_msg_0_&quot;</span>
+<span class="o">}</span>
+
+<span class="c"># add-zsh-hook autoload -Uz add-zsh-hook add-zsh-hook precmd _precmd_vcs_info</span>
+<span class="c"># prompt setopt prompt_subst local PROMCOL=$&#39;%F{$[1+RANDOM%6]}&#39;</span>
+<span class="nv">PROMPT</span><span class="o">=</span><span class="s1">&#39;%(?.%F{green}^-^%f.%F{red}@_@%f) &#39;</span><span class="nv">$PROMCOL</span><span class="s1">&#39;%l${WINDOW:+&quot;:$WINDOW&quot;}:%h%F{green}$psvar[1]%f%(!.#.$)&#39;</span>
+</code></pre>
+</div>
+
+<ul>
+<li>2行目 : 色指定を簡単に行えるようにするため、colors をロードします</li>
+<li>5行目 : 今回のテーマである vcs_info をロードします</li>
+<li>6-7行目 : 対応する VCS 共通の表示フォーマットを定義します : formats: 通常表示されるフォーマット : actionformats: コンフリクト時などに表示されるフォーマット</li>
+<li>8行目 : svn と bzr の時にはリビジョン番号表示をしたいので、フォーマットを定義します</li>
+<li>9-13行目 : git の場合の各種設定や専用フォーマットの定義を行っています : check-for-changes: ローカルでの変更があるかチェックをします : staged: &quot;git status&quot; 実行時の &quot;Changes to be committed&quot; があるときには &quot;+&quot; を表示します : unstaged: &quot;git status&quot; 実行時の &quot;Changes not staged for commit&quot; があるときには &quot;-&quot; を表示します</li>
+<li>27行目 : プロンプトの表示色をランダムでカラーにします</li>
+<li>28行目 : 顔文字はコマンド成否で変化します（<a href="http://smokycat.info/zsh/231">ネタ元</a>）</li>
+</ul>
+
+<p>はじめは %1v として <code>$psvar[1]</code> の値をとっていたのですが、カラースキーマがうまくいかないため配列の要素を直指定する形にしています。vcs 管理下にないディレクトリでは <code>$psvar[1]</code> の値は何も入らないため、デザインも崩れません。</p>
+
+<p><img src="https://dl.dropboxusercontent.com/u/14531906/hatak.github.io/2012/06/2012-06-15-2.27.57.png" alt="ターミナルの例" /></p>
+
+<h3 id="toc_69">参考</h3>
+
+<ul>
+<li>  <a href="http://d.hatena.ne.jp/holidays-l/20100323/p1">zsh の vcs_info が神！のごとく重かったのですが… : ヒルズで働くholidays-lの技ログ</a></li>
+<li>  <a href="http://smokycat.info/zsh/231">zsh 前のコマンドの成否をプロンプトの顔文字で通知 | smokycat.info</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[github 上のプロジェクトの fork をプライベートな git サーバで管理]]></title>
+    <link href="http://blog.hatak.net/2011/05/31/2165"/>
+    <updated>2011-05-31T00:00:00+09:00</updated>
+    <id>http://blog.hatak.net/2011/05/31/github</id>
+    <content type="html"><![CDATA[<p>github で管理されている OSS を利用するとき、少しカスタムして使いたいという場合があったりします。もちろん、fork すれば github 上で自分が push できる状態にはなりますが、カスタムしたバージョンを利用する範囲が社内だったりすると github 以外で管理したくなったりもします。</p>
+
+<p>そこで、こんな感じの構成を目指して、github 上のプロジェクトの fork をプライベートな git サーバで管理してみました。</p>
+
+<p>|プライベートなリモートリポジトリのメインブランチ|origin/master| |github のプロジェクトのメインブランチ|github/upstream|</p>
+
+<!--more-->
+
+<p>事前準備として、プライベート git サーバには push できる空のリポジトリを作っておきます。 (gitosis の場合であれば、gitosis.conf にリポジトリ名を追加しておく感じでいけます)</p>
+
+<p>まず、おおもとのツリーを github から clone して取得します。</p>
+<div class="highlight"><pre><code class="text">$ git clone --origin github https://github.com/edavis10/redmine.git
+$ cd redmine
+$ git config -l
+...
+remote.github.fetch=+refs/heads/*:refs/remotes/github/*
+remote.github.url=https://github.com/edavis10/redmine.git
+branch.master.remote=github
+branch.master.merge=refs/heads/master
+</code></pre>
+</div>
+
+<p>ここでは master が github のメインブランチになっています。 今回はオリジナルの master を upstream という名前で扱うようにしたいので、ブランチ名を変更します。</p>
+<div class="highlight"><pre><code class="text">$ git branch master
+$ git branch -m master upstream
+$ git branch upstream
+$ git config -l
+...
+remote.github.fetch=+refs/heads/*:refs/remotes/github/*
+remote.github.url=https://github.com/edavis10/redmine.git
+branch.upstream.remote=github
+branch.upstream.merge=refs/heads/master
+</code></pre>
+</div>
+
+<p>これでおおもとの master は、ローカルでは github/upstream という名前で扱えるようになりました。 実際にこちらでカスタマイズするのは github/upstream のタグ &#8220;1.2.0&#8243; をベースに使いたいので、ここから master ブランチを切ります。</p>
+<div class="highlight"><pre><code class="text">$ git branch master 1.2.0
+$ git branch master upstream
+</code></pre>
+</div>
+
+<p>そして、プライベートな git サーバをリモートリポジトリ &#8220;origin&#8221; として追加します。</p>
+<div class="highlight"><pre><code class="text">$ git remote add origin ssh://gitosis@git.example.jp/redmine.git
+$ git config branch.master.remote origin
+$ git config branch.master.merge refs/heads/master
+$ git config -l
+...
+remote.github.fetch=+refs/heads/*:refs/remotes/github/*
+remote.github.url=https://github.com/edavis10/redmine.git
+branch.upstream.remote=github
+branch.upstream.merge=refs/heads/master
+remote.origin.url=ssh://gitosis@git.example.jp/redmine.git
+remote.origin.fetch=+refs/heads/*:refs/remotes/origin/*
+branch.master.remote=origin
+branch.master.merge=refs/heads/master
+</code></pre>
+</div>
+
+<p>あとはプライベートリポジトリに push すれば完了です。</p>
+<div class="highlight"><pre><code class="text">$ git push origin master
+$ git push origin upstream
+</code></pre>
+</div>
+
+<p>これで、origin/master に push/pull し放題になります。</p>
+]]></content>
+  </entry>
+  
+</feed>

@@ -97,6 +97,8 @@
 
 <time datetime="2012-10-24T00:00:00+09:00" pubdate data-updated="true">2012/10/24</time>
         
+         | <a href="#disqus_thread">Comments</a>
+        
       </p>
     
   </header>
@@ -106,7 +108,7 @@
 
 <!--more-->
 
-<h2 id="toc_321">MeCab</h2>
+<h2 id="toc_209">MeCab</h2>
 
 <p>mroonga で TokenMecab トークナイザーを利用するためには MeCab が必要です。 Homebrew で IPA 辞書と合わせてインストールします。</p>
 <div class="highlight"><pre><code class="text">$ brew install mecab mecab-ipadic
@@ -138,7 +140,7 @@ $ brew doctor
 
 <p>私の場合、10.8 にアップデートする以前に Homebrew で入れた libiconv が中途半端に残ってたことでおかしくなっていたようでした。</p>
 
-<h2 id="toc_322">groonga</h2>
+<h2 id="toc_210">groonga</h2>
 
 <p>MeCab の次は groonga をインストールします。</p>
 <div class="highlight"><pre><code class="text">$ brew install groonga
@@ -177,7 +179,7 @@ configure options: &lt; &#39;--prefix=/usr/local/Cellar/groonga/2.0.7&#39; &#39;
 </code></pre>
 </div>
 
-<h2 id="toc_323">mroonga</h2>
+<h2 id="toc_211">mroonga</h2>
 
 <p>次は mroonga をインストールします。Homebrew には内包されていませんが、mroonga のリポジトリに Fomula があるのでこちらを使います。</p>
 <div class="highlight"><pre><code class="text">$ brew install https://raw.github.com/mroonga/Homebrew/master/mroonga.rb --use-Homebrew-mysql
@@ -217,7 +219,7 @@ $ brew install https://raw.github.com/mroonga/Homebrew/master/mroonga.rb --with-
 
 <p>個人的には、複数のユーザで利用している mac でユーザ共通に自動起動させたい（もしくはどうしてもオフィシャルバイナリを使いたい）という条件でなければ Homebrew で良いのかなと思いました。</p>
 
-<h2 id="toc_324">動作確認</h2>
+<h2 id="toc_212">動作確認</h2>
 
 <p>MySQL Server が起動していれば、mroonga の Fomula の中でプラグインと関数の追加も行われています。停止していた場合は起動後に追加のコマンドを入力します。</p>
 <div class="highlight"><pre><code class="text">$ mysql -uroot -e &#39;INSTALL PLUGIN mroonga SONAME &quot;ha_mroonga.so&quot;; CREATE FUNCTION last_insert_grn_id RETURNS INTEGER SONAME &quot;ha_mroonga.so&quot;; CREATE FUNCTION mroonga_snippet RETURNS STRING SONAME &quot;ha_mroonga.so&quot;;&#39;
@@ -325,7 +327,7 @@ FULLTEXT KEY `content` (`content`) COMMENT &#39;PARSER &quot;TokenMecab&quot;&#3
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/mysql/'>MySQL</a>, <a class='category' href='/blog/categories/gou-zhu-shou-shun/'>構築手順</a>
+    <a class='category' href='/blog/categories/instruction/'>instruction</a>
   
 </span>
 
@@ -337,6 +339,8 @@ FULLTEXT KEY `content` (`content`) COMMENT &#39;PARSER &quot;TokenMecab&quot;&#3
   <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://blog.hatak.net/2012/10/24/17562" data-via="hisashi" data-counturl="http://blog.hatak.net/2012/10/24/17562" >Tweet</a>
   
   
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
   
 </div>
 
@@ -403,7 +407,7 @@ FULLTEXT KEY `content` (`content`) COMMENT &#39;PARSER &quot;TokenMecab&quot;&#3
 
         github.showRepos({
             user: 'hatak',
-            count: 0,
+            count: 3,
             skip_forks: true,
             target: '#gh_repos'
         });
@@ -430,7 +434,29 @@ FULLTEXT KEY `content` (`content`) COMMENT &#39;PARSER &quot;TokenMecab&quot;&#3
 </footer>
   
 
+<script type="text/javascript">
+      var disqus_shortname = 'idhatak';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
 
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
 
 
 

@@ -97,6 +97,8 @@
 
 <time datetime="2011-12-07T00:00:00+09:00" pubdate data-updated="true">2011/12/07</time>
         
+         | <a href="#disqus_thread">Comments</a>
+        
       </p>
     
   </header>
@@ -106,7 +108,7 @@
 
 <!--more-->
 
-<h2 id="toc_310">MySQL のレプリケーション</h2>
+<h2 id="toc_198">MySQL のレプリケーション</h2>
 
 <p>MySQL のレプリケーションは、安定稼働やバックアップ、負荷分散などの目的に利用できる優れた機能です。 bin-log (バイナリログ) を利用して Master サーバから Slave サーバに更新を伝播させ、データの複製を行います。Slave サーバでは、2 つのスレッドが動作しています。</p>
 
@@ -115,7 +117,7 @@
 <li>SQL_THREAD &#8211; relay-log を読み出し、DB を更新する</li>
 </ul>
 
-<h2 id="toc_311">遅延の調べ方</h2>
+<h2 id="toc_199">遅延の調べ方</h2>
 
 <p>&#8220;SQL_THREAD&#8221; による遅延の場合は、Slave サーバで &#8220;SHOW SLAVE STATUS&#8221; コマンドを実行することで確認ができます。</p>
 
@@ -231,7 +233,7 @@
 
 <p>今回は &#8220;SQL_THREAD&#8221; による遅延を想定してまとめていきます。</p>
 
-<h3 id="toc_312">Master の更新をブロックする</h3>
+<h3 id="toc_200">Master の更新をブロックする</h3>
 
 <p>レプリケーションで送られてくるクエリの流量が多すぎる場合、つまり Master の更新が激しすぎて追いつかないケースでは、そもそも Master での更新を止めてしまうという方法があります。</p>
 
@@ -241,7 +243,7 @@
 
 <p>この方法では同期化をコントロールすることで追いつかせることができますが、実際にサービス運用中のサーバではなかなか使いづらいところもあります。</p>
 
-<h3 id="toc_313">Slave のパフォーマンスを調整する</h3>
+<h3 id="toc_201">Slave のパフォーマンスを調整する</h3>
 
 <p>このとき、レプリケーションで伝播するクエリは全て直列化されるため、更新が激しい場合はどうしても遅れてしまうことがあります。 DiskI/O への負荷が高いとき &#8220;innodb-flush-log-at-trx-commit&#8221; の値を変更することで、ディスクへのフラッシュを減らすことができます。このパラメータではログバッファからログファイルへの書き込み、およびディスクへのフラッシュをコントロールすることができます。</p>
 
@@ -285,7 +287,7 @@
 
 <p>この設定値はパフォーマンス向上の代わりに、信頼性を犠牲にします。プロセスが突然落ちた場合などにディスクにフラッシュされていないデータをロストする可能性がありますので、状況に応じて（あるいは追いつかせるまでの間だけなど）の使用に抑えることが良いかと思います。</p>
 
-<h2 id="toc_314">まとめ</h2>
+<h2 id="toc_202">まとめ</h2>
 
 <p>MySQL のレプリケーションが追いつかない場合、プロセスの再起動を行わずに簡単に試せて効果の期待できる方法をまとめてみました。</p>
 
@@ -323,7 +325,7 @@
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/mysql/'>MySQL</a>
+    <a class='category' href='/blog/categories/instruction/'>instruction</a>
   
 </span>
 
@@ -335,6 +337,8 @@
   <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://blog.hatak.net/2011/12/07/9407" data-via="hisashi" data-counturl="http://blog.hatak.net/2011/12/07/9407" >Tweet</a>
   
   
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
   
 </div>
 
@@ -401,7 +405,7 @@
 
         github.showRepos({
             user: 'hatak',
-            count: 0,
+            count: 3,
             skip_forks: true,
             target: '#gh_repos'
         });
@@ -428,7 +432,29 @@
 </footer>
   
 
+<script type="text/javascript">
+      var disqus_shortname = 'idhatak';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
 
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
 
 
 

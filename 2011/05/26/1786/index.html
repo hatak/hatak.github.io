@@ -97,6 +97,8 @@
 
 <time datetime="2011-05-26T00:00:00+09:00" pubdate data-updated="true"></time>
         
+         | <a href="#disqus_thread">Comments</a>
+        
       </p>
     
   </header>
@@ -106,11 +108,11 @@
 
 <!--more-->
 
-<h2 id="toc_222">OpenStackを検証してみた - オープンソースの仮想化技術 open stack の検証結果の報告</h2>
+<h2 id="toc_110">OpenStackを検証してみた - オープンソースの仮想化技術 open stack の検証結果の報告</h2>
 
 <p>サイバーエージェントの坂本佳久 (<a href="http://twitter.com/ton_katsu">@ton_katsu</a>) さんの発表。プライベートクラウドを構築するプロジェクトのひとつ、OpenStack を検証した結果のまとめ。</p>
 
-<h3 id="toc_223">OpenStack</h3>
+<h3 id="toc_111">OpenStack</h3>
 
 <p>Nova と Swift を組み合わせたプロジェクト。 OpenStack を検証対象として選んだ理由は次のとおり。</p>
 
@@ -141,11 +143,11 @@
 </ul></li>
 </ul>
 
-<h3 id="toc_224">システム構成の例</h3>
+<h3 id="toc_112">システム構成の例</h3>
 
 <p>インスタンスの起動や管理を行う &quot;CloudController&quot; と、この配下に複数の &quot;Computenode&quot; を配置する構成をとる (最小構成では両プロセスを同じマシンに同居させることも可能)。Computenode に hypervisor などをいれ、実際にインスタンスを動作させることとなる。その他、副次的に MySQL や RabbitMQ などのプロセスも利用する。</p>
 
-<h3 id="toc_225">使ってみた</h3>
+<h3 id="toc_113">使ってみた</h3>
 
 <p>実際に検証で用いた環境は下記の通り。</p>
 
@@ -171,7 +173,7 @@
 <p>これらの管理を行うために、 Django ベースの GUI が付属している。WebSocket を利用するため、Safari などで操作する必要がある (Chrome はうまく動作しなかったとのこと)。また、VNC コンソールは Cactus のバージョンでは未実装なので、利用する場合は trunk から取得する必要がある。<br>
 その他、API も用意されているので自前で管理ツールを作成することも可能。</p>
 
-<h3 id="toc_226">感想</h3>
+<h3 id="toc_114">感想</h3>
 
 <ul>
 <li>良かった点
@@ -191,11 +193,11 @@
 
 <p>来月より検証環境で運用するとのことで、今後のレポートにも注目したいところです。</p>
 
-<h2 id="toc_227">AmebaPico を支える技術 - AWS上に構築された AmebaPico で使用されている技術・開発体制について</h2>
+<h2 id="toc_115">AmebaPico を支える技術 - AWS上に構築された AmebaPico で使用されている技術・開発体制について</h2>
 
 <p>サイバーエージェントの森野耕平 (<a href="http://twitter.com/kohei_april20">@kohei_april20</a>) さんの発表。AmebaPico のアーキテクチャや体制に関して。</p>
 
-<h3 id="toc_228">Ameba Pico</h3>
+<h3 id="toc_116">Ameba Pico</h3>
 
 <p>アメーバピグの海外版として位置づけられているサービス。</p>
 
@@ -216,7 +218,7 @@
 </ul></li>
 </ul>
 
-<h3 id="toc_229">アーキテクチャ</h3>
+<h3 id="toc_117">アーキテクチャ</h3>
 
 <p>すべて AWS で運用されている。</p>
 
@@ -266,7 +268,7 @@
 </ul></li>
 </ul>
 
-<h3 id="toc_230">AWS の利用</h3>
+<h3 id="toc_118">AWS の利用</h3>
 
 <ul>
 <li>S3
@@ -302,7 +304,7 @@
 </ul></li>
 </ul>
 
-<h2 id="toc_231">Flash の利用</h2>
+<h2 id="toc_119">Flash の利用</h2>
 
 <p>クライアントサイドではまず main.swf のみをロードし、必要に応じてサブモジュールをロードする。</p>
 
@@ -312,7 +314,7 @@
 <li>profile.swf delegate 実装でサーバ接続とモック用を切り分けることで、サーバサイドとクライアントサイド別々の開発が行えるようにしている。</li>
 </ul>
 
-<h2 id="toc_232">運用してみて</h2>
+<h2 id="toc_120">運用してみて</h2>
 
 <p>EC2 上でサービスを運用してみての総括。</p>
 
@@ -384,11 +386,11 @@
 
 <p>MongoDB を大規模に利用しているケースなので、とても興味深いものでした。海外展開の際に DC の場所を気にしなくても良い、というのは AWS ならではのメリットに感じました。</p>
 
-<h2 id="toc_233">毎日の料理を楽しくする画像配信技術</h2>
+<h2 id="toc_121">毎日の料理を楽しくする画像配信技術</h2>
 
 <p>クックパッドの成田一生 (<a href="http://twitter.com/mirakui">@mirakui</a>) さんの発表。レシピに必須の画像をリアルタイムでリサイズするための Apache モジュール &quot;TOFU&quot; について。</p>
 
-<h3 id="toc_234">従来の画像アップロードの仕組み</h3>
+<h3 id="toc_122">従来の画像アップロードの仕組み</h3>
 
 <ul>
 <li>アップロードされた画像はアプリケーションサーバがリサイズ
@@ -415,7 +417,7 @@
 </ul></li>
 </ul>
 
-<h3 id="toc_235">そこで新しい方法を模索</h3>
+<h3 id="toc_123">そこで新しい方法を模索</h3>
 
 <ul>
 <li>現在の規模
@@ -435,7 +437,7 @@
 </ul></li>
 </ul>
 
-<h3 id="toc_236">TOFU</h3>
+<h3 id="toc_124">TOFU</h3>
 
 <p>URL に処理内容をマッピングし、リクエストの度に画像をリサイズする Apache モジュール (mod_tofu.so)。</p>
 <div class="highlight"><pre><code class="text">/recipes/{:recipe_id}/{:size}/{:hash}
@@ -468,7 +470,7 @@
 </ul></li>
 </ul>
 
-<h2 id="toc_237">苦労話など</h2>
+<h2 id="toc_125">苦労話など</h2>
 
 <ul>
 <li>ImageMagick と Imlib2
@@ -507,11 +509,11 @@
 
 <p>画像種類もリクエストも多いのにリアルタイムに変換するのは大変そうに思ったのですが、Apache モジュールと聞いて少し納得。キャッシュもうまく組み込んでいて、かなりコストを意識した工夫がされている印象を受けました。</p>
 
-<h2 id="toc_238">AWS移行に向けたクックパッドの取り組み＋α</h2>
+<h2 id="toc_126">AWS移行に向けたクックパッドの取り組み＋α</h2>
 
 <p>クックパッドの菅原元気さんの発表。先日の<a href="http://techlife.cookpad.com/2011/04/22/aws-advantage-seminar/">アマゾンウェブサービスクラウドアドバンテージセミナーで発表された内容</a>をベースに、AWS 移行に向けた全体的なお話。 プレゼン資料がとてもまとまっているので、そちらを直接見たほうが。。。</p>
 
-<h3 id="toc_239">サーバ・ネットワーク構成</h3>
+<h3 id="toc_127">サーバ・ネットワーク構成</h3>
 
 <ul>
 <li>現在
@@ -530,7 +532,7 @@
 </ul></li>
 </ul>
 
-<h3 id="toc_240">AWS でのサーバ</h3>
+<h3 id="toc_128">AWS でのサーバ</h3>
 
 <ul>
 <li>DNS
@@ -570,7 +572,7 @@
 </ul></li>
 </ul>
 
-<h3 id="toc_241">分散DNSについて</h3>
+<h3 id="toc_129">分散DNSについて</h3>
 
 <p>さすがに全台で resolv.conf を書き換えていくのは大変なのと、いくつかの問題点がクリア出来ない。</p>
 
@@ -615,7 +617,7 @@
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/xing-tutekita/'>行ってきた</a>
+    <a class='category' href='/blog/categories/report/'>report</a>
   
 </span>
 
@@ -627,6 +629,8 @@
   <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://blog.hatak.net/2011/05/26/1786" data-via="hisashi" data-counturl="http://blog.hatak.net/2011/05/26/1786" >Tweet</a>
   
   
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
   
 </div>
 
@@ -693,7 +697,7 @@
 
         github.showRepos({
             user: 'hatak',
-            count: 0,
+            count: 3,
             skip_forks: true,
             target: '#gh_repos'
         });
@@ -720,7 +724,29 @@
 </footer>
   
 
+<script type="text/javascript">
+      var disqus_shortname = 'idhatak';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
 
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
 
 
 

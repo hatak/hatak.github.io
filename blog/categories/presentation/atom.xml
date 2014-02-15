@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: 話してきた | Hatak::Techlog]]></title>
-  <link href="http://blog.hatak.net/blog/categories/hua-sitekita/atom.xml" rel="self"/>
+  <title><![CDATA[Category: presentation | Hatak::Techlog]]></title>
+  <link href="http://blog.hatak.net/blog/categories/presentation/atom.xml" rel="self"/>
   <link href="http://blog.hatak.net/"/>
-  <updated>2014-02-15T10:26:12+09:00</updated>
+  <updated>2014-02-15T13:40:29+09:00</updated>
   <id>http://blog.hatak.net/</id>
   <author>
     <name><![CDATA[Hisashi HATAKEYAMA]]></name>
@@ -20,9 +20,7 @@
     <id>http://blog.hatak.net/2012/09/29/yapcasia-tokyo-2012</id>
     <content type="html"><![CDATA[<p>9/27-29 の日程で東京大学で <a href="http://yapcasia.org/2012/" title="YAPC::Asia 2012">YAPC::Asia Tokyo 2012</a> が開催されています。 応募したトークを採用していただいたので、スピーカーとして参加させていただきました。</p>
 
-<div style="margin-bottom:5px">
-  <strong> <a href="http://www.slideshare.net/idhatak/ss-14499185" title="スマートフォン向けサービスにおけるサーバサイド設計入門" target="_blank">スマートフォン向けサービスにおけるサーバサイド設計入門</a> </strong>
-</div>
+<p><a href="http://www.slideshare.net/idhatak/ss-14499185">http://www.slideshare.net/idhatak/ss-14499185</a>">http://www.slideshare.net/idhatak/ss-14499185">http://www.slideshare.net/idhatak/ss-14499185</a></a></p>
 
 <!--more-->
 
@@ -51,11 +49,7 @@
     <id>http://blog.hatak.net/2012/04/20/mysql-casual-talks</id>
     <content type="html"><![CDATA[<p>4/19 にオラクルセンター青山で <a href="http://atnd.org/events/26373" title="MySQL Casual Talks Vol.3">MySQL Casual Talks Vol.3</a> が開催されました。 今回は <a href="http://twitter.com/myfinder" title="@myfinder">@myfinder</a> さんにお声がけいただきトーク枠をいただけたので、挑戦させていただきました。</p>
 
-<div style="width:425px" id="__ss_12602397">
-  <strong style="display:block;margin:12px 0 4px"><a href="http://www.slideshare.net/idhatak/mysql-casual" title="MySQL Casual な生活" target="_blank">MySQL Casual な生活</a></strong> <div style="padding:5px 0 12px">
-    View more <a href="http://www.slideshare.net/" target="_blank">presentations</a> from <a href="http://www.slideshare.net/idhatak" target="_blank">Hisashi Hatakeyama</a>
-  </div>
-</div>
+<p><a href="http://www.slideshare.net/idhatak/mysql-casual">http://www.slideshare.net/idhatak/mysql-casual</a>">http://www.slideshare.net/idhatak/mysql-casual">http://www.slideshare.net/idhatak/mysql-casual</a></a></p>
 
 <!--more-->
 
