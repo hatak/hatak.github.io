@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[tag: redis | Hatak::Techlog]]></title>
+  <link href="http://blog.hatak.net/blog/tags/redis/atom.xml" rel="self"/>
+  <link href="http://blog.hatak.net/"/>
+  <updated>2014-02-15T16:33:39+09:00</updated>
+  <id>http://blog.hatak.net/</id>
+  <author>
+    <name><![CDATA[hatak]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Redis 2.4 -> 2.6 のアップグレード]]></title>
+    <link href="http://blog.hatak.net/2012/10/25/17582"/>
+    <updated>2012-10-25T00:00:00+09:00</updated>
+    <id>http://blog.hatak.net/2012/10/25/redis</id>
+    <content type="html"><![CDATA[<p>Redis 2.6 が正式リリースされました。大きな機能追加に隠れて、いくつかの変更があります。</p>
+
+<ul>
+<li>  Lua のサポート</li>
+<li>  クライアント接続数の制限解除</li>
+<li>  expires のミリ秒対応</li>
+</ul>
+
+<p>2.4 以前の config では deprecated になっている設定項目があるため、一部手を入れる必要があります。mac で launchctl を使っている場合、自動起動に失敗していても気づきにくいので注意が必要です。</p>
+
+<!--more-->
+
+<h3 id="toc_415">VirtualMemory</h3>
+<div class="highlight"><pre><code class="text">$ redis-server /usr/local/etc/redis.conf
+*** FATAL CONFIG FILE ERROR
+*** Reading the configuration file, at line 389
+&gt;&gt;&gt; &#39;vm-enabled no&#39; Bad directive or wrong number of arguments
+</code></pre>
+</div>
+
+<p>Virtual Memory (仮想メモリ) の設定は非サポートになっているので、丸ごと削除してしまいます。</p>
+<div class="highlight"><pre><code class="text">An overview of new features and changes in Redis 2.6.x
+======================================================
+...
+* Virtual Memory removed (was deprecated in 2.4)
+...
+</code></pre>
+</div>
+
+<p>2.4 以降で depricated になっている下記のプロパティが対象のようです。</p>
+
+<ul>
+<li>  vm-enabled</li>
+<li>  vm-swap-file</li>
+<li>  vm-max-memory</li>
+<li>  vm-page-size</li>
+<li>  vm-pages</li>
+<li>  vm-max-threads</li>
+</ul>
+
+<h3 id="toc_416">CONFIG SET parameters</h3>
+<div class="highlight"><pre><code class="text">$ redis-server /usr/local/etc/redis.conf
+*** FATAL CONFIG FILE ERROR
+*** Reading the configuration file, at line 367
+&gt;&gt;&gt; &#39;hash-max-zipmap-entries 512&#39; Bad directive or wrong number of arguments
+</code></pre>
+</div>
+
+<p>2つの設定の設定項目の名称が変更になっています。</p>
+<div class="highlight"><pre><code class="text">Migrating from 2.4 to 2.6
+=========================
+...
+The following redis.conf and CONFIG GET / SET parameters changed:
+
+* hash-max-zipmap-entries, now replaced by hash-max-ziplist-entries
+* hash-max-zipmap-value, now replaced by hash-max-ziplist-value
+...
+</code></pre>
+</div>
+
+<p>リリースノートを参考にリネームします。</p>
+
+<h2 id="toc_417">参考</h2>
+
+<ul>
+<li>  <a href="https://github.com/antirez/redis/blob/2.6/00-RELEASENOTES">redis/00-RELEASENOTES at 2.6 · antirez/redis · GitHub</a></li>
+<li>  <a href="http://oldblog.antirez.com/post/redis-2.6-is-near.html">Redis 2.6 is near, and a few more updates</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[テストのために Redis を立ち上げたかった]]></title>
+    <link href="http://blog.hatak.net/2012/08/16/15712"/>
+    <updated>2012-08-16T00:00:00+09:00</updated>
+    <id>http://blog.hatak.net/2012/08/16/redis</id>
+    <content type="html"><![CDATA[<p>ミドルウェアを使った処理のテストでは、テストのための設定でその時限りのデーモンを立ち上げて使いたいものです。 例えば MySQL であれば <a href="https://metacpan.org/module/Test::mysqld">Test::mysqld</a> 、memcached であれば <a href="https://metacpan.org/module/Test::TCP">Test::TCP</a> などを使うことで手軽にデーモンを立ち上げる仕掛けを作ることができます。これを prove にフックさせたりすると、マニュアルでテスト用のデーモンを立ち上げる必要がなくなるという方法がとれます。</p>
+
+<!--more-->
+
+<ul>
+<li><a href="http://perl-users.jp/articles/advent-calendar/2011/test/18">テストのためにデーモンを自動的に起動するやりかた2011年版 &#8211; Perl Advent Calendar Japan 2011 Test Track</a></li>
+<li><a href="http://blog.riywo.com/2011/12/28/035420">perlbrew+Carton+Amon2+Test::mysqldみたいな &#8211; As a Futurist&#8230;</a></li>
+</ul>
+
+<p>Redis を使った処理のテストを書く必要があり、これと同じような方法で立ち上げる設定を作ろうとしました。 デフォルトとは異なるポートで Redis のサーバを立ち上げてあげればいいのですが、redis-server コマンドは起動時の引数で直接ポート指定ができず設定ファイルとして渡す必要があります。ちょっと面倒だな、と思って手抜きをしようと探したところ、<a href="https://metacpan.org/module/Redis">p5-Redis</a> のテストコードの中に目的のものを見つけました。</p>
+
+<ul>
+<li><a href="https://github.com/melo/perl-redis/blob/master/t/tlib/Test/SpawnRedisServer.pm">perl-redis/t/tlib/Test/SpawnRedisServer.pm at master · melo/perl-redis · GitHub</a></li>
+</ul>
+
+<p>このモジュールを use して、テスト開始時に呼び出して Redis のデーモンを起動、テスト終了後にデーモンを終了してあげればよさそうです。 フレームワークとして Amon2 を使っていたので、t::Util のようなモジュールを作って必要なテストで use してあげるような仕組みでやってみました。</p>
+<div class="highlight"><pre><code class="perl"><span class="nb">package</span> <span class="nn">t::</span><span class="n">Util</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nn">Test::</span><span class="n">SpawnRedisServer</span><span class="p">;</span>
+
+<span class="k">my</span> <span class="nv">$REDIS</span><span class="p">;</span>
+<span class="k">use</span> <span class="n">MyApp</span><span class="p">;</span>
+
+<span class="p">{</span>
+    <span class="c1"># start redis-server with Test::SpawnRedisServer (via p5-Redis)</span>
+    <span class="nv">$ENV</span><span class="p">{</span><span class="n">REDIS_DEBUG</span><span class="p">}</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+
+    <span class="p">(</span><span class="nv">$REDIS</span><span class="p">,</span> <span class="nv">$ENV</span><span class="p">{</span><span class="n">TEST_REDIS</span><span class="p">})</span> <span class="o">=</span> <span class="n">redis</span><span class="p">();</span>
+    <span class="k">my</span> <span class="nv">$c</span> <span class="o">=</span> <span class="n">MyApp</span><span class="o">-&gt;</span><span class="k">new</span><span class="p">();</span>
+    <span class="nv">$c</span><span class="o">-&gt;</span><span class="n">setup_schema</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="k">END</span> <span class="p">{</span>
+    <span class="c1"># stop redis-server</span>
+    <span class="nv">$REDIS</span><span class="o">-&gt;</span><span class="p">()</span> <span class="k">if</span> <span class="nv">$REDIS</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="mi">1</span><span class="p">;</span>
+</code></pre>
+</div>
+
+<p>$ENV{TEST_REDIS} に格納されるのは &#8220;127.0.0.1:11121&#8243; のような接続先アドレスなので、Redis への接続時に使われるように設定しました。</p>
+
+<p>config はこんな感じ。</p>
+<div class="highlight"><pre><code class="perl"><span class="nb">die</span> <span class="k">unless</span> <span class="p">(</span><span class="nb">defined</span> <span class="nv">$ENV</span><span class="p">{</span><span class="n">TEST_REDIS</span><span class="p">});</span>
+<span class="o">+</span><span class="p">{</span>
+    <span class="s">&quot;Redis&quot;</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="n">server</span> <span class="o">=&gt;</span> <span class="nv">$ENV</span><span class="p">{</span><span class="n">TEST_REDIS</span><span class="p">},</span>
+    <span class="p">},</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>コンストラクタはこんな感じ。(Teng とかとほぼ同じですが。。)</p>
+<div class="highlight"><pre><code class="perl"><span class="nb">package</span> <span class="n">MyApp</span> <span class="mf">0.01</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="n">v5</span><span class="mf">.14</span><span class="p">;</span>
+<span class="k">use</span> <span class="n">parent</span> <span class="sx">qw/Amon2/</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="n">Redis</span><span class="p">;</span>
+
+<span class="k">sub </span><span class="nf">redis</span> <span class="p">{</span>
+    <span class="k">my</span> <span class="nv">$self</span> <span class="o">=</span> <span class="nb">shift</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span> <span class="o">!</span><span class="nb">defined</span> <span class="nv">$self</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">redis</span><span class="p">}</span> <span class="p">)</span> <span class="p">{</span>
+        <span class="k">my</span> <span class="nv">$conf</span> <span class="o">=</span> <span class="nv">$self</span><span class="o">-&gt;</span><span class="n">config</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">Redis</span><span class="p">}</span> <span class="ow">or</span> <span class="nb">die</span> <span class="s">&#39;missing configuration for &quot;Redis&quot;&#39;</span><span class="p">;</span>
+        <span class="nv">$self</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">redis</span><span class="p">}</span> <span class="o">=</span> <span class="n">Redis</span><span class="o">-&gt;</span><span class="k">new</span><span class="p">(</span><span class="nv">%</span><span class="p">{</span><span class="nv">$conf</span><span class="p">});</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="nv">$self</span><span class="o">-&gt;</span><span class="p">{</span><span class="n">redis</span><span class="p">};</span>
+<span class="p">}</span>
+
+<span class="mi">1</span><span class="p">;</span>
+</code></pre>
+</div>
+
+<p>これで無事、テストを走らせるときに一緒に Redis が立ち上がるようになりました。</p>
+<div class="highlight"><pre><code class="perl"><span class="k">use</span> <span class="n">strict</span><span class="p">;</span>
+<span class="k">use</span> <span class="n">warnings</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nn">t::</span><span class="n">Util</span><span class="p">;</span>
+<span class="k">use</span> <span class="nn">Test::</span><span class="n">More</span><span class="p">;</span>
+<span class="k">use</span> <span class="n">MyApp</span><span class="p">;</span>
+
+<span class="k">my</span> <span class="nv">$c</span> <span class="o">=</span> <span class="n">MyApp</span><span class="o">-&gt;</span><span class="n">bootstrap</span><span class="p">;</span>
+
+<span class="n">is</span><span class="p">(</span><span class="nv">$c</span><span class="o">-&gt;</span><span class="n">redis</span><span class="o">-&gt;</span><span class="n">ping</span><span class="p">,</span> <span class="s">&quot;PONG&quot;</span><span class="p">);</span>
+
+<span class="n">done_testing</span><span class="p">;</span>
+</code></pre>
+</div>
+
+<p>めでたしめでたし。</p>
+
+<p>と思ったら、ちゃんと <a href="https://metacpan.org/module/Test::RedisServer">Test::RedisServer</a> というモジュールがつくられていました。</p>
+
+<ul>
+<li>  <a href="http://unknownplace.org/memo/2012/07/31/1/">Test::RedisServer ってのを書いた &#8211; unknownplace.org</a></li>
+</ul>
+
+<p>こちらだと Test::mysqld と同じように書けるのですっきりして見やすそうです。typester++</p>
+]]></content>
+  </entry>
+  
+</feed>

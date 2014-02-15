@@ -1,0 +1,461 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[tag: mysql | Hatak::Techlog]]></title>
+  <link href="http://blog.hatak.net/blog/tags/mysql/atom.xml" rel="self"/>
+  <link href="http://blog.hatak.net/"/>
+  <updated>2014-02-15T16:33:39+09:00</updated>
+  <id>http://blog.hatak.net/</id>
+  <author>
+    <name><![CDATA[hatak]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Homebrew で mroonga ストレージエンジンを入れる]]></title>
+    <link href="http://blog.hatak.net/2012/10/24/17562"/>
+    <updated>2012-10-24T00:00:00+09:00</updated>
+    <id>http://blog.hatak.net/2012/10/24/homebrew-groonga</id>
+    <content type="html"><![CDATA[<p>ローカルマシン (MaxOSX 10.8.2) に MySQL 5.5 + mroonga の環境を構築してたのですが、いろいろ嵌まったのでメモしておきます。</p>
+
+<!--more-->
+
+<h2 id="toc_275">MeCab</h2>
+
+<p>mroonga で TokenMecab トークナイザーを利用するためには MeCab が必要です。 Homebrew で IPA 辞書と合わせてインストールします。</p>
+<div class="highlight"><pre><code class="text">$ brew install mecab mecab-ipadic
+$ mecab -D
+filename: /usr/local/Cellar/mecab/0.994/lib/mecab/dic/ipadic/sys.dic
+version: 102
+charset: utf8
+type: 0
+size: 392126
+left size: 1316
+right size: 1316
+$ mecab 今日は雨です
+今日 名詞,副詞可能,*,*,*,*,今日,キョウ,キョー
+は 助詞,係助詞,*,*,*,*,は,ハ,ワ
+雨 名詞,一般,*,*,*,*,雨,アメ,アメ
+です 助動詞,*,*,*,特殊・デス,基本形,です,デス,デス
+EOS
+</code></pre>
+</div>
+
+<p>brew で mecab-ipadic 入れるとデフォルトで UTF-8 になるようになっています。mecab コマンドでインタラクティブに形態素解析してみて、文字化けせずに出力されれば問題なしです。</p>
+
+<p>もし、文字化けしてる場合は Homebrew 周りのどこかに問題があります。brew doctor などで調べていきます。</p>
+<div class="highlight"><pre><code class="text">$ brew unlink mecab mecab-ipadic
+$ brew uninstall mecab mecab-ipadic
+$ brew doctor
+</code></pre>
+</div>
+
+<p>私の場合、10.8 にアップデートする以前に Homebrew で入れた libiconv が中途半端に残ってたことでおかしくなっていたようでした。</p>
+
+<h2 id="toc_276">groonga</h2>
+
+<p>MeCab の次は groonga をインストールします。</p>
+<div class="highlight"><pre><code class="text">$ brew install groonga
+$ groonga --version
+groonga 2.0.7 [darwin12.2.0,x86_64,utf8,match-escalation-threshold=0,nfkc,msgpack,zlib,lzo,kqueue]
+configure options: &lt; &#39;--prefix=/usr/local/Cellar/groonga/2.0.7&#39; &#39;--with-zlib&#39; &#39;CC=cc&#39; &#39;CXX=c++&#39; &#39;PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:/usr/local/share/pkgconfig:/usr/local/Library/Homebrew/pkgconfig&#39;&gt;
+</code></pre>
+</div>
+
+<p>インストール後にチェックをして、TokenMecab が使えるか確認します。 mecab と書かれていない場合は使えません。groonga の configure オプションでは mecab はデフォルト有効と書かれており、mecab-config を自動で探してくれることになっているのですが、パスが通ってないなどがあるのかもしれません。 直接 brew edit で Fomula を書き換えて再度インストールしてしまいます。</p>
+<div class="highlight"><pre><code class="text">diff --git a/Library/Formula/groonga.rb b/Library/Formula/groonga.rb
+index 1c4e8cf..45a7a2b 100644
+--- a/Library/Formula/groonga.rb
++++ b/Library/Formula/groonga.rb
+@@ -8,9 +8,11 @@
+   depends_on &#39;pkg-config&#39; =&gt; :build
+   depends_on &#39;pcre&#39;
+   depends_on &#39;msgpack&#39;
++  depends_on &#39;mecab&#39;
++  depends_on &#39;mecab-ipadic&#39;
+
+   def install
+-    system &quot;./configure&quot;, &quot;--prefix=#{prefix}&quot;, &quot;--with-zlib&quot;
++    system &quot;./configure&quot;, &quot;--prefix=#{prefix}&quot;, &quot;--with-zlib&quot;, &quot;-with-mecab&quot;, &quot;-with-mecab-config=/usr/local/bin/mecab-config&quot;
+     system &quot;make install&quot;
+   end
+ end
+</code></pre>
+</div>
+
+<p>これでOK。</p>
+<div class="highlight"><pre><code class="text">$ brew install groonga
+$ groonga --version
+groonga 2.0.7 [darwin12.2.0,x86_64,utf8,match-escalation-threshold=0,nfkc,mecab,msgpack,zlib,lzo,kqueue]
+configure options: &lt; &#39;--prefix=/usr/local/Cellar/groonga/2.0.7&#39; &#39;--with-zlib&#39; &#39;--with-mecab&#39; &#39;--with-mecab-config=/usr/local/bin/mecab-config&#39; &#39;CC=cc&#39; &#39;CXX=c++&#39; &#39;PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:/usr/local/share/pkgconfig:/usr/local/Library/Homebrew/pkgconfig&#39;&gt;
+</code></pre>
+</div>
+
+<h2 id="toc_277">mroonga</h2>
+
+<p>次は mroonga をインストールします。Homebrew には内包されていませんが、mroonga のリポジトリに Fomula があるのでこちらを使います。</p>
+<div class="highlight"><pre><code class="text">$ brew install https://raw.github.com/mroonga/Homebrew/master/mroonga.rb --use-Homebrew-mysql
+</code></pre>
+</div>
+
+<p>もし、MySQL を Homebrew で入れていない場合 (オフィシャルバイナリを利用している場合など) は、同一バージョンのソースを別途ダウンロードして引数に渡します。また、パーミッションの関係で最後の make install で失敗するので、plugin ディレクトリの所有グループを変更してパーミッションも変えておきます。</p>
+<div class="highlight"><pre><code class="text">$ sudo chgrp staff /usr/local/mysql/lib/plugin
+$ sudo chmod g+w /usr/local/mysql/lib/plugin
+$ brew install https://raw.github.com/mroonga/Homebrew/master/mroonga.rb --with-mysql-source=/usr/local/src/mysql-5.5.28 --with-mysql-config=/usr/local/mysql/bin/mysql_config
+</code></pre>
+</div>
+
+<p>嵌まりながら MySQL を Homebrew 管理とオフィシャルバイナリの両方で試してみたのですが、基本的には Homebrew で揃えた方が便利かなと思いました。</p>
+
+<p>オフィシャルバイナリの特徴をまとめてみるとこんな感じです。</p>
+
+<ul>
+<li>長所
+
+<ul>
+<li>OS の設定画面で起動/停止、あるいは自動起動設定が行える</li>
+<li>インストールウィザードが付属しているためインストールが容易</li>
+</ul></li>
+<li>短所
+
+<ul>
+<li>言語バインディングを利用するときに DYLD_LIBRARY_PATH にパスが通っていないとエラーになることがある 
+
+<ul>
+<li>逆にパスを通していると Homebrew でエラーになることがある</li>
+</ul></li>
+<li>データやログなどのパーミッションがユーザ権限ではなく root になってしまう</li>
+<li>起動/停止を行う際にパスワードが必要なのが面倒</li>
+</ul></li>
+</ul>
+
+<p>個人的には、複数のユーザで利用している mac でユーザ共通に自動起動させたい（もしくはどうしてもオフィシャルバイナリを使いたい）という条件でなければ Homebrew で良いのかなと思いました。</p>
+
+<h2 id="toc_278">動作確認</h2>
+
+<p>MySQL Server が起動していれば、mroonga の Fomula の中でプラグインと関数の追加も行われています。停止していた場合は起動後に追加のコマンドを入力します。</p>
+<div class="highlight"><pre><code class="text">$ mysql -uroot -e &#39;INSTALL PLUGIN mroonga SONAME &quot;ha_mroonga.so&quot;; CREATE FUNCTION last_insert_grn_id RETURNS INTEGER SONAME &quot;ha_mroonga.so&quot;; CREATE FUNCTION mroonga_snippet RETURNS STRING SONAME &quot;ha_mroonga.so&quot;;&#39;
+</code></pre>
+</div>
+
+<p>これで mroonga ストレージエンジンが使えるようになります。</p>
+<div class="highlight"><pre><code class="text">root@localhost[test]&gt; SHOW ENGINES;
++-------+---+----------------------+-----+--+----+
+| Engine | Support | Comment | Transactions | XA | Savepoints |
++-------+---+----------------------+-----+--+----+
+| FEDERATED | NO | Federated MySQL storage engine | NULL | NULL | NULL |
+| MRG_MYISAM | YES | Collection of identical MyISAM tables | NO | NO | NO |
+| MyISAM | YES | MyISAM storage engine | NO | NO | NO |
+| BLACKHOLE | YES | /dev/null storage engine (anything you write to it disappears) | NO | NO | NO |
+| CSV | YES | CSV storage engine | NO | NO | NO |
+| MEMORY | YES | Hash based, stored in memory, useful for temporary tables | NO | NO | NO |
+| mroonga | YES | CJK-ready fulltext search, column store | NO | NO | NO |
+| InnoDB | DEFAULT | Supports transactions, row-level locking, and foreign keys | YES | YES | YES |
+| PERFORMANCE_SCHEMA | YES | Performance Schema | NO | NO | NO |
+| ARCHIVE | YES | Archive storage engine | NO | NO | NO |
++-------+---+----------------------+-----+--+----+
+10 rows in set (0.01 sec)
+
+root@localhost[test]&gt; SHOW PLUGINS;
++---------+----+-------+-----+---+
+| Name | Status | Type | Library | License |
++---------+----+-------+-----+---+
+| binlog | ACTIVE | STORAGE ENGINE | NULL | GPL |
+| mysql_native_password | ACTIVE | AUTHENTICATION | NULL | GPL |
+| mysql_old_password | ACTIVE | AUTHENTICATION | NULL | GPL |
+| CSV | ACTIVE | STORAGE ENGINE | NULL | GPL |
+| MEMORY | ACTIVE | STORAGE ENGINE | NULL | GPL |
+| MyISAM | ACTIVE | STORAGE ENGINE | NULL | GPL |
+| MRG_MYISAM | ACTIVE | STORAGE ENGINE | NULL | GPL |
+| ARCHIVE | ACTIVE | STORAGE ENGINE | NULL | GPL |
+| BLACKHOLE | ACTIVE | STORAGE ENGINE | NULL | GPL |
+| FEDERATED | DISABLED | STORAGE ENGINE | NULL | GPL |
+| InnoDB | ACTIVE | STORAGE ENGINE | NULL | GPL |
+| INNODB_TRX | ACTIVE | INFORMATION SCHEMA | NULL | GPL |
+| INNODB_LOCKS | ACTIVE | INFORMATION SCHEMA | NULL | GPL |
+| INNODB_LOCK_WAITS | ACTIVE | INFORMATION SCHEMA | NULL | GPL |
+| INNODB_CMP | ACTIVE | INFORMATION SCHEMA | NULL | GPL |
+| INNODB_CMP_RESET | ACTIVE | INFORMATION SCHEMA | NULL | GPL |
+| INNODB_CMPMEM | ACTIVE | INFORMATION SCHEMA | NULL | GPL |
+| INNODB_CMPMEM_RESET | ACTIVE | INFORMATION SCHEMA | NULL | GPL |
+| INNODB_BUFFER_PAGE | ACTIVE | INFORMATION SCHEMA | NULL | GPL |
+| INNODB_BUFFER_PAGE_LRU | ACTIVE | INFORMATION SCHEMA | NULL | GPL |
+| INNODB_BUFFER_POOL_STATS | ACTIVE | INFORMATION SCHEMA | NULL | GPL |
+| PERFORMANCE_SCHEMA | ACTIVE | STORAGE ENGINE | NULL | GPL |
+| partition | ACTIVE | STORAGE ENGINE | NULL | GPL |
+| mroonga | ACTIVE | STORAGE ENGINE | ha_mroonga.so | GPL |
++---------+----+-------+-----+---+
+24 rows in set (0.01 sec)
+
+root@localhost[test]&gt; CREATE TABLE diaries (
+    -&gt; id INT PRIMARY KEY AUTO_INCREMENT,
+    -&gt; content VARCHAR(255),
+    -&gt; FULLTEXT INDEX (content) COMMENT &#39;PARSER &quot;TokenMecab&quot;&#39;
+    -&gt; ) ENGINE = mroonga COMMENT = &#39;engine &quot;innodb&quot;&#39; DEFAULT CHARSET utf8;
+Query OK, 0 rows affected (0.50 sec)
+
+root@localhost[test]&gt; SHOW CREATE TABLE diaries;
++---+--------------------------------------------------------------------------------------+
+| Table | Create Table |
++---+--------------------------------------------------------------------------------------+
+| diaries | CREATE TABLE `diaries` (
+`id` int(11) NOT NULL AUTO_INCREMENT,
+`content` varchar(255) DEFAULT NULL,
+PRIMARY KEY (`id`),
+FULLTEXT KEY `content` (`content`) COMMENT &#39;PARSER &quot;TokenMecab&quot;&#39;
+) ENGINE=mroonga DEFAULT CHARSET=utf8 COMMENT=&#39;engine &quot;innodb&quot;&#39; |
++---+--------------------------------------------------------------------------------------+
+1 row in set (0.00 sec)
+</code></pre>
+</div>
+
+<p>warning がでなければ問題なく動作しています。念のため mysql.err や groonga.log といったログにも目を通しておきます。</p>
+
+<p>これで mroonga が使えるようになりました。使ってみた印象としては、文節を考慮してくれる高速な LIKE というイメージです。ちょっとした全文検索であれば、手軽に使えるレベルで良いかと思いました。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[perl で segmentation fault が起きたときの調べかた]]></title>
+    <link href="http://blog.hatak.net/2012/06/19/14234"/>
+    <updated>2012-06-19T00:00:00+09:00</updated>
+    <id>http://blog.hatak.net/2012/06/19/perl</id>
+    <content type="html"><![CDATA[<p>サーバを構築した際に嵌まったのでメモしておきます。</p>
+
+<p>CentOS6 系のサーバに perlbrew + Carton で環境を構築していたのですが、一通り構築が終わって plackup すると segmentation fault となってしまったのでした。 /var/log/messages を見てもこんなログばかり。</p>
+<div class="highlight"><pre><code class="text">Jun 18 19:28:48 xx-xxxx kernel: app.psgi[2084] general protection ip:322fe17088 sp:49302b8e8cb3704b error:0 in ld-2.12.so[322fe00000+20000]
+</code></pre>
+</div>
+
+<!--more-->
+
+<p>こんなとき、Perl に coredump を吐かせて gdb で見ることで当たりをつけることができます。</p>
+<div class="highlight"><pre><code class="text"># core file size を設定（今回は仮に unlimited に）
+limit -c unlimited
+# segfault を起こすコマンドを実行
+carton exec -- plackup app.psgi
+# -&gt; セグフォ
+# gdb [実行ファイル] [コアダンプファイル]
+gdb `which perl` core.2084
+</code></pre>
+</div>
+
+<p>こうすることで、gdb のコンソールが表示されます。 あとは where コマンドで関数の呼び出し順序を調べたり、list を使って該当ソースを見たりして当たりをつけましょう。</p>
+
+<p>ulimit で設定していないと core ファイルが生成されないかもしれない、というお話でした。 このような当たりの付け方は Perl に限らず他のプログラムでも同様にできると思います。</p>
+
+<p>ちなみに今回は MySQL-shared のパッケージが足りず、DBD::mysql がうまく入っていなかったためでした。。 local を丸ごと削除して再度 carton install で解決しました。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[MySQL Casual Talks Vol.3 で話してきた]]></title>
+    <link href="http://blog.hatak.net/2012/04/20/12428"/>
+    <updated>2012-04-20T00:00:00+09:00</updated>
+    <id>http://blog.hatak.net/2012/04/20/mysql-casual-talks</id>
+    <content type="html"><![CDATA[<p>4/19 にオラクルセンター青山で <a href="http://atnd.org/events/26373" title="MySQL Casual Talks Vol.3">MySQL Casual Talks Vol.3</a> が開催されました。 今回は <a href="http://twitter.com/myfinder" title="@myfinder">@myfinder</a> さんにお声がけいただきトーク枠をいただけたので、挑戦させていただきました。</p>
+
+<p><a href="http://www.slideshare.net/idhatak/mysql-casual">http://www.slideshare.net/idhatak/mysql-casual</a>">http://www.slideshare.net/idhatak/mysql-casual">http://www.slideshare.net/idhatak/mysql-casual</a></a></p>
+
+<!--more-->
+
+<p>小さな話をいっぱい寄せ集めた内容だったので、うまくまとめきれずすみませんでした。また、時間を気にしてしまって少し早口だったり聞き取りにくかったりした所もあったかと思います。</p>
+
+<p>伝えたかった思いはまとめに集約しています。 何よりも「**MySQL すごいよ、ありがとう**」と言いたかったのでした。MySQL 自体のソフトウェアとしての完成度や開発体制もさることながら、多くのユーザがいて様々な知見・ノウハウが共有されているこの環境自体も大きな資産であると感じています。ない分の動きを把握していて、様々手を加えられるのはとても理想的なことですし憧れます。ですが、そこまでのスキルセットがない人でも、調べたり試したりすることである程度がんばれる、というのが環境含めて完成されている証だと思っています。 また、これは MySQL に限った話ではないのですが、私自身の考えとして実際のサービス運用では様々な視点・知識・経験が必要だと思っています。「何でも屋になろう」ということではなく、「視点を変えてみるとうまくいくんじゃないかな」「そのためには薄くでも知識や経験があると取っつきやすいんじゃないかな」という考えです。サービスを運用していく以上は、使っていただいているユーザさんを「もてなす」心を意識して、そのためにどうすればいいかを考えてメンバーと協力して作り上げていきたいと思っています。</p>
+
+<p>偉そうなことを言いながらも最近は直接のインフラ運用をしていないことも多いのですが、全体としては業務に限らない私自身の経験や思いをまとめたものとさせていただきました。 このような公の場でトークさせていただくのは初めてだったのですが、資料を作る時点で様々追って調べたりまとめたりと、かなり良い勉強となりました。アウトプット大事ですね。 いつもお世話になっているコミュニティに対して、今までは情報を集めて使うだけの立場だったのですが、少しずつ発信・共有する立場にもなりたいというのが今年の目標でした。まだ内容的にも未熟な点が多いと思いますが、人に説明できるまで理解をする（＝自分の言葉でかみ砕く）を重ねていってコミュニティを支えたい・恩返しをしたいと強く思った一日でした。</p>
+
+<p>快適な会場を提供いただいた Oracle のみなさま、とりまとめていただいた運営のみなさま、そしてお集まりいただいて素敵な時間を共有していただいた参加者のみなさま、ありがとうございました。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[レプリケーションが追いつかないときに試すこと]]></title>
+    <link href="http://blog.hatak.net/2011/12/07/9407"/>
+    <updated>2011-12-07T00:00:00+09:00</updated>
+    <id>http://blog.hatak.net/2011/12/07/mysql-advent</id>
+    <content type="html"><![CDATA[<p>&#8220;<a href="http://mysql-casual.org/2011/11/mysql-casual-advent-calendar-2011.html" title="MySQL Casual Advent Calendar 2011">MySQL Casual Advent Calendar 2011</a>&#8221; 7 日目を担当させていただく、hatak (<a href="http://twitter.com/hisashi" title="@hisashi">@hisashi</a>) です。 普段はモバイルゲームのインフラをメインにみているのですが、今回はそんな業務で経験したことを基に記事を書かせていただきます。 カジュアルすぎる内容かもしれませんが、お付き合いいただければと思います。</p>
+
+<!--more-->
+
+<h2 id="toc_279">MySQL のレプリケーション</h2>
+
+<p>MySQL のレプリケーションは、安定稼働やバックアップ、負荷分散などの目的に利用できる優れた機能です。 bin-log (バイナリログ) を利用して Master サーバから Slave サーバに更新を伝播させ、データの複製を行います。Slave サーバでは、2 つのスレッドが動作しています。</p>
+
+<ul>
+<li>IO_THREAD &#8211; Master から送られてきたデータを受け取り、relay-log (リレーログ) として書き出す</li>
+<li>SQL_THREAD &#8211; relay-log を読み出し、DB を更新する</li>
+</ul>
+
+<h2 id="toc_280">遅延の調べ方</h2>
+
+<p>&#8220;SQL_THREAD&#8221; による遅延の場合は、Slave サーバで &#8220;SHOW SLAVE STATUS&#8221; コマンドを実行することで確認ができます。</p>
+<div class="highlight"><pre><code class="text">hatak@dbslave&gt; SHOW SLAVE STATUS G\
+*************************** 1. row ***************************
+Slave_IO_State: Waiting for master to send event
+Master_Host: 192.168.12.2
+Master_User: replicator
+Master_Port: 3306
+Connect_Retry: 60
+Master_Log_File: mysql-bin.012863
+Read_Master_Log_Pos: 205295676
+Relay_Log_File: mysqld-relay-bin.026640
+Relay_Log_Pos: 75468325
+Relay_Master_Log_File: mysql-bin.012863
+Slave_IO_Running: Yes
+Slave_SQL_Running: Yes
+Replicate_Do_DB:
+Replicate_Ignore_DB:
+Replicate_Do_Table:
+Replicate_Ignore_Table:
+Replicate_Wild_Do_Table:
+Replicate_Wild_Ignore_Table:
+Last_Errno: 0
+Last_Error:
+Skip_Counter: 0
+Exec_Master_Log_Pos: 205295676
+Relay_Log_Space: 205296082
+Until_Condition: None
+Until_Log_File:
+Until_Log_Pos: 0
+Master_SSL_Allowed: No
+Master_SSL_CA_File:
+Master_SSL_CA_Path:
+Master_SSL_Cert:
+Master_SSL_Cipher:
+Master_SSL_Key:
+Seconds_Behind_Master: 0
+Master_SSL_Verify_Server_Cert: No
+Last_IO_Errno: 0
+Last_IO_Error:
+Last_SQL_Errno: 0
+Last_SQL_Error:
+Replicate_Ignore_Server_Ids:
+Master_Server_Id:100
+1 row in set (0.00 sec)
+</code></pre>
+</div>
+
+<p>ここに示されている &#8220;Seconds_Behind_Master&#8221; の値が、「現在 SQL_THREAD が実行しているクエリの実行時刻」と「Slave サーバが保持しているリレーログの時刻」の差となり、遅延を表しています。</p>
+
+<p>&#8220;IO_THREAD&#8221; による遅延の場合は、Master からのバイナリログが受信しきっていないため、Master における &#8220;SHOW MASTER STATUS&#8221; の結果も参考にする必要があります。</p>
+<div class="highlight"><pre><code class="text">hatak@dbmaster&gt; SHOW MASTER STATUS G\
+*************************** 1. row ***************************
+File: mysql-bin.012863
+Position: 205295676
+Binlog_Do_DB:
+Binlog_Ignore_DB:
+1 row in set (0.00 sec)
+</code></pre>
+</div>
+
+<p>この結果を基に、どれくらいずれているかを見なければなりません。</p>
+
+<p>Master と Slave で &#8220;File&#8221; と &#8220;Master_Log_File&#8221;、&#8221;Position&#8221; と &#8220;Read_Master_Log_Pos&#8221; をそれぞれ比較し、どの程度転送が遅れているかをチェックします。 &#8220;IO_THREAD&#8221; に起因した遅延の場合は、サーバの処理というよりはネットワーク帯域の問題である可能性が高いと思います。</p>
+
+<p>今回は &#8220;SQL_THREAD&#8221; による遅延を想定してまとめていきます。</p>
+
+<h3 id="toc_281">Master の更新をブロックする</h3>
+
+<p>レプリケーションで送られてくるクエリの流量が多すぎる場合、つまり Master の更新が激しすぎて追いつかないケースでは、そもそも Master での更新を止めてしまうという方法があります。</p>
+
+<p>これは、MASTER_POS_WAIT() 関数を利用することで実現できます。</p>
+
+<p>手順については、<a href="http://dev.mysql.com/doc/refman/5.1/ja/" title="MySQL5.1 リファレンスマニュアル">MySQL5.1 リファレンスマニュアル</a>の FAQ 項目内に「<a href="http://dev.mysql.com/doc/refman/5.1/ja/replication-faq.html#qandaitem-5-4-4-1-4" title="レプリケーションが追いつくまでマスタの更新をブロックする方法">レプリケーションが追いつくまでマスタの更新をブロックする方法</a>」として紹介されています。</p>
+
+<p>この方法では同期化をコントロールすることで追いつかせることができますが、実際にサービス運用中のサーバではなかなか使いづらいところもあります。</p>
+
+<h3 id="toc_282">Slave のパフォーマンスを調整する</h3>
+
+<p>このとき、レプリケーションで伝播するクエリは全て直列化されるため、更新が激しい場合はどうしても遅れてしまうことがあります。 DiskI/O への負荷が高いとき &#8220;innodb-flush-log-at-trx-commit&#8221; の値を変更することで、ディスクへのフラッシュを減らすことができます。このパラメータではログバッファからログファイルへの書き込み、およびディスクへのフラッシュをコントロールすることができます。</p>
+
+<table><thead>
+<tr>
+<th>設定値</th>
+<th>ログバッファのファイルへの書き込み</th>
+<th>ディスクへのフラッシュ</th>
+<th>備考</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>0</td>
+<td>毎秒</td>
+<td>ログファイル上</td>
+<td></td>
+</tr>
+<tr>
+<td>1</td>
+<td>コミット時</td>
+<td>ログファイル上</td>
+<td>デフォルト値</td>
+</tr>
+<tr>
+<td>2</td>
+<td>コミット時</td>
+<td>毎秒</td>
+<td></td>
+</tr>
+</tbody></table>
+
+<p>この設定値によるパフォーマンス向上度合いは、経験的には効果の大きい順に 0 &gt; 2 &gt; 1 の順と思っています。</p>
+
+<p>my.cnf に記述し起動時に適用することもできますが、 mysqld の再起動をせずに変更・反映が可能です。</p>
+<div class="highlight"><pre><code class="sql"><span class="k">SELECT</span> <span class="o">@@</span><span class="n">innodb_flush_log_at_trx_commit</span><span class="p">;</span>
+<span class="k">SET</span> <span class="k">GLOBAL</span> <span class="n">innodb_flush_log_at_trx_commit</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+</code></pre>
+</div>
+
+<p>この設定値はパフォーマンス向上の代わりに、信頼性を犠牲にします。プロセスが突然落ちた場合などにディスクにフラッシュされていないデータをロストする可能性がありますので、状況に応じて（あるいは追いつかせるまでの間だけなど）の使用に抑えることが良いかと思います。</p>
+
+<h2 id="toc_283">まとめ</h2>
+
+<p>MySQL のレプリケーションが追いつかない場合、プロセスの再起動を行わずに簡単に試せて効果の期待できる方法をまとめてみました。</p>
+
+<p>「実践ハイパフォーマンスMySQL」や「エキスパートのためのMySQLトラブルシューティングガイド」などの書籍でもわかりやすく紹介されていますので、ぜひご参照ください。</p>
+
+<p>このほか、サーバ上で不要なデーモン(cpuspeed など)が動いていないかチェックする、ionice(I/O スケジューラを cfq にする必要があります) で mysqld が優先的に DiskI/O を使えるようにするなどサーバ側でもできることはありそうです。</p>
+
+<p>間違っているところや、他にもこんな方法がある、などございましたらぜひお聞かせください。</p>
+
+<p>明日は <a href="http://twitter.com/kamipo" title="@kamipo">@kamipo</a> さんです！</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Hachioji.pm #11 に行ってきた]]></title>
+    <link href="http://blog.hatak.net/2011/12/04/9188"/>
+    <updated>2011-12-04T00:00:00+09:00</updated>
+    <id>http://blog.hatak.net/2011/12/04/hachioji-pm-11</id>
+    <content type="html"><![CDATA[<p>町田で行われた hachioji.pm #11 に参加してきました。 前回参加した hachioji.pm が 2 月実施の #2 だったので、9 回ぶり 2 回目の参加でした。振り返れば震災以降ドタバタといろんなことがあって参加できないままだったわけで、ちょっと勿体ないことしたなと反省したりもしてました。</p>
+
+<p>町田も久しぶりすぎて変化に戸惑いが隠せない感じでした。資料作成しようと思ったカフェとかなくなってたし！</p>
+
+<h2 id="toc_284">全体的な感想など</h2>
+
+<p>自己紹介代わりの LT はやっぱりおもしろいと思います。規模が大きくなると難しくなりますが、全員に向かって各々が話す hachioji.pm ならではの雰囲気は好きです。</p>
+
+<p>かなり様々なお話を聞けたことも大きな収穫でした。同時に、モチベーションが上がるような刺激を受けることができました。</p>
+
+<!--more-->
+
+<p>その他、つらつらと思ったことを。</p>
+
+<ul>
+<li>ネタが意外とかぶっててなんかずるい &#8211; &#8220;退職しました&#8221; &#8211; &#8220;うれしいこと（内定・転職・おめでた）ありました&#8221; &#8211; &#8220;北海道&#8221;</li>
+<li>会場となったお店がよかった &#8211; 屋根裏っぽい雰囲気がよかった &#8211; 料理（とくに鍋）もおいしかった &#8211; オリオンビールが飲みやすかった &#8211; @ytnobody++</li>
+<li>業界狭い &#8211; いろんな方とのつながりはやっぱり大事</li>
+</ul>
+
+<h2 id="toc_285">MySQL の preload</h2>
+
+<p>LT で話した資料をこちらにおいてあります (PDF 形式です)。 お題の「○○道」でネタを探していたのですが、preload のことで頭いっぱいだったこともありライトな感じにざっとまとめてみました。</p>
+
+<p>周りの方にアドバイスいただいたり、調べたり、試したりしたものを組み合わせた結果、個人的な答えとして今はこのような手法がよいのかなと考えています。ただ、もっと <strike>楽な</strike> 効率のよい方法など、実際に皆さんがどのようにされているかを知りたいなと思っているところです。</p>
+
+<p>幹事の @ytnobody さん、主催の @uzulla さん、そして参加された皆さん、お疲れさま &amp; ありがとうございました。 また次回も都合をつけて参加したいなー。</p>
+]]></content>
+  </entry>
+  
+</feed>

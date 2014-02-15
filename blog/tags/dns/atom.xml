@@ -1,0 +1,578 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[tag: dns | Hatak::Techlog]]></title>
+  <link href="http://blog.hatak.net/blog/tags/dns/atom.xml" rel="self"/>
+  <link href="http://blog.hatak.net/"/>
+  <updated>2014-02-15T16:33:39+09:00</updated>
+  <id>http://blog.hatak.net/</id>
+  <author>
+    <name><![CDATA[hatak]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[サイバーエージェント×クックパッド合同勉強会に行ってきた]]></title>
+    <link href="http://blog.hatak.net/2011/05/26/1786"/>
+    <updated>2011-05-26T00:00:00+09:00</updated>
+    <id>http://blog.hatak.net/2011/05/26/capad</id>
+    <content type="html"><![CDATA[<p>クックパッドさんのオフィスで開催された「<a href="http://techlife.cookpad.com/2011/05/16/amepad/">サイバーエージェント×クックパッド合同勉強会</a>」に参加してきました。 両社で検証や本番導入しているクラウドサービスな話題がメインで、とても興味深いものでした。</p>
+
+<!--more-->
+
+<h2 id="toc_142">OpenStackを検証してみた - オープンソースの仮想化技術 open stack の検証結果の報告</h2>
+
+<p>サイバーエージェントの坂本佳久 (<a href="http://twitter.com/ton_katsu">@ton_katsu</a>) さんの発表。プライベートクラウドを構築するプロジェクトのひとつ、OpenStack を検証した結果のまとめ。</p>
+
+<h3 id="toc_143">OpenStack</h3>
+
+<p>Nova と Swift を組み合わせたプロジェクト。 OpenStack を検証対象として選んだ理由は次のとおり。</p>
+
+<ul>
+<li>Eucalypusだとスケールしない (らしい)</li>
+<li>ubuntu がサポートする (らしい)</li>
+<li>200 人体制で開発が行われている</li>
+<li>参加企業として 60 社</li>
+<li>KVM, QEmu, Xen など広く対応している</li>
+<li>Pythonベースで書かれている</li>
+</ul>
+
+<p>AWS と比較すると、下記のような対比でだいたい同じことができる。</p>
+
+<ul>
+<li>Amazon EC2
+
+<ul>
+<li>Nova</li>
+</ul></li>
+<li>Amazon S3
+
+<ul>
+<li>Glance</li>
+<li>OSイメージ登録</li>
+<li>Swift</li>
+<li>ストレージ</li>
+</ul></li>
+</ul>
+
+<h3 id="toc_144">システム構成の例</h3>
+
+<p>インスタンスの起動や管理を行う &quot;CloudController&quot; と、この配下に複数の &quot;Computenode&quot; を配置する構成をとる (最小構成では両プロセスを同じマシンに同居させることも可能)。Computenode に hypervisor などをいれ、実際にインスタンスを動作させることとなる。その他、副次的に MySQL や RabbitMQ などのプロセスも利用する。</p>
+
+<h3 id="toc_145">使ってみた</h3>
+
+<p>実際に検証で用いた環境は下記の通り。</p>
+
+<ul>
+<li>OpenStack Cactus</li>
+<li>Controller
+
+<ul>
+<li>ubuntu 10.04</li>
+</ul></li>
+<li>Computenode
+
+<ul>
+<li>ubuntu 10.04 x3</li>
+</ul></li>
+<li>virtual
+
+<ul>
+<li>KVM ベースで CentOS / ubuntu</li>
+</ul></li>
+</ul>
+
+<p>これらの管理を行うために、 Django ベースの GUI が付属している。WebSocket を利用するため、Safari などで操作する必要がある (Chrome はうまく動作しなかったとのこと)。また、VNC コンソールは Cactus のバージョンでは未実装なので、利用する場合は trunk から取得する必要がある。<br>
+その他、API も用意されているので自前で管理ツールを作成することも可能。</p>
+
+<h3 id="toc_146">感想</h3>
+
+<ul>
+<li>良かった点
+
+<ul>
+<li>ubuntu ではパッケージで提供されているためインストールが簡単</li>
+<li>シンプル</li>
+<li>Python のためエラーが追いやすい</li>
+</ul></li>
+<li>苦労した点
+
+<ul>
+<li>インスタンスメタデータをどこに取り行けばいいかわからなかった。。</li>
+<li>ハイブリッドクラウドがいいかも</li>
+</ul></li>
+</ul>
+
+<p>来月より検証環境で運用するとのことで、今後のレポートにも注目したいところです。</p>
+
+<h2 id="toc_147">AmebaPico を支える技術 - AWS上に構築された AmebaPico で使用されている技術・開発体制について</h2>
+
+<p>サイバーエージェントの森野耕平 (<a href="http://twitter.com/kohei_april20">@kohei_april20</a>) さんの発表。AmebaPico のアーキテクチャや体制に関して。</p>
+
+<h3 id="toc_148">Ameba Pico</h3>
+
+<p>アメーバピグの海外版として位置づけられているサービス。</p>
+
+<ul>
+<li>プラットフォーム
+
+<ul>
+<li>facebook</li>
+<li>mochimedia</li>
+<li>独自 (自前)</li>
+</ul></li>
+<li>利用ユーザ
+
+<ul>
+<li>390万UU、60万MAU</li>
+<li>10-20代が中心、男女比 3:7</li>
+<li>インドネシア、フィリピン、アメリカが中心</li>
+</ul></li>
+</ul>
+
+<h3 id="toc_149">アーキテクチャ</h3>
+
+<p>すべて AWS で運用されている。</p>
+
+<ul>
+<li>application
+
+<ul>
+<li>Tomcat</li>
+</ul></li>
+<li>socket server
+
+<ul>
+<li>ノンブロッキング I/O を使い、軽量データ処理を行う</li>
+<li>独自のバイナリプロトコルで細かい大量のコマンドを処理</li>
+<li>コマンドとしてのデータをバイナリとしてシリアライズ</li>
+<li>イベント駆動でリアルタイム性</li>
+</ul></li>
+<li>static
+
+<ul>
+<li>CDN</li>
+<li>Storage</li>
+</ul></li>
+<li>ZooKeeper
+
+<ul>
+<li>システム全体でのロック管理を行う分散ロックシステム</li>
+</ul></li>
+<li>memcached</li>
+<li>MongoDB
+
+<ul>
+<li>3台構成のレプリカセットを構築</li>
+<li>うち1台は EBS</li>
+<li>6シャードで分散</li>
+</ul></li>
+<li>ElasticMapReduce
+
+<ul>
+<li>ログ集計</li>
+</ul></li>
+<li>pigg と共用の箇所
+
+<ul>
+<li>ID管理サーバ</li>
+<li>ポイント (サービス内通貨) 管理サーバ</li>
+</ul></li>
+</ul>
+
+<h3 id="toc_150">AWS の利用</h3>
+
+<ul>
+<li>S3
+
+<ul>
+<li>static な配信コンテンツを保持</li>
+<li>ユーザ行動ログ</li>
+</ul></li>
+<li>CDN
+
+<ul>
+<li>cloudfront を利用</li>
+</ul></li>
+<li>ElasticMapReduce
+
+<ul>
+<li>S3 に保存されたログを解析</li>
+</ul></li>
+<li>EC2
+
+<ul>
+<li>汎用的なサーバインスタンスとして利用</li>
+<li>用途に応じて種別を使い分け</li>
+<li>small</li>
+<li>開発環境</li>
+<li>High-CPU</li>
+<li>webサーバ</li>
+</ul></li>
+<li>EBS
+
+<ul>
+<li>バックアップなど揮発性があって困る箇所にマウント</li>
+</ul></li>
+</ul>
+
+<h2 id="toc_151">Flash の利用</h2>
+
+<p>クライアントサイドではまず main.swf のみをロードし、必要に応じてサブモジュールをロードする。</p>
+
+<ul>
+<li>shop.swf</li>
+<li>room.swf</li>
+<li>profile.swf delegate 実装でサーバ接続とモック用を切り分けることで、サーバサイドとクライアントサイド別々の開発が行えるようにしている。</li>
+</ul>
+
+<h2 id="toc_152">運用してみて</h2>
+
+<p>EC2 上でサービスを運用してみての総括。</p>
+
+<ul>
+<li>良かった点は「手軽さ」
+
+<ul>
+<li>DC 借りる必要ないことで海外展開のハードルが下がる</li>
+<li>インフラメンバーがいなくても進められた (スモールスタート)</li>
+</ul></li>
+<li>課題は「重い」こと
+
+<ul>
+<li>たまに落ちる</li>
+<li>バージニアだからかもしれない？</li>
+<li>バージニアで運用中のインスタンスが 60個くらい
+
+<ul>
+<li>平均すると 2-3ヶ月に1つ落ちる</li>
+<li>最高で4週に4つ落ちたことがある</li>
+</ul></li>
+<li>メンテナンスの告知が事前に来ることもある</li>
+<li>こないこともある</li>
+<li>インスタンスが落ちるとどうなるか</li>
+<li>応答がなくなる
+
+<ul>
+<li>特定ポートだけの場合もある</li>
+<li>全体の場合は何も出来ない</li>
+</ul></li>
+<li>リブートするしかない</li>
+<li>落ちなくても、一定時間応答なくなることもある</li>
+<li>サービスとして利用する場合</li>
+<li>落ちやすいが冗長重視で組めば使える</li>
+</ul></li>
+</ul>
+
+<p>そして、MongoDB をメインで利用してみての総括。</p>
+
+<ul>
+<li>実績
+
+<ul>
+<li>処理クエリは 5,000 Read/s (Max)</li>
+</ul></li>
+<li>問題
+
+<ul>
+<li>コネクションプールが枯渇</li>
+<li>MongoDB の I/O がボトルネックとなってしまう</li>
+<li>シャードを 4→6 に増設することで対処</li>
+<li>合わせて I/O パフォーマンスの高いインスタンスを利用するように</li>
+<li>オートバランシングの挙動</li>
+<li>バランシングに偏りが生じてしまう
+
+<ul>
+<li>新規シャード追加時などに特に顕著となる</li>
+</ul></li>
+<li>現在はオートバランシングを off にして手動で調整</li>
+<li>レプリカセットのコンフィグ情報が未反映となるケース</li>
+<li>一見正常に動いてるので気付かなかった
+
+<ul>
+<li>プライマリ落ちたときにスレーブがうまく動かずに発覚</li>
+</ul></li>
+<li>コンフィグの反映は全台再起動が必要</li>
+</ul></li>
+</ul>
+
+<p>MongoDB を大規模に利用しているケースなので、とても興味深いものでした。海外展開の際に DC の場所を気にしなくても良い、というのは AWS ならではのメリットに感じました。</p>
+
+<h2 id="toc_153">毎日の料理を楽しくする画像配信技術</h2>
+
+<p>クックパッドの成田一生 (<a href="http://twitter.com/mirakui">@mirakui</a>) さんの発表。レシピに必須の画像をリアルタイムでリサイズするための Apache モジュール &quot;TOFU&quot; について。</p>
+
+<h3 id="toc_154">従来の画像アップロードの仕組み</h3>
+
+<ul>
+<li>アップロードされた画像はアプリケーションサーバがリサイズ
+
+<ul>
+<li>サムネイルを NFS に保存</li>
+</ul></li>
+<li>いくつかの問題点
+
+<ul>
+<li>新デザインのプロトタイプで様々な画像サイズを試すことが難しい</li>
+<li>デザインに合わせて画像サイズを柔軟に変えたい</li>
+<li>試すたびに 800 万枚リサイズ
+
+<ul>
+<li>昔はやってた (!)</li>
+</ul></li>
+<li>デバイス展開の度にデザイン変わるためリサイズが必要
+
+<ul>
+<li>サービス出る速度が遅くなる</li>
+<li>モチベーションが低下する</li>
+</ul></li>
+</ul></li>
+</ul>
+
+<h3 id="toc_155">そこで新しい方法を模索</h3>
+
+<ul>
+<li>現在の規模
+
+<ul>
+<li>投稿画像の枚数</li>
+<li>800万枚</li>
+<li>画像リクエスト</li>
+<li>7,000枚/sec</li>
+<li>ストレージに NFS を利用</li>
+<li>NFS が落ちると全サービスが落ちる</li>
+</ul></li>
+<li>EC2 への移行を検討中
+
+<ul>
+<li>ストレージは S3 にしたい</li>
+</ul></li>
+</ul>
+
+<h3 id="toc_156">TOFU</h3>
+
+<p>URL に処理内容をマッピングし、リクエストの度に画像をリサイズする Apache モジュール (mod_tofu.so)。</p>
+<div class="highlight"><pre><code class="text">/recipes/{:recipe_id}/{:size}/{:hash}
+</code></pre>
+</div>
+
+<ul>
+<li>アタック防止のために末尾に Hash キーを付加</li>
+<li>画像処理も可能
+
+<ul>
+<li>c</li>
+<li>crop (指定したサイズに収める)</li>
+<li>q</li>
+<li>quality</li>
+</ul></li>
+<li>細かく指定すれば好きな部分だけ切り取る、もできる</li>
+</ul>
+
+<p>画像処理には ImageMagick を利用している。</p>
+
+<ul>
+<li>構成
+
+<ul>
+<li>C1.XLARGE x6台 で処理</li>
+<li>コア数単価が安い</li>
+<li>mod_tofu.so は CPU 食うけどメモリ使わない</li>
+<li>前段で akamai のキャッシュ</li>
+</ul></li>
+</ul>
+
+<h2 id="toc_157">苦労話など</h2>
+
+<ul>
+<li>ImageMagick と Imlib2
+
+<ul>
+<li><a href="http://d.hatena.ne.jp/mirakui/20110123/1295795409">本当は速いImageMagick: サムネイル画像生成を10倍速くする方法</a></li>
+</ul></li>
+<li>S3
+
+<ul>
+<li>s3::ListAllBuckets が正しい結果返さない障害発生</li>
+<li>すべての画像が見えなくなった</li>
+<li>データは消えないがアクセスできなくなることはある</li>
+</ul></li>
+<li>akamai or cloudfront
+
+<ul>
+<li>cloudfront は元々 S3 のデータを返すものだった</li>
+<li>現在は EC2 を origin に使えるようになった</li>
+<li>でもやはり akamai は圧倒的に早い</li>
+<li>akamai キャッシュヒット率は高くない</li>
+<li>90% 程度</li>
+<li>試しに ELB 下に Varnish でキャッシュサーバを構築してみたところ 60% ほどヒット
+
+<ul>
+<li>TOFU サーバの数を 40% ほど減らせる</li>
+</ul></li>
+<li>でも Varnish は大容量のメモリが必要なためインスタンスの単価が高い
+
+<ul>
+<li>キャッシュサーバ入れるか、TOFU サーバを増やすか、コスト的に微妙なところ</li>
+<li>現在はキャッシュサーバは外している</li>
+</ul></li>
+</ul></li>
+</ul>
+
+<p>画像種類もリクエストも多いのにリアルタイムに変換するのは大変そうに思ったのですが、Apache モジュールと聞いて少し納得。キャッシュもうまく組み込んでいて、かなりコストを意識した工夫がされている印象を受けました。</p>
+
+<h2 id="toc_158">AWS移行に向けたクックパッドの取り組み＋α</h2>
+
+<p>クックパッドの菅原元気さんの発表。先日の<a href="http://techlife.cookpad.com/2011/04/22/aws-advantage-seminar/">アマゾンウェブサービスクラウドアドバンテージセミナーで発表された内容</a>をベースに、AWS 移行に向けた全体的なお話。 プレゼン資料がとてもまとまっているので、そちらを直接見たほうが。。。</p>
+
+<h3 id="toc_159">サーバ・ネットワーク構成</h3>
+
+<ul>
+<li>現在
+
+<ul>
+<li>シンプルな3層構成</li>
+<li>別々のセグメントとすることでセキュリティを担保</li>
+</ul></li>
+<li>新
+
+<ul>
+<li>すべてが同じセグメント</li>
+<li>セキュリティグループでコントロール</li>
+<li>ロール同士の通信は許可</li>
+<li>人的ミス対策としてすべてのサーバで iptables 起動</li>
+</ul></li>
+</ul>
+
+<h3 id="toc_160">AWS でのサーバ</h3>
+
+<ul>
+<li>DNS
+
+<ul>
+<li>Active-Active 構成で EIP を VIP のように利用</li>
+<li>各サーバでは resolv.conf を cron で更新</li>
+</ul></li>
+<li>AMI
+
+<ul>
+<li>基本は CentOS 5.5</li>
+<li>各イメージはバージョンをつけて管理</li>
+<li>Chef 導入も進めてる</li>
+</ul></li>
+<li>Nagios + Munin
+
+<ul>
+<li>タグをもとに自動で監視項目を設定</li>
+<li>起動したインスタンスを cron でチェックして追加</li>
+</ul></li>
+<li>冗長化
+
+<ul>
+<li>ElasticIP を利用</li>
+<li>Nagios</li>
+<li>LDAP</li>
+<li>cron で死活監視</li>
+<li>heartbeat への移行</li>
+<li>EIP を VIP として利用</li>
+<li>マルチキャストが使えないのでユニキャストで</li>
+</ul></li>
+<li>MySQL
+
+<ul>
+<li>EC2 上ではまだ Slave しか稼動していない</li>
+</ul></li>
+</ul>
+
+<h3 id="toc_161">分散DNSについて</h3>
+
+<p>さすがに全台で resolv.conf を書き換えていくのは大変なのと、いくつかの問題点がクリア出来ない。</p>
+
+<ul>
+<li>内容がキャッシュされる</li>
+<li>タイムアウト 1s 以下にできない</li>
+<li>cron で監視は分単位</li>
+</ul>
+
+<p>そのため、分散 DNS を開発。</p>
+<div class="highlight"><pre><code class="text">$ ruby gem ddns
+</code></pre>
+</div>
+
+<p>DNS がそれぞれノードとして機能する動きは、クラウドならではの問題点をクリアするためのひとつの解決策かと思います。現状のサービスを AWS に移行する際の参考になるような、総括的な話でした。</p>
+
+<p>LT もあり、その後の懇親会ではおいしい料理もあり、でとても素敵な勉強会でした。スピーカー＆スタッフの皆様、ありがとうございました！</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[MacOSX のローカルの DNS キャッシュ]]></title>
+    <link href="http://blog.hatak.net/2011/05/17/335"/>
+    <updated>2011-05-17T00:00:00+09:00</updated>
+    <id>http://blog.hatak.net/2011/05/17/macosx</id>
+    <content type="html"><![CDATA[<p>DNS の設定を触るとき、ローカルのキャッシュが変わっていないためにハマることが多々あります。Mac の場合、ターミナルで dig して変更を確認してもブラウザで開けなかったりするわけで。</p>
+
+<p>これは、MacOSX 内部で DNS 解決の結果をキャッシュする機能が働いているためです。 キャッシュをコントロールするためには dscacheutil コマンドを使います。</p>
+
+<p><code>console dscacheutil<br>
+Usage: dscacheutil -h<br>
+       dscacheutil -q category [-a key value]<br>
+       dscacheutil -cachedump [-buckets] [-entries [category]]<br>
+       dscacheutil -configuration<br>
+       dscacheutil -flushcache<br>
+       dscacheutil -statistics<br>
+</code></p>
+
+<p>キャッシュをクリアするのは &quot;-flushcache&quot; オプションをつけます。</p>
+<div class="highlight"><pre><code class="console"><span class="gp">$</span> dscacheutil -flushcache
+</code></pre>
+</div>
+
+<p>sudo しなくてもユーザ権限でできるので安心。</p>
+
+<!--more-->
+
+<p>実際にキャッシュされてるデータを調べるにはこんな感じ。</p>
+
+<p><code>console dscacheutil -q host -a name blog.hatak.net<br>
+name: vps02.sakura.dwmp.jp<br>
+alias: blog.hatak.net<br>
+ip_address: 49.212.41.49<br>
+</code></p>
+
+<p><code>console dig blog.hatak.net<br>
+;; ANSWER SECTION:<br>
+blog.hatak.net.     600 IN  CNAME   vps02.sakura.dwmp.jp.<br>
+vps02.sakura.dwmp.jp.   600 IN  A   49.212.41.49<br>
+</code></p>
+
+<p>ちゃんと dig の結果と同じものがキャッシュされてました。CNAME の場合は alias として表示されるようですね。 IP からの逆引きも調べてみました。</p>
+
+<p><code>console dscacheutil -q host -a ip_address 49.212.41.49<br>
+name: www30255u.sakura.ne.jp<br>
+alias: 49.41.212.49.in-addr.arpa<br>
+ip_address: 49.212.41.49<br>
+</code></p>
+
+<p><code>console dig -x 49.212.41.49<br>
+;; ANSWER SECTION:<br>
+49.41.212.49.in-addr.arpa. 3600 IN  PTR www30255u.sakura.ne.jp.<br>
+</code></p>
+
+<p>逆引きの委譲をしていないので管理用のドメインが返ってきてしまいますが、これも dig の結果と同じものになってます。 &#8220;ds&#8221; というコマンド名のとおり、もともと DirectoryService のキャッシュを操作するためのもののようで、DNS に限ったコマンドではなさそうです。</p>
+
+<p><code>console dscacheutil -q user -a name hatak<br>
+name: hatak<br>
+password: ********<br>
+uid: 501<br>
+gid: 20<br>
+dir: /Users/hatak<br>
+shell: /bin/bash<br>
+gecos: hatak<br>
+</code></p>
+]]></content>
+  </entry>
+  
+</feed>

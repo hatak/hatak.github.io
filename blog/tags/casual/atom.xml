@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[tag: casual | Hatak::Techlog]]></title>
+  <link href="http://blog.hatak.net/blog/tags/casual/atom.xml" rel="self"/>
+  <link href="http://blog.hatak.net/"/>
+  <updated>2014-02-15T16:33:39+09:00</updated>
+  <id>http://blog.hatak.net/</id>
+  <author>
+    <name><![CDATA[hatak]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[MySQL Casual Talks Vol.3 で話してきた]]></title>
+    <link href="http://blog.hatak.net/2012/04/20/12428"/>
+    <updated>2012-04-20T00:00:00+09:00</updated>
+    <id>http://blog.hatak.net/2012/04/20/mysql-casual-talks</id>
+    <content type="html"><![CDATA[<p>4/19 にオラクルセンター青山で <a href="http://atnd.org/events/26373" title="MySQL Casual Talks Vol.3">MySQL Casual Talks Vol.3</a> が開催されました。 今回は <a href="http://twitter.com/myfinder" title="@myfinder">@myfinder</a> さんにお声がけいただきトーク枠をいただけたので、挑戦させていただきました。</p>
+
+<p><a href="http://www.slideshare.net/idhatak/mysql-casual">http://www.slideshare.net/idhatak/mysql-casual</a>">http://www.slideshare.net/idhatak/mysql-casual">http://www.slideshare.net/idhatak/mysql-casual</a></a></p>
+
+<!--more-->
+
+<p>小さな話をいっぱい寄せ集めた内容だったので、うまくまとめきれずすみませんでした。また、時間を気にしてしまって少し早口だったり聞き取りにくかったりした所もあったかと思います。</p>
+
+<p>伝えたかった思いはまとめに集約しています。 何よりも「**MySQL すごいよ、ありがとう**」と言いたかったのでした。MySQL 自体のソフトウェアとしての完成度や開発体制もさることながら、多くのユーザがいて様々な知見・ノウハウが共有されているこの環境自体も大きな資産であると感じています。ない分の動きを把握していて、様々手を加えられるのはとても理想的なことですし憧れます。ですが、そこまでのスキルセットがない人でも、調べたり試したりすることである程度がんばれる、というのが環境含めて完成されている証だと思っています。 また、これは MySQL に限った話ではないのですが、私自身の考えとして実際のサービス運用では様々な視点・知識・経験が必要だと思っています。「何でも屋になろう」ということではなく、「視点を変えてみるとうまくいくんじゃないかな」「そのためには薄くでも知識や経験があると取っつきやすいんじゃないかな」という考えです。サービスを運用していく以上は、使っていただいているユーザさんを「もてなす」心を意識して、そのためにどうすればいいかを考えてメンバーと協力して作り上げていきたいと思っています。</p>
+
+<p>偉そうなことを言いながらも最近は直接のインフラ運用をしていないことも多いのですが、全体としては業務に限らない私自身の経験や思いをまとめたものとさせていただきました。 このような公の場でトークさせていただくのは初めてだったのですが、資料を作る時点で様々追って調べたりまとめたりと、かなり良い勉強となりました。アウトプット大事ですね。 いつもお世話になっているコミュニティに対して、今までは情報を集めて使うだけの立場だったのですが、少しずつ発信・共有する立場にもなりたいというのが今年の目標でした。まだ内容的にも未熟な点が多いと思いますが、人に説明できるまで理解をする（＝自分の言葉でかみ砕く）を重ねていってコミュニティを支えたい・恩返しをしたいと強く思った一日でした。</p>
+
+<p>快適な会場を提供いただいた Oracle のみなさま、とりまとめていただいた運営のみなさま、そしてお集まりいただいて素敵な時間を共有していただいた参加者のみなさま、ありがとうございました。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[レプリケーションが追いつかないときに試すこと]]></title>
+    <link href="http://blog.hatak.net/2011/12/07/9407"/>
+    <updated>2011-12-07T00:00:00+09:00</updated>
+    <id>http://blog.hatak.net/2011/12/07/mysql-advent</id>
+    <content type="html"><![CDATA[<p>&#8220;<a href="http://mysql-casual.org/2011/11/mysql-casual-advent-calendar-2011.html" title="MySQL Casual Advent Calendar 2011">MySQL Casual Advent Calendar 2011</a>&#8221; 7 日目を担当させていただく、hatak (<a href="http://twitter.com/hisashi" title="@hisashi">@hisashi</a>) です。 普段はモバイルゲームのインフラをメインにみているのですが、今回はそんな業務で経験したことを基に記事を書かせていただきます。 カジュアルすぎる内容かもしれませんが、お付き合いいただければと思います。</p>
+
+<!--more-->
+
+<h2 id="toc_400">MySQL のレプリケーション</h2>
+
+<p>MySQL のレプリケーションは、安定稼働やバックアップ、負荷分散などの目的に利用できる優れた機能です。 bin-log (バイナリログ) を利用して Master サーバから Slave サーバに更新を伝播させ、データの複製を行います。Slave サーバでは、2 つのスレッドが動作しています。</p>
+
+<ul>
+<li>IO_THREAD &#8211; Master から送られてきたデータを受け取り、relay-log (リレーログ) として書き出す</li>
+<li>SQL_THREAD &#8211; relay-log を読み出し、DB を更新する</li>
+</ul>
+
+<h2 id="toc_401">遅延の調べ方</h2>
+
+<p>&#8220;SQL_THREAD&#8221; による遅延の場合は、Slave サーバで &#8220;SHOW SLAVE STATUS&#8221; コマンドを実行することで確認ができます。</p>
+<div class="highlight"><pre><code class="text">hatak@dbslave&gt; SHOW SLAVE STATUS G\
+*************************** 1. row ***************************
+Slave_IO_State: Waiting for master to send event
+Master_Host: 192.168.12.2
+Master_User: replicator
+Master_Port: 3306
+Connect_Retry: 60
+Master_Log_File: mysql-bin.012863
+Read_Master_Log_Pos: 205295676
+Relay_Log_File: mysqld-relay-bin.026640
+Relay_Log_Pos: 75468325
+Relay_Master_Log_File: mysql-bin.012863
+Slave_IO_Running: Yes
+Slave_SQL_Running: Yes
+Replicate_Do_DB:
+Replicate_Ignore_DB:
+Replicate_Do_Table:
+Replicate_Ignore_Table:
+Replicate_Wild_Do_Table:
+Replicate_Wild_Ignore_Table:
+Last_Errno: 0
+Last_Error:
+Skip_Counter: 0
+Exec_Master_Log_Pos: 205295676
+Relay_Log_Space: 205296082
+Until_Condition: None
+Until_Log_File:
+Until_Log_Pos: 0
+Master_SSL_Allowed: No
+Master_SSL_CA_File:
+Master_SSL_CA_Path:
+Master_SSL_Cert:
+Master_SSL_Cipher:
+Master_SSL_Key:
+Seconds_Behind_Master: 0
+Master_SSL_Verify_Server_Cert: No
+Last_IO_Errno: 0
+Last_IO_Error:
+Last_SQL_Errno: 0
+Last_SQL_Error:
+Replicate_Ignore_Server_Ids:
+Master_Server_Id:100
+1 row in set (0.00 sec)
+</code></pre>
+</div>
+
+<p>ここに示されている &#8220;Seconds_Behind_Master&#8221; の値が、「現在 SQL_THREAD が実行しているクエリの実行時刻」と「Slave サーバが保持しているリレーログの時刻」の差となり、遅延を表しています。</p>
+
+<p>&#8220;IO_THREAD&#8221; による遅延の場合は、Master からのバイナリログが受信しきっていないため、Master における &#8220;SHOW MASTER STATUS&#8221; の結果も参考にする必要があります。</p>
+<div class="highlight"><pre><code class="text">hatak@dbmaster&gt; SHOW MASTER STATUS G\
+*************************** 1. row ***************************
+File: mysql-bin.012863
+Position: 205295676
+Binlog_Do_DB:
+Binlog_Ignore_DB:
+1 row in set (0.00 sec)
+</code></pre>
+</div>
+
+<p>この結果を基に、どれくらいずれているかを見なければなりません。</p>
+
+<p>Master と Slave で &#8220;File&#8221; と &#8220;Master_Log_File&#8221;、&#8221;Position&#8221; と &#8220;Read_Master_Log_Pos&#8221; をそれぞれ比較し、どの程度転送が遅れているかをチェックします。 &#8220;IO_THREAD&#8221; に起因した遅延の場合は、サーバの処理というよりはネットワーク帯域の問題である可能性が高いと思います。</p>
+
+<p>今回は &#8220;SQL_THREAD&#8221; による遅延を想定してまとめていきます。</p>
+
+<h3 id="toc_402">Master の更新をブロックする</h3>
+
+<p>レプリケーションで送られてくるクエリの流量が多すぎる場合、つまり Master の更新が激しすぎて追いつかないケースでは、そもそも Master での更新を止めてしまうという方法があります。</p>
+
+<p>これは、MASTER_POS_WAIT() 関数を利用することで実現できます。</p>
+
+<p>手順については、<a href="http://dev.mysql.com/doc/refman/5.1/ja/" title="MySQL5.1 リファレンスマニュアル">MySQL5.1 リファレンスマニュアル</a>の FAQ 項目内に「<a href="http://dev.mysql.com/doc/refman/5.1/ja/replication-faq.html#qandaitem-5-4-4-1-4" title="レプリケーションが追いつくまでマスタの更新をブロックする方法">レプリケーションが追いつくまでマスタの更新をブロックする方法</a>」として紹介されています。</p>
+
+<p>この方法では同期化をコントロールすることで追いつかせることができますが、実際にサービス運用中のサーバではなかなか使いづらいところもあります。</p>
+
+<h3 id="toc_403">Slave のパフォーマンスを調整する</h3>
+
+<p>このとき、レプリケーションで伝播するクエリは全て直列化されるため、更新が激しい場合はどうしても遅れてしまうことがあります。 DiskI/O への負荷が高いとき &#8220;innodb-flush-log-at-trx-commit&#8221; の値を変更することで、ディスクへのフラッシュを減らすことができます。このパラメータではログバッファからログファイルへの書き込み、およびディスクへのフラッシュをコントロールすることができます。</p>
+
+<table><thead>
+<tr>
+<th>設定値</th>
+<th>ログバッファのファイルへの書き込み</th>
+<th>ディスクへのフラッシュ</th>
+<th>備考</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>0</td>
+<td>毎秒</td>
+<td>ログファイル上</td>
+<td></td>
+</tr>
+<tr>
+<td>1</td>
+<td>コミット時</td>
+<td>ログファイル上</td>
+<td>デフォルト値</td>
+</tr>
+<tr>
+<td>2</td>
+<td>コミット時</td>
+<td>毎秒</td>
+<td></td>
+</tr>
+</tbody></table>
+
+<p>この設定値によるパフォーマンス向上度合いは、経験的には効果の大きい順に 0 &gt; 2 &gt; 1 の順と思っています。</p>
+
+<p>my.cnf に記述し起動時に適用することもできますが、 mysqld の再起動をせずに変更・反映が可能です。</p>
+<div class="highlight"><pre><code class="sql"><span class="k">SELECT</span> <span class="o">@@</span><span class="n">innodb_flush_log_at_trx_commit</span><span class="p">;</span>
+<span class="k">SET</span> <span class="k">GLOBAL</span> <span class="n">innodb_flush_log_at_trx_commit</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+</code></pre>
+</div>
+
+<p>この設定値はパフォーマンス向上の代わりに、信頼性を犠牲にします。プロセスが突然落ちた場合などにディスクにフラッシュされていないデータをロストする可能性がありますので、状況に応じて（あるいは追いつかせるまでの間だけなど）の使用に抑えることが良いかと思います。</p>
+
+<h2 id="toc_404">まとめ</h2>
+
+<p>MySQL のレプリケーションが追いつかない場合、プロセスの再起動を行わずに簡単に試せて効果の期待できる方法をまとめてみました。</p>
+
+<p>「実践ハイパフォーマンスMySQL」や「エキスパートのためのMySQLトラブルシューティングガイド」などの書籍でもわかりやすく紹介されていますので、ぜひご参照ください。</p>
+
+<p>このほか、サーバ上で不要なデーモン(cpuspeed など)が動いていないかチェックする、ionice(I/O スケジューラを cfq にする必要があります) で mysqld が優先的に DiskI/O を使えるようにするなどサーバ側でもできることはありそうです。</p>
+
+<p>間違っているところや、他にもこんな方法がある、などございましたらぜひお聞かせください。</p>
+
+<p>明日は <a href="http://twitter.com/kamipo" title="@kamipo">@kamipo</a> さんです！</p>
+]]></content>
+  </entry>
+  
+</feed>

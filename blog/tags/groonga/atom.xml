@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[tag: groonga | Hatak::Techlog]]></title>
+  <link href="http://blog.hatak.net/blog/tags/groonga/atom.xml" rel="self"/>
+  <link href="http://blog.hatak.net/"/>
+  <updated>2014-02-15T16:33:39+09:00</updated>
+  <id>http://blog.hatak.net/</id>
+  <author>
+    <name><![CDATA[hatak]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Homebrew で mroonga ストレージエンジンを入れる]]></title>
+    <link href="http://blog.hatak.net/2012/10/24/17562"/>
+    <updated>2012-10-24T00:00:00+09:00</updated>
+    <id>http://blog.hatak.net/2012/10/24/homebrew-groonga</id>
+    <content type="html"><![CDATA[<p>ローカルマシン (MaxOSX 10.8.2) に MySQL 5.5 + mroonga の環境を構築してたのですが、いろいろ嵌まったのでメモしておきます。</p>
+
+<!--more-->
+
+<h2 id="toc_418">MeCab</h2>
+
+<p>mroonga で TokenMecab トークナイザーを利用するためには MeCab が必要です。 Homebrew で IPA 辞書と合わせてインストールします。</p>
+<div class="highlight"><pre><code class="text">$ brew install mecab mecab-ipadic
+$ mecab -D
+filename: /usr/local/Cellar/mecab/0.994/lib/mecab/dic/ipadic/sys.dic
+version: 102
+charset: utf8
+type: 0
+size: 392126
+left size: 1316
+right size: 1316
+$ mecab 今日は雨です
+今日 名詞,副詞可能,*,*,*,*,今日,キョウ,キョー
+は 助詞,係助詞,*,*,*,*,は,ハ,ワ
+雨 名詞,一般,*,*,*,*,雨,アメ,アメ
+です 助動詞,*,*,*,特殊・デス,基本形,です,デス,デス
+EOS
+</code></pre>
+</div>
+
+<p>brew で mecab-ipadic 入れるとデフォルトで UTF-8 になるようになっています。mecab コマンドでインタラクティブに形態素解析してみて、文字化けせずに出力されれば問題なしです。</p>
+
+<p>もし、文字化けしてる場合は Homebrew 周りのどこかに問題があります。brew doctor などで調べていきます。</p>
+<div class="highlight"><pre><code class="text">$ brew unlink mecab mecab-ipadic
+$ brew uninstall mecab mecab-ipadic
+$ brew doctor
+</code></pre>
+</div>
+
+<p>私の場合、10.8 にアップデートする以前に Homebrew で入れた libiconv が中途半端に残ってたことでおかしくなっていたようでした。</p>
+
+<h2 id="toc_419">groonga</h2>
+
+<p>MeCab の次は groonga をインストールします。</p>
+<div class="highlight"><pre><code class="text">$ brew install groonga
+$ groonga --version
+groonga 2.0.7 [darwin12.2.0,x86_64,utf8,match-escalation-threshold=0,nfkc,msgpack,zlib,lzo,kqueue]
+configure options: &lt; &#39;--prefix=/usr/local/Cellar/groonga/2.0.7&#39; &#39;--with-zlib&#39; &#39;CC=cc&#39; &#39;CXX=c++&#39; &#39;PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:/usr/local/share/pkgconfig:/usr/local/Library/Homebrew/pkgconfig&#39;&gt;
+</code></pre>
+</div>
+
+<p>インストール後にチェックをして、TokenMecab が使えるか確認します。 mecab と書かれていない場合は使えません。groonga の configure オプションでは mecab はデフォルト有効と書かれており、mecab-config を自動で探してくれることになっているのですが、パスが通ってないなどがあるのかもしれません。 直接 brew edit で Fomula を書き換えて再度インストールしてしまいます。</p>
+<div class="highlight"><pre><code class="text">diff --git a/Library/Formula/groonga.rb b/Library/Formula/groonga.rb
+index 1c4e8cf..45a7a2b 100644
+--- a/Library/Formula/groonga.rb
++++ b/Library/Formula/groonga.rb
+@@ -8,9 +8,11 @@
+   depends_on &#39;pkg-config&#39; =&gt; :build
+   depends_on &#39;pcre&#39;
+   depends_on &#39;msgpack&#39;
++  depends_on &#39;mecab&#39;
++  depends_on &#39;mecab-ipadic&#39;
+
+   def install
+-    system &quot;./configure&quot;, &quot;--prefix=#{prefix}&quot;, &quot;--with-zlib&quot;
++    system &quot;./configure&quot;, &quot;--prefix=#{prefix}&quot;, &quot;--with-zlib&quot;, &quot;-with-mecab&quot;, &quot;-with-mecab-config=/usr/local/bin/mecab-config&quot;
+     system &quot;make install&quot;
+   end
+ end
+</code></pre>
+</div>
+
+<p>これでOK。</p>
+<div class="highlight"><pre><code class="text">$ brew install groonga
+$ groonga --version
+groonga 2.0.7 [darwin12.2.0,x86_64,utf8,match-escalation-threshold=0,nfkc,mecab,msgpack,zlib,lzo,kqueue]
+configure options: &lt; &#39;--prefix=/usr/local/Cellar/groonga/2.0.7&#39; &#39;--with-zlib&#39; &#39;--with-mecab&#39; &#39;--with-mecab-config=/usr/local/bin/mecab-config&#39; &#39;CC=cc&#39; &#39;CXX=c++&#39; &#39;PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:/usr/local/share/pkgconfig:/usr/local/Library/Homebrew/pkgconfig&#39;&gt;
+</code></pre>
+</div>
+
+<h2 id="toc_420">mroonga</h2>
+
+<p>次は mroonga をインストールします。Homebrew には内包されていませんが、mroonga のリポジトリに Fomula があるのでこちらを使います。</p>
+<div class="highlight"><pre><code class="text">$ brew install https://raw.github.com/mroonga/Homebrew/master/mroonga.rb --use-Homebrew-mysql
+</code></pre>
+</div>
+
+<p>もし、MySQL を Homebrew で入れていない場合 (オフィシャルバイナリを利用している場合など) は、同一バージョンのソースを別途ダウンロードして引数に渡します。また、パーミッションの関係で最後の make install で失敗するので、plugin ディレクトリの所有グループを変更してパーミッションも変えておきます。</p>
+<div class="highlight"><pre><code class="text">$ sudo chgrp staff /usr/local/mysql/lib/plugin
+$ sudo chmod g+w /usr/local/mysql/lib/plugin
+$ brew install https://raw.github.com/mroonga/Homebrew/master/mroonga.rb --with-mysql-source=/usr/local/src/mysql-5.5.28 --with-mysql-config=/usr/local/mysql/bin/mysql_config
+</code></pre>
+</div>
+
+<p>嵌まりながら MySQL を Homebrew 管理とオフィシャルバイナリの両方で試してみたのですが、基本的には Homebrew で揃えた方が便利かなと思いました。</p>
+
+<p>オフィシャルバイナリの特徴をまとめてみるとこんな感じです。</p>
+
+<ul>
+<li>長所
+
+<ul>
+<li>OS の設定画面で起動/停止、あるいは自動起動設定が行える</li>
+<li>インストールウィザードが付属しているためインストールが容易</li>
+</ul></li>
+<li>短所
+
+<ul>
+<li>言語バインディングを利用するときに DYLD_LIBRARY_PATH にパスが通っていないとエラーになることがある 
+
+<ul>
+<li>逆にパスを通していると Homebrew でエラーになることがある</li>
+</ul></li>
+<li>データやログなどのパーミッションがユーザ権限ではなく root になってしまう</li>
+<li>起動/停止を行う際にパスワードが必要なのが面倒</li>
+</ul></li>
+</ul>
+
+<p>個人的には、複数のユーザで利用している mac でユーザ共通に自動起動させたい（もしくはどうしてもオフィシャルバイナリを使いたい）という条件でなければ Homebrew で良いのかなと思いました。</p>
+
+<h2 id="toc_421">動作確認</h2>
+
+<p>MySQL Server が起動していれば、mroonga の Fomula の中でプラグインと関数の追加も行われています。停止していた場合は起動後に追加のコマンドを入力します。</p>
+<div class="highlight"><pre><code class="text">$ mysql -uroot -e &#39;INSTALL PLUGIN mroonga SONAME &quot;ha_mroonga.so&quot;; CREATE FUNCTION last_insert_grn_id RETURNS INTEGER SONAME &quot;ha_mroonga.so&quot;; CREATE FUNCTION mroonga_snippet RETURNS STRING SONAME &quot;ha_mroonga.so&quot;;&#39;
+</code></pre>
+</div>
+
+<p>これで mroonga ストレージエンジンが使えるようになります。</p>
+<div class="highlight"><pre><code class="text">root@localhost[test]&gt; SHOW ENGINES;
++-------+---+----------------------+-----+--+----+
+| Engine | Support | Comment | Transactions | XA | Savepoints |
++-------+---+----------------------+-----+--+----+
+| FEDERATED | NO | Federated MySQL storage engine | NULL | NULL | NULL |
+| MRG_MYISAM | YES | Collection of identical MyISAM tables | NO | NO | NO |
+| MyISAM | YES | MyISAM storage engine | NO | NO | NO |
+| BLACKHOLE | YES | /dev/null storage engine (anything you write to it disappears) | NO | NO | NO |
+| CSV | YES | CSV storage engine | NO | NO | NO |
+| MEMORY | YES | Hash based, stored in memory, useful for temporary tables | NO | NO | NO |
+| mroonga | YES | CJK-ready fulltext search, column store | NO | NO | NO |
+| InnoDB | DEFAULT | Supports transactions, row-level locking, and foreign keys | YES | YES | YES |
+| PERFORMANCE_SCHEMA | YES | Performance Schema | NO | NO | NO |
+| ARCHIVE | YES | Archive storage engine | NO | NO | NO |
++-------+---+----------------------+-----+--+----+
+10 rows in set (0.01 sec)
+
+root@localhost[test]&gt; SHOW PLUGINS;
++---------+----+-------+-----+---+
+| Name | Status | Type | Library | License |
++---------+----+-------+-----+---+
+| binlog | ACTIVE | STORAGE ENGINE | NULL | GPL |
+| mysql_native_password | ACTIVE | AUTHENTICATION | NULL | GPL |
+| mysql_old_password | ACTIVE | AUTHENTICATION | NULL | GPL |
+| CSV | ACTIVE | STORAGE ENGINE | NULL | GPL |
+| MEMORY | ACTIVE | STORAGE ENGINE | NULL | GPL |
+| MyISAM | ACTIVE | STORAGE ENGINE | NULL | GPL |
+| MRG_MYISAM | ACTIVE | STORAGE ENGINE | NULL | GPL |
+| ARCHIVE | ACTIVE | STORAGE ENGINE | NULL | GPL |
+| BLACKHOLE | ACTIVE | STORAGE ENGINE | NULL | GPL |
+| FEDERATED | DISABLED | STORAGE ENGINE | NULL | GPL |
+| InnoDB | ACTIVE | STORAGE ENGINE | NULL | GPL |
+| INNODB_TRX | ACTIVE | INFORMATION SCHEMA | NULL | GPL |
+| INNODB_LOCKS | ACTIVE | INFORMATION SCHEMA | NULL | GPL |
+| INNODB_LOCK_WAITS | ACTIVE | INFORMATION SCHEMA | NULL | GPL |
+| INNODB_CMP | ACTIVE | INFORMATION SCHEMA | NULL | GPL |
+| INNODB_CMP_RESET | ACTIVE | INFORMATION SCHEMA | NULL | GPL |
+| INNODB_CMPMEM | ACTIVE | INFORMATION SCHEMA | NULL | GPL |
+| INNODB_CMPMEM_RESET | ACTIVE | INFORMATION SCHEMA | NULL | GPL |
+| INNODB_BUFFER_PAGE | ACTIVE | INFORMATION SCHEMA | NULL | GPL |
+| INNODB_BUFFER_PAGE_LRU | ACTIVE | INFORMATION SCHEMA | NULL | GPL |
+| INNODB_BUFFER_POOL_STATS | ACTIVE | INFORMATION SCHEMA | NULL | GPL |
+| PERFORMANCE_SCHEMA | ACTIVE | STORAGE ENGINE | NULL | GPL |
+| partition | ACTIVE | STORAGE ENGINE | NULL | GPL |
+| mroonga | ACTIVE | STORAGE ENGINE | ha_mroonga.so | GPL |
++---------+----+-------+-----+---+
+24 rows in set (0.01 sec)
+
+root@localhost[test]&gt; CREATE TABLE diaries (
+    -&gt; id INT PRIMARY KEY AUTO_INCREMENT,
+    -&gt; content VARCHAR(255),
+    -&gt; FULLTEXT INDEX (content) COMMENT &#39;PARSER &quot;TokenMecab&quot;&#39;
+    -&gt; ) ENGINE = mroonga COMMENT = &#39;engine &quot;innodb&quot;&#39; DEFAULT CHARSET utf8;
+Query OK, 0 rows affected (0.50 sec)
+
+root@localhost[test]&gt; SHOW CREATE TABLE diaries;
++---+--------------------------------------------------------------------------------------+
+| Table | Create Table |
++---+--------------------------------------------------------------------------------------+
+| diaries | CREATE TABLE `diaries` (
+`id` int(11) NOT NULL AUTO_INCREMENT,
+`content` varchar(255) DEFAULT NULL,
+PRIMARY KEY (`id`),
+FULLTEXT KEY `content` (`content`) COMMENT &#39;PARSER &quot;TokenMecab&quot;&#39;
+) ENGINE=mroonga DEFAULT CHARSET=utf8 COMMENT=&#39;engine &quot;innodb&quot;&#39; |
++---+--------------------------------------------------------------------------------------+
+1 row in set (0.00 sec)
+</code></pre>
+</div>
+
+<p>warning がでなければ問題なく動作しています。念のため mysql.err や groonga.log といったログにも目を通しておきます。</p>
+
+<p>これで mroonga が使えるようになりました。使ってみた印象としては、文節を考慮してくれる高速な LIKE というイメージです。ちょっとした全文検索であれば、手軽に使えるレベルで良いかと思いました。</p>
+]]></content>
+  </entry>
+  
+</feed>

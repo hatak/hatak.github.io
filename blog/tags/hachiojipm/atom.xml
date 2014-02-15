@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[tag: hachiojipm | Hatak::Techlog]]></title>
+  <link href="http://blog.hatak.net/blog/tags/hachiojipm/atom.xml" rel="self"/>
+  <link href="http://blog.hatak.net/"/>
+  <updated>2014-02-15T16:33:39+09:00</updated>
+  <id>http://blog.hatak.net/</id>
+  <author>
+    <name><![CDATA[hatak]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Hachioji.pm #11 に行ってきた]]></title>
+    <link href="http://blog.hatak.net/2011/12/04/9188"/>
+    <updated>2011-12-04T00:00:00+09:00</updated>
+    <id>http://blog.hatak.net/2011/12/04/hachioji-pm-11</id>
+    <content type="html"><![CDATA[<p>町田で行われた hachioji.pm #11 に参加してきました。 前回参加した hachioji.pm が 2 月実施の #2 だったので、9 回ぶり 2 回目の参加でした。振り返れば震災以降ドタバタといろんなことがあって参加できないままだったわけで、ちょっと勿体ないことしたなと反省したりもしてました。</p>
+
+<p>町田も久しぶりすぎて変化に戸惑いが隠せない感じでした。資料作成しようと思ったカフェとかなくなってたし！</p>
+
+<h2 id="toc_390">全体的な感想など</h2>
+
+<p>自己紹介代わりの LT はやっぱりおもしろいと思います。規模が大きくなると難しくなりますが、全員に向かって各々が話す hachioji.pm ならではの雰囲気は好きです。</p>
+
+<p>かなり様々なお話を聞けたことも大きな収穫でした。同時に、モチベーションが上がるような刺激を受けることができました。</p>
+
+<!--more-->
+
+<p>その他、つらつらと思ったことを。</p>
+
+<ul>
+<li>ネタが意外とかぶっててなんかずるい &#8211; &#8220;退職しました&#8221; &#8211; &#8220;うれしいこと（内定・転職・おめでた）ありました&#8221; &#8211; &#8220;北海道&#8221;</li>
+<li>会場となったお店がよかった &#8211; 屋根裏っぽい雰囲気がよかった &#8211; 料理（とくに鍋）もおいしかった &#8211; オリオンビールが飲みやすかった &#8211; @ytnobody++</li>
+<li>業界狭い &#8211; いろんな方とのつながりはやっぱり大事</li>
+</ul>
+
+<h2 id="toc_391">MySQL の preload</h2>
+
+<p>LT で話した資料をこちらにおいてあります (PDF 形式です)。 お題の「○○道」でネタを探していたのですが、preload のことで頭いっぱいだったこともありライトな感じにざっとまとめてみました。</p>
+
+<p>周りの方にアドバイスいただいたり、調べたり、試したりしたものを組み合わせた結果、個人的な答えとして今はこのような手法がよいのかなと考えています。ただ、もっと <strike>楽な</strike> 効率のよい方法など、実際に皆さんがどのようにされているかを知りたいなと思っているところです。</p>
+
+<p>幹事の @ytnobody さん、主催の @uzulla さん、そして参加された皆さん、お疲れさま &amp; ありがとうございました。 また次回も都合をつけて参加したいなー。</p>
+]]></content>
+  </entry>
+  
+</feed>

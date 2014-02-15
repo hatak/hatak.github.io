@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[tag: ios | Hatak::Techlog]]></title>
+  <link href="http://blog.hatak.net/blog/tags/ios/atom.xml" rel="self"/>
+  <link href="http://blog.hatak.net/"/>
+  <updated>2014-02-15T16:33:39+09:00</updated>
+  <id>http://blog.hatak.net/</id>
+  <author>
+    <name><![CDATA[hatak]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[YAPC::Asia Tokyo 2012 で話してきた]]></title>
+    <link href="http://blog.hatak.net/2012/09/29/17281"/>
+    <updated>2012-09-29T00:00:00+09:00</updated>
+    <id>http://blog.hatak.net/2012/09/29/yapcasia-tokyo-2012</id>
+    <content type="html"><![CDATA[<p>9/27-29 の日程で東京大学で <a href="http://yapcasia.org/2012/" title="YAPC::Asia 2012">YAPC::Asia Tokyo 2012</a> が開催されています。 応募したトークを採用していただいたので、スピーカーとして参加させていただきました。</p>
+
+<p><a href="http://www.slideshare.net/idhatak/ss-14499185">http://www.slideshare.net/idhatak/ss-14499185</a>">http://www.slideshare.net/idhatak/ss-14499185">http://www.slideshare.net/idhatak/ss-14499185</a></a></p>
+
+<!--more-->
+
+<p>諸般の事情でまだサービスリリースがされていないこともあり、かなり概説的な内容となっています。このような場でトークさせていただくのは MySQL Casual に続いて2度目だったのですが、内容が少し分散してしまいまとまりのない感じになってしまったところが反省でした。</p>
+
+<p>YAPC でのスピーカーは一つの目標でした。</p>
+
+<p>はじめて Perl-CGI に触れたのは高校生の頃でした。当時はアクセスカウンタや掲示板のスクリプトでしたが、&#8221;プログラムがホームページで動く&#8221; ということ自体にわくわくしながら見よう見まねでいじってました。大学でもデータ解析やサーバ管理など、何かプログラムを書くときには Perl を使っていました。</p>
+
+<p>その後、社会に出てから改めてオブジェクト指向やモダンな Perl を学びました。サーバ管理などの小さなスクリプトからWebサービスまで、業務で利用してきた期間も5年近くになります。私にとっての Perl はこれまで一番お世話になっているプログラム言語であり、今エンジニアとして仕事をしているのも Perl のおかげだと思っています。</p>
+
+<p>昨年の YAPC::Asia Tokyo 2011 で @lestrrat さんや @941 さんが「来年はないかも知れない」という話をされていたこともあり、開催告知がされた時に応募しようと思っていました。お世話になった Perl を盛り上げたい、何か恩返しにでもなればという思いからでした。</p>
+
+<p>このような思いを踏まえてうまく伝えられなかったなと反省しているのですが、拙い発表を聞いていただいた方の中に一人でも何か新しいこと・今までと違う視点に気づいていただけたならそれで良いのだと自分に言い聞かせています。</p>
+
+<p>年に一度のお祭りですが、参加するたびに自分が Perl を取り巻く文化に魅了されていることに気づかされます。 様々なトークがあり、いろんな視点での意見が交わされているのはとても刺激になりますし、テンションも上がります。この勢いでサービスもうまく形にして、同時に自分自身についてもしっかりと考えていきたいと思いました。</p>
+
+<p>他のトークに優先して聞きに来てくださったみなさま、素敵なカンファレンスを運営してくださっている JPA とスタッフのみなさま、そして多くのスポンサーのみなさま、ありがとうございました！</p>
+]]></content>
+  </entry>
+  
+</feed>

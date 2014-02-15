@@ -6,7 +6,7 @@
 <head>
   <meta charset="utf-8">
   <title>Homebrew で mroonga ストレージエンジンを入れる - Hatak::Techlog</title>
-  <meta name="author" content="Hisashi HATAKEYAMA">
+  <meta name="author" content="hatak">
 
   
   <meta name="description" content="ローカルマシン (MaxOSX 10.8.2) に MySQL 5.5 + mroonga の環境を構築してたのですが、いろいろ嵌まったのでメモしておきます。 MeCab mroonga で TokenMecab トークナイザーを利用するためには MeCab が必要です。 Homebrew で &hellip;">
@@ -25,10 +25,7 @@
   <script src="/javascripts/ender.js"></script>
   <script src="/javascripts/octopress.js" type="text/javascript"></script>
   <link href="/atom.xml" rel="alternate" title="Hatak::Techlog" type="application/atom+xml">
-  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
-<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-
+  
   
   <script type="text/javascript">
     var _gaq = _gaq || [];
@@ -96,9 +93,6 @@
 
 
 <time datetime="2012-10-24T00:00:00+09:00" pubdate data-updated="true">2012/10/24</time>
-        
-         | <a href="#disqus_thread">Comments</a>
-        
       </p>
     
   </header>
@@ -108,7 +102,7 @@
 
 <!--more-->
 
-<h2 id="toc_209">MeCab</h2>
+<h2 id="toc_650">MeCab</h2>
 
 <p>mroonga で TokenMecab トークナイザーを利用するためには MeCab が必要です。 Homebrew で IPA 辞書と合わせてインストールします。</p>
 <div class="highlight"><pre><code class="text">$ brew install mecab mecab-ipadic
@@ -140,7 +134,7 @@ $ brew doctor
 
 <p>私の場合、10.8 にアップデートする以前に Homebrew で入れた libiconv が中途半端に残ってたことでおかしくなっていたようでした。</p>
 
-<h2 id="toc_210">groonga</h2>
+<h2 id="toc_651">groonga</h2>
 
 <p>MeCab の次は groonga をインストールします。</p>
 <div class="highlight"><pre><code class="text">$ brew install groonga
@@ -179,7 +173,7 @@ configure options: &lt; &#39;--prefix=/usr/local/Cellar/groonga/2.0.7&#39; &#39;
 </code></pre>
 </div>
 
-<h2 id="toc_211">mroonga</h2>
+<h2 id="toc_652">mroonga</h2>
 
 <p>次は mroonga をインストールします。Homebrew には内包されていませんが、mroonga のリポジトリに Fomula があるのでこちらを使います。</p>
 <div class="highlight"><pre><code class="text">$ brew install https://raw.github.com/mroonga/Homebrew/master/mroonga.rb --use-Homebrew-mysql
@@ -219,7 +213,7 @@ $ brew install https://raw.github.com/mroonga/Homebrew/master/mroonga.rb --with-
 
 <p>個人的には、複数のユーザで利用している mac でユーザ共通に自動起動させたい（もしくはどうしてもオフィシャルバイナリを使いたい）という条件でなければ Homebrew で良いのかなと思いました。</p>
 
-<h2 id="toc_212">動作確認</h2>
+<h2 id="toc_653">動作確認</h2>
 
 <p>MySQL Server が起動していれば、mroonga の Fomula の中でプラグインと関数の追加も行われています。停止していた場合は起動後に追加のコマンドを入力します。</p>
 <div class="highlight"><pre><code class="text">$ mysql -uroot -e &#39;INSTALL PLUGIN mroonga SONAME &quot;ha_mroonga.so&quot;; CREATE FUNCTION last_insert_grn_id RETURNS INTEGER SONAME &quot;ha_mroonga.so&quot;; CREATE FUNCTION mroonga_snippet RETURNS STRING SONAME &quot;ha_mroonga.so&quot;;&#39;
@@ -332,6 +326,15 @@ FULLTEXT KEY `content` (`content`) COMMENT &#39;PARSER &quot;TokenMecab&quot;&#3
 </span>
 
 
+      
+
+<span class="tags">
+  
+    <a class='tag' href='/blog/tags/groonga/'>groonga</a>, <a class='tag' href='/blog/tags/mac/'>mac</a>, <a class='tag' href='/blog/tags/mecab/'>mecab</a>, <a class='tag' href='/blog/tags/mroonga/'>mroonga</a>, <a class='tag' href='/blog/tags/mysql/'>mysql</a>
+  
+</span>
+
+
     </p>
     
       <div class="sharing">
@@ -361,7 +364,21 @@ FULLTEXT KEY `content` (`content`) COMMENT &#39;PARSER &quot;TokenMecab&quot;&#3
 <aside class="sidebar">
   
     <section>
-  <h1>Recent Posts</h1>
+  <h1><i class="fa fa-user"></i> Author</h1>
+  <img src="https://s.gravatar.com/avatar/43642a4bd7217384aadb10527a29673a?s=80" width="80" height="80" class="pull-right">
+  <h2>hatak</h2>
+  <ul>
+    
+    <li><i class="fa fa-twitter"></i> <a href="https://twitter.com/hisashi">@hisashi</a></li>
+    
+    
+    <li><i class="fa fa-github"></i> <a href="https://github.com/hatak">hatak</a></li>
+    
+  </ul>
+  <p>考えることは好きだけど，考えすぎて動けなくなる癖を直したい。</p>
+</section>
+<section>
+  <h1><i class="fa fa-pencil"></i> Recent Posts</h1>
   <ul id="recent_posts">
     
       <li class="post">
@@ -386,39 +403,10 @@ FULLTEXT KEY `content` (`content`) COMMENT &#39;PARSER &quot;TokenMecab&quot;&#3
     
   </ul>
 </section>
-
 <section>
-  <h1>GitHub Repos</h1>
-  <ul id="gh_repos">
-    <li class="loading">Status updating...</li>
-  </ul>
-  
-  <a href="https://github.com/hatak">@hatak</a> on GitHub
-  
-  <script type="text/javascript">
-    $.domReady(function(){
-        if (!window.jXHR){
-            var jxhr = document.createElement('script');
-            jxhr.type = 'text/javascript';
-            jxhr.src = '/javascripts/libs/jXHR.js';
-            var s = document.getElementsByTagName('script')[0];
-            s.parentNode.insertBefore(jxhr, s);
-        }
-
-        github.showRepos({
-            user: 'hatak',
-            count: 3,
-            skip_forks: true,
-            target: '#gh_repos'
-        });
-    });
-  </script>
-  <script src="/javascripts/github.js" type="text/javascript"> </script>
+  <h1><i class="fa fa-tags"></i> Tag Cloud</h1>
+    <span id="tag-cloud"><a href='/blog/tags/adventcalendar' style='font-size: 120.0%'>adventcalendar(2)</a> <a href='/blog/tags/apache' style='font-size: 110.0%'>apache(1)</a> <a href='/blog/tags/archlinux' style='font-size: 110.0%'>archlinux(1)</a> <a href='/blog/tags/aws' style='font-size: 110.0%'>aws(1)</a> <a href='/blog/tags/carton' style='font-size: 110.0%'>carton(1)</a> <a href='/blog/tags/casual' style='font-size: 120.0%'>casual(2)</a> <a href='/blog/tags/centos' style='font-size: 120.0%'>centos(2)</a> <a href='/blog/tags/conference' style='font-size: 120.0%'>conference(2)</a> <a href='/blog/tags/development' style='font-size: 120.0%'>development(2)</a> <a href='/blog/tags/dns' style='font-size: 120.0%'>dns(2)</a> <a href='/blog/tags/geo' style='font-size: 110.0%'>geo(1)</a> <a href='/blog/tags/git' style='font-size: 130.0%'>git(3)</a> <a href='/blog/tags/groonga' style='font-size: 110.0%'>groonga(1)</a> <a href='/blog/tags/hachiojipm' style='font-size: 110.0%'>hachiojipm(1)</a> <a href='/blog/tags/infrastructure' style='font-size: 120.0%'>infrastructure(2)</a> <a href='/blog/tags/ios' style='font-size: 110.0%'>ios(1)</a> <a href='/blog/tags/life' style='font-size: 110.0%'>life(1)</a> <a href='/blog/tags/location' style='font-size: 110.0%'>location(1)</a> <a href='/blog/tags/mac' style='font-size: 120.0%'>mac(2)</a> <a href='/blog/tags/mecab' style='font-size: 110.0%'>mecab(1)</a> <a href='/blog/tags/mroonga' style='font-size: 110.0%'>mroonga(1)</a> <a href='/blog/tags/mysql' style='font-size: 160.0%'>mysql(6)</a> <a href='/blog/tags/nginx' style='font-size: 120.0%'>nginx(2)</a> <a href='/blog/tags/perl' style='font-size: 160.0%'>perl(6)</a> <a href='/blog/tags/plack' style='font-size: 110.0%'>plack(1)</a> <a href='/blog/tags/raspberrypi' style='font-size: 110.0%'>raspberrypi(1)</a> <a href='/blog/tags/redis' style='font-size: 120.0%'>redis(2)</a> <a href='/blog/tags/seminar' style='font-size: 130.0%'>seminar(3)</a> <a href='/blog/tags/server' style='font-size: 120.0%'>server(2)</a> <a href='/blog/tags/supervisord' style='font-size: 110.0%'>supervisord(1)</a> <a href='/blog/tags/test' style='font-size: 110.0%'>test(1)</a> <a href='/blog/tags/varnish' style='font-size: 110.0%'>varnish(1)</a> <a href='/blog/tags/zsh' style='font-size: 110.0%'>zsh(1)</a> </span>
 </section>
-
-
-
-
 
   
 </aside>
@@ -427,8 +415,7 @@ FULLTEXT KEY `content` (`content`) COMMENT &#39;PARSER &quot;TokenMecab&quot;&#3
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2014 - Hisashi HATAKEYAMA -
-  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a>. Design by <a href="http://octopressthemes.com">Octopress Themes</a>.</span>
+  Copyright &copy; 2014 hatak
 </p>
 
 </footer>

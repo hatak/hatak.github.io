@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[tag: server | Hatak::Techlog]]></title>
+  <link href="http://blog.hatak.net/blog/tags/server/atom.xml" rel="self"/>
+  <link href="http://blog.hatak.net/"/>
+  <updated>2014-02-15T16:33:39+09:00</updated>
+  <id>http://blog.hatak.net/</id>
+  <author>
+    <name><![CDATA[hatak]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[&#8220;Server Manage Deep Talk #1&#8243; の振り返りメモ]]></title>
+    <link href="http://blog.hatak.net/2012/10/12/17536"/>
+    <updated>2012-10-12T00:00:00+09:00</updated>
+    <id>http://blog.hatak.net/2012/10/12/server-manage-deep-talk</id>
+    <content type="html"><![CDATA[<p>先日、&#8221;<a href="https://www.facebook.com/events/346462502114960/">Server Manage Deep Talk #1</a>&#8221; に参加してきました。</p>
+
+<p>YAPC の懇親会での話がきっかけで @riywo さんに企画していただいたイベントでした。趣旨としては、既成のツールに焦点を絞るのではなく、サーバを効率的（かつ、可能であれば統一的）に管理するにはどうすればいいかというざっくりとした情報交換の場だったのですが、各社の苦悩が感じられてとても面白いものでした。</p>
+
+<p>そのあと、ちょっと自分なりに考えてみたので覚え書きしてみます。</p>
+
+<!--more-->
+
+<p>今回の話を踏まえると、最初に考えなければならないのは大きく2つの点だと思います。 （解釈間違えなどあればご指摘ください。。）</p>
+
+<h3 id="toc_183">「管理」の対象がどこまでなのか</h3>
+
+<p>サーバ管理といっても様々な管理があります。</p>
+
+<ul>
+<li>物理と論理
+
+<ul>
+<li>物理 : どのデータセンタ/ラック/スロットにあるか</li>
+<li>論理 : どのセグメントでどのように利用されているか</li>
+</ul></li>
+<li>資産と運用
+
+<ul>
+<li>資産 : 固定資産の減価償却やリース期間 (業務監査のイメージ)</li>
+<li>運用 : どのサービスにどういった用途で利用しているか</li>
+</ul></li>
+</ul>
+
+<p>このほかにも、オンプレミス/クラウド(VM含)やスペック毎/役割毎など、いろんな分類基準があるわけです。全てをカバーするのも一つの選択肢ですが、ここは目的から軸となる区分を明確化しておく必要がありそうです。 @kentaro さんがおっしゃられていたように、まさに利用シーンの現状や想定を整理した上で、実際どのあたりを吸収するか考える必要があるのだろうと思います。</p>
+
+<h3 id="toc_184">データを集約するか、proxy するか</h3>
+
+<p>@riywo さんのアイディアでは、既存ツールのデータを活かすために Core が欲しいデータを持っている各ツールに問い合わせて返ってきた情報を集約する形になっています。 一方で、@kuwa_tw さんからの意見で全部まとめた箱としてしまうというアイディアもあり、これもありだと思います。</p>
+
+<p>それぞれのメリットを考えてみます。</p>
+
+<ul>
+<li>集約式
+
+<ul>
+<li>データが一カ所にまとめられる</li>
+<li>他サービスへの依存が無い</li>
+<li>ここだけ変更すればいい</li>
+</ul></li>
+<li>proxy式
+
+<ul>
+<li>既存ツールはそのままにできる</li>
+<li>Core の機能はシンプルに抑えられる</li>
+</ul></li>
+</ul>
+
+<p>これは現状の利用状況に依るのかも知れないですね。ツールがどの程度(種類・頻度)利用されていて移行のコストがどれくらいかかるのか、あるいは部署を横断的にまとめていくことが社内政治的に可能なのかどうか、そもそも現状のデータをどれくらい Core が吸収できるのか、といったあたりが焦点になる気がします。</p>
+
+<p>私自身の利用経験や環境から考えると、集約してしまう方式が敷居は低そうかなと感じました。連携のために既存ツールに手を入れなければならないのは導入コストとして高くつくかなと。（でも、結局はバランスを見てのハイブリッドになりそう。。）</p>
+
+<p>自分なりにちょっとずつ整理しながら、ひとまずはシンプルなモックを作ってみようかなと思っています。</p>
+
+<p>次回、が行えるようであればさらに掘り下げて、少しでもインフラ担当者が楽になれると幸せですね。 あと、Web サービス事業者だけに限らず、ホスティングなどでまとまった台数を管理していそうな DC 事業者さんとかの話も伺ってみたいと思いました。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[gitosis で作るプライベートな git サーバ]]></title>
+    <link href="http://blog.hatak.net/2011/05/18/571"/>
+    <updated>2011-05-18T00:00:00+09:00</updated>
+    <id>http://blog.hatak.net/2011/05/18/gitosis</id>
+    <content type="html"><![CDATA[<p>業務で使い始めた Git ですが、高機能過ぎて未だに使いこなせている自信がありません。 一方で、かつて利用していた Subversion はコマンドを忘れてしまって使うたびにググるほどに記憶が抜けつつあります。</p>
+
+<p>そんな Git を複数メンバー・複数環境で利用する場合、マスターリポジトリを利用することがあります。これにより、Subversion のような中央集約型のソースコード管理をしつつも Git の恩恵を受ける開発スタイルを取ることができるます。 マスターリポジトリとして <a href="http://github.com/">GitHub</a> を利用するのが最も手っ取り早いですが、プライベート（= メンバーのみが閲覧できる）なリポジトリを作成するためには有料オプションにしなければなりません。しかも地味に高い。</p>
+
+<p>こんな時、gitosis を利用すると手軽にプライベートな Git サーバを構築することができます。もちろん、リポジトリを利用するメンバー全員が SSH での接続ができるサーバに bare リポジトリを作ることでも Git サーバとして機能しますが、それでも gitosis を使う優位性は以下のような点にあります。</p>
+
+<ul>
+<li>公開鍵認証を用い、通信にSSHを利用するため安全に利用できる</li>
+<li>公開鍵でユーザを識別し、リポジトリに対するアクセス制御が設定できる</li>
+<li>サーバにアカウントとは切り離して、リポジトリへのアクセスアカウントの作成ができる</li>
+</ul>
+
+<p>gitosis はマスターリポジトリとして利用するサーバのみインストールします。リモートから clone / pull / push をするクライアントには、通常通りの Git がインストールされていれば利用することができます。</p>
+
+<!--more-->
+
+<h2 id="toc_185">パッケージ導入</h2>
+
+<p>gitosis は python で記述され、gitで管理されているプロジェクトです。 CentOS の場合、EPEL リポジトリに Git / gitosis 共にパッケージが存在するので、これを利用することで簡単にインストールできます。</p>
+<div class="highlight"><pre><code class="text">$ sudo yum install git python-setuptools gitosis
+</code></pre>
+</div>
+
+<p>この方法で導入した場合、gitosis ユーザが合わせて作成されます。</p>
+
+<ul>
+<li>uid: gitosis</li>
+<li>home dir: /var/lib/gitosis</li>
+</ul>
+
+<h2 id="toc_186">初期設定</h2>
+
+<p>gitosis の設定は、 gitosis 管理リポジトリのファイルを変更し push することで反映されます。 設定を行うためには、管理ユーザとして最低一人の公開鍵をセットしなければなりません。ここでは、Git サーバ上の現在の操作ユーザの鍵を管理ユーザとしてセットする例を示します。</p>
+<div class="highlight"><pre><code class="text">$ cd /var/lib/gitosis
+$ sudo -H -u gitosis gitosis-init &lt; ~/.ssh/id_rsa.pub
+</code></pre>
+</div>
+
+<p>これで、gitosis のホームに &quot;gitosis&quot; ,&quot;repositories&quot; という2つのディレクトリが生成されます。<br>
+この gitosis 管理リポジトリを、登録した鍵を持つクライアント（ここでは同一ホスト）からcloneし、設定します。</p>
+<div class="highlight"><pre><code class="text">$ cd ~/work
+$ git clone gitosis@localhost:gitosis-admin.git
+</code></pre>
+</div>
+
+<p>設定を変更後、push することで Hooks のスクリプトが実行されることで key が gitosis ユーザの authorized_keys に追記されていきます。 この authorized_keys には command が併記されているため、git のリモートリポジトリを操作する以外のコマンドが実行できないようになっているのです。</p>
+
+<h3 id="toc_187">新規ユーザの追加</h3>
+
+<p>新規ユーザの追加は、*.pub ファイルを作成して該当するグループに追記、push するだけです。 gitosis では、グループ毎に権限をコントロールする形式を取ります。このため、ユーザが複数のグループに所属しているとうまく動作しないことがあります。 *.pub は単なる authorized_keys なので、1行にひとつの公開鍵を書く形式になっていれば複数設定可能です。</p>
+
+<h3 id="toc_188">新規リポジトリの追加</h3>
+
+<p>新規リポジトリの追加は、gitosis.conf に変更を加えて push するだけです。空のまま pull すると init されるだけですが、追加して push すれば大丈夫です。</p>
+
+<h2 id="toc_189">設定のコツ</h2>
+
+<p>keydir 以下に公開鍵ごとにファイルを作成し、 gitosis.conf に公開鍵のファイル名 (.pub を除く) を設定していきます。</p>
+<div class="highlight"><pre><code class="text">[gitosis]
+
+[group gitosis-admin]
+writable = gitosis-admin
+members = admin
+
+[group development]
+writable = misc/sandbox project test
+members = hatak hoge fuga
+</code></pre>
+</div>
+
+<h3 id="toc_190">サブディレクトリ</h3>
+
+<p>リポジトリはサブディレクトリに入れることができます。 上記 sandbox の場合は次のようになります。</p>
+
+<ul>
+<li>Clone 用 URL : ssh://gitosis@localhost/misc/sandbox.git</li>
+<li>サーバ内ファイルシステム: /var/lib/gitosis/repositories/misc/sandbox.git</li>
+</ul>
+
+<p>サブディレクトリは予め作成しておく必要がありますが、こうすることで乱立するリポジトリを階層分けして整理することができます。</p>
+<div class="highlight"><pre><code class="text">$ sudo -H -u gitosis mkdir /var/lib/gitosis/repositories/misc
+</code></pre>
+</div>
+
+<h3 id="toc_191">config の改行</h3>
+
+<p>gitosis.conf ではユーザが多いときなどバックスラッシュを入れることで、設定ファイル内でも改行することができます。 ユーザが多いときなどに可読性を上げることができ、とても便利です。</p>
+
+<h2 id="toc_192">関連するページ</h2>
+
+<ul>
+<li><a href="http://scie.nti.st/2007/11/14/hosting-git-repositories-the-easy-and-secure-way">Hosting Git repositories, The Easy (and Secure) Way</a></li>
+<li><a href="http://labs.gree.jp/blog/2011/03/2885/">多人数開発で Git を使う場合の環境構築 | GREE Engineers&#39; Blog</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+</feed>

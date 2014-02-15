@@ -4,10 +4,10 @@
   <title><![CDATA[Category: report | Hatak::Techlog]]></title>
   <link href="http://blog.hatak.net/blog/categories/report/atom.xml" rel="self"/>
   <link href="http://blog.hatak.net/"/>
-  <updated>2014-02-15T13:40:29+09:00</updated>
+  <updated>2014-02-15T16:33:39+09:00</updated>
   <id>http://blog.hatak.net/</id>
   <author>
-    <name><![CDATA[Hisashi HATAKEYAMA]]></name>
+    <name><![CDATA[hatak]]></name>
     
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
@@ -28,7 +28,7 @@
 
 <p>今回の話を踏まえると、最初に考えなければならないのは大きく2つの点だと思います。 （解釈間違えなどあればご指摘ください。。）</p>
 
-<h3 id="toc_3">「管理」の対象がどこまでなのか</h3>
+<h3 id="toc_444">「管理」の対象がどこまでなのか</h3>
 
 <p>サーバ管理といっても様々な管理があります。</p>
 
@@ -49,7 +49,7 @@
 
 <p>このほかにも、オンプレミス/クラウド(VM含)やスペック毎/役割毎など、いろんな分類基準があるわけです。全てをカバーするのも一つの選択肢ですが、ここは目的から軸となる区分を明確化しておく必要がありそうです。 @kentaro さんがおっしゃられていたように、まさに利用シーンの現状や想定を整理した上で、実際どのあたりを吸収するか考える必要があるのだろうと思います。</p>
 
-<h3 id="toc_4">データを集約するか、proxy するか</h3>
+<h3 id="toc_445">データを集約するか、proxy するか</h3>
 
 <p>@riywo さんのアイディアでは、既存ツールのデータを活かすために Core が欲しいデータを持っている各ツールに問い合わせて返ってきた情報を集約する形になっています。 一方で、@kuwa_tw さんからの意見で全部まとめた箱としてしまうというアイディアもあり、これもありだと思います。</p>
 
@@ -140,7 +140,7 @@
 
 <p>町田も久しぶりすぎて変化に戸惑いが隠せない感じでした。資料作成しようと思ったカフェとかなくなってたし！</p>
 
-<h2 id="toc_5">全体的な感想など</h2>
+<h2 id="toc_446">全体的な感想など</h2>
 
 <p>自己紹介代わりの LT はやっぱりおもしろいと思います。規模が大きくなると難しくなりますが、全員に向かって各々が話す hachioji.pm ならではの雰囲気は好きです。</p>
 
@@ -156,7 +156,7 @@
 <li>業界狭い &#8211; いろんな方とのつながりはやっぱり大事</li>
 </ul>
 
-<h2 id="toc_6">MySQL の preload</h2>
+<h2 id="toc_447">MySQL の preload</h2>
 
 <p>LT で話した資料をこちらにおいてあります (PDF 形式です)。 お題の「○○道」でネタを探していたのですが、preload のことで頭いっぱいだったこともありライトな感じにざっとまとめてみました。</p>
 
@@ -188,31 +188,31 @@
 
 <hr>
 
-<h2 id="toc_7">続 Unix Programming with Perl</h2>
+<h2 id="toc_448">続 Unix Programming with Perl</h2>
 
 <p>※講演資料 <a href="http://www.slideshare.net/kazuho/unix-programming-with-perl-2">[No Title]</a> DeNA の kazuho (<a href="http://twitter.com/kazuho">@kazuho</a>) さんの講演。<a href="http://www.slideshare.net/kazuho/unix-programming-with-perl">前回</a>に引き続いて、Unix 環境で正しく動くコードを作るための Tips 紹介のトークでした。Unix の知識が足りずまだ理解が追いついていないので、調べて試さないとと感じた発表でした。</p>
 
-<h3 id="toc_8">正しいコードを書くために</h3>
+<h3 id="toc_449">正しいコードを書くために</h3>
 
 <ul>
 <li>テストだけでは足りない</li>
 <li>常に正しく動くコードを書くためには知識が必要 &#8211; Perl の知識 &#8211; OS の知識</li>
 </ul>
 
-<h3 id="toc_9">IPC::Open3 によるプロセス間通信</h3>
+<h3 id="toc_450">IPC::Open3 によるプロセス間通信</h3>
 
 <ul>
 <li>pipe したときにブロックしてしまうケースがある &#8211; 子プロセスが STDIN 待ちになる場合 &#8211; 子プロセスが大量のエラーを吐く場合 &#8212; pipe が制限を持っている &#8212;- MacOSX : 16 Kbyte &#8212;- Linux2.6 : 64 Kbyte</li>
 <li>deadlock とならないためには？ &#8211; クローズしてもうまくいかない &#8211; 標準出力全部読んでもうまくいかない &#8211; IPC::Open3 のオプションとして、標準エラー出力に undef いれる &#8211; pipe を使わず temporary file 使えばいい</li>
 </ul>
 
-<h3 id="toc_10">Unix signals と race condition (競合状態)</h3>
+<h3 id="toc_451">Unix signals と race condition (競合状態)</h3>
 
 <ul>
 <li>POSIX::pselect &#8211; pselect の外で SIGHUP &#8212; 多くのディストーションでの実装がバグっているため、実際には解決しない &#8211; eval &amp; die &#8212; これでもうまく解決しない &#8211; call syswrite on signal</li>
 </ul>
 
-<h2 id="toc_11">まとめ</h2>
+<h2 id="toc_452">まとめ</h2>
 
 <ul>
 <li>buffesize は無限大ではない</li>
@@ -222,11 +222,11 @@
 
 <hr>
 
-<h2 id="toc_12">運用しやすいWebアプリケーションの構築方法</h2>
+<h2 id="toc_453">運用しやすいWebアプリケーションの構築方法</h2>
 
 <p>※講演資料 <a href="http://www.slideshare.net/kazeburo/yapcasia2011">[No Title]</a> Livedoor の kazeburo (<a href="http://twitter.com/kazeburo">@kazeburo</a>) さんの講演。これまでの運用経験を基に、運用しやすい Web アプリケーションとなるためのログや DBI / cache の使い方・Tips をまとめて紹介されていました。確かに、と思うポイントが多く、とても参考になるトークでした。</p>
 
-<h3 id="toc_13">運用しやすいとは？</h3>
+<h3 id="toc_454">運用しやすいとは？</h3>
 
 <ul>
 <li>耐障害性を考慮に入れた設計</li>
@@ -234,7 +234,7 @@
 <li>処理単位の明確化</li>
 </ul>
 
-<h3 id="toc_14">ログ</h3>
+<h3 id="toc_455">ログ</h3>
 
 <ul>
 <li>「アプリからの情報発信」 &#8211; 障害発生の際に最初に見る &#8211; 障害の検知、原因の特定</li>
@@ -242,9 +242,9 @@
 <li>Log::Minimal &#8211; 上記の適切なログ基準に沿ってログを出せるようにした &#8211; シリアライズ / カラーリング なども可能</li>
 </ul>
 
-<h3 id="toc_15">DBI (SQL)</h3>
+<h3 id="toc_456">DBI (SQL)</h3>
 
-<h4 id="toc_16">DB 負荷が急上昇するケース</h4>
+<h4 id="toc_457">DB 負荷が急上昇するケース</h4>
 
 <ul>
 <li>原因クエリ探す</li>
@@ -253,14 +253,14 @@
 <li>DBIx::Sunny &#8211; caller 情報を SQL に埋込みクエリコメントにできる &#8211; SQL::Maker と組み合わせて利用できる</li>
 </ul>
 
-<h4 id="toc_17">接続が滞留するケース</h4>
+<h4 id="toc_458">接続が滞留するケース</h4>
 
 <ul>
 <li>最大接続数に達して接続エラー &#8211; メンテナンス時に timeout まで待つ &#8211; SHOW INNODB STATUS が見れない</li>
 <li>接続滞留対策 &#8211; Scope::Container &#8212; DB 接続部の処理単位を短く、わかりやすく &#8211; Scope::Container::DBI &#8212; 上記を簡単に実現するために便利機能を追加したモジュール</li>
 </ul>
 
-<h3 id="toc_18">cache / memcached</h3>
+<h3 id="toc_459">cache / memcached</h3>
 
 <ul>
 <li>課題 &#8211; Session::Store::Memcached &#8212; 簡単で高速、Expires 処理も自動化できる &#8212; 一方でストレージ永続性がないのは困ることもある &#8211; 特定キャッシュへの集中 &#8212; 分散アルゴリズム上でも特定サーバに集中してしまうことがある &#8211; cache thundering herd problem &#8212; memcache 上で exipre した瞬間に DB にアクセスが集中してしまう</li>
@@ -268,13 +268,13 @@
 <li>Cache::Isorator &#8211; ゆっくり expire させることができる</li>
 </ul>
 
-<h3 id="toc_19">Metrics</h3>
+<h3 id="toc_460">Metrics</h3>
 
 <ul>
 <li>プロセスのステータスを取得できるようにしてグラフ化する &#8211; Plack::Middleware::ServerStatus::Lite &#8211; Parallel::Scoreboard</li>
 </ul>
 
-<h3 id="toc_20">まとめ</h3>
+<h3 id="toc_461">まとめ</h3>
 
 <ul>
 <li>耐障害性を考慮に入れた設計 &#8211; cache &#8211; memcached</li>
@@ -284,11 +284,11 @@
 
 <hr>
 
-<h2 id="toc_21">watch your log</h2>
+<h2 id="toc_462">watch your log</h2>
 
 <p>DeNA の nekokak (<a href="http://twitter.com/nekokak">@nekokak</a>) さんの講演。社内 DevOps の観点から基準を決めてログ出力し、それを監視するためのツールを作成したというお話。&#8221;DevOps&#8221; と &#8220;ログ監視&#8221; については各社でかなり試行錯誤しているところかもしれません。 ログ監視は最近色々考えていて自分で実装しようかなと思っているところだったので、Komainu も試してみます。あと、「必要に応じたエンジニアリング」というスタンスはいいなと思います。</p>
 
-<h3 id="toc_22">DevOps</h3>
+<h3 id="toc_463">DevOps</h3>
 
 <ul>
 <li>Dev と Ops 相互に協力する事が必要 &#8211; 自社 Dev は運用を考えられなければならない &#8211; 自社 Ops は Dev から渡される運用を丸受けしてはダメ</li>
@@ -297,7 +297,7 @@
 <li>丸受けしない Ops &#8211; サービス仕様・アーキテクチャを理解 &#8211; 障害発生時に何を対応する必要があるか理解 &#8211; 必要な情報は Dev に提出 &#8211; 「お母さん役みたいなもの」</li>
 </ul>
 
-<h3 id="toc_23">コミュニケーション濃度の問題</h3>
+<h3 id="toc_464">コミュニケーション濃度の問題</h3>
 
 <ul>
 <li>お互いしっかりコミュニケーション取る</li>
@@ -305,13 +305,13 @@
 <li>「お互い言い分あるだろうが gdgd 言う前に行動しろ」</li>
 </ul>
 
-<h3 id="toc_24">障害そして監視</h3>
+<h3 id="toc_465">障害そして監視</h3>
 
 <ul>
 <li>障害検知の仕組みとして監視必要 &#8211; 死活監視 &#8211; リソース監視 &#8211; ログ監視</li>
 </ul>
 
-<h3 id="toc_25">ログ</h3>
+<h3 id="toc_466">ログ</h3>
 
 <ul>
 <li>お互いで取り決めたフォーマットに沿ったログ出力 &#8211; Dev と Ops が面倒みるにあたって取り決めるといい</li>
@@ -321,7 +321,7 @@
 <li>ログ収集方法 &#8211; ログを良い感じで監視できるソリューションがない</li>
 </ul>
 
-<h3 id="toc_26">Komainu</h3>
+<h3 id="toc_467">Komainu</h3>
 
 <ul>
 <li>設定に応じて集計 &#8211; accesslog 集計 &#8211; applog 集計 &#8211; mysql slow log 集計</li>
@@ -329,7 +329,7 @@
 <li>何が重要か &#8211; サービスクオリティ維持のため &#8211; 利用者からの問い合わせベースで障害に気づくのは情けない &#8211; 攻めの運用 &#8211; ログ情報を通知することでエラーに向きあう</li>
 </ul>
 
-<h3 id="toc_27"><strong>Shut the fuck up and write some code</strong></h3>
+<h3 id="toc_468"><strong>Shut the fuck up and write some code</strong></h3>
 
 <ul>
 <li>行動こそすべて</li>
@@ -339,11 +339,11 @@
 
 <hr>
 
-<h2 id="toc_28">Managing A Band Of Hackers</h2>
+<h2 id="toc_469">Managing A Band Of Hackers</h2>
 
 <p>DeNA の hidek (<a href="http://twitter.com/hidek">@hidek</a>) さんの基調講演。Perl ハッカーを束ねるマネージャーとしての考え方や経験のお話でした。 とてもいい話でした。DeNA には優秀で著名な方が集まっているイメージがありますが、このようなコミュニティというか、仲間の魅力が根底にはあるのだろうなと感じる内容でした。途中、何度もチームを褒めているところが、率直に褒めているように感じられて印象的でした。</p>
 
-<h3 id="toc_29">management</h3>
+<h3 id="toc_470">management</h3>
 
 <ul>
 <li>なぜマネージャーが必要？ &#8211; 一人では規模の限界</li>
@@ -351,13 +351,13 @@
 <li>&#8220;The whole is more than the sum of its parts.&#8221; &#8211; 1 + 1 が 2 以上になるようにしなければならない</li>
 </ul>
 
-<h3 id="toc_30">tasks of the manager</h3>
+<h3 id="toc_471">tasks of the manager</h3>
 
 <ul>
 <li>マネージャーの業務にはエンジニアとしての経験が必要 &#8211; 大規模なほど広いレイヤの知識が必要</li>
 </ul>
 
-<h4 id="toc_31">project management</h4>
+<h4 id="toc_472">project management</h4>
 
 <ul>
 <li>プロダクトのライフサイクルを維持する &#8211; エンジニアリング未経験だと無理</li>
@@ -365,7 +365,7 @@
 <li>開発中の進捗・マイルストーン管理</li>
 </ul>
 
-<h4 id="toc_32">personal matters</h4>
+<h4 id="toc_473">personal matters</h4>
 
 <ul>
 <li>人事も大事</li>
@@ -374,21 +374,21 @@
 <li>評価 &#8211; どんな仕事をしたか、を見るためにもエンジニア経験が必要</li>
 </ul>
 
-<h4 id="toc_33">etc</h4>
+<h4 id="toc_474">etc</h4>
 
 <ul>
 <li>事務仕事</li>
 <li>会議 &#8211; 無駄なものもあるが、最近必要と感じることもある &#8212; 海外支社とのテレビ会議など、図を書いたりすることで理解が早くなる &#8211; Face to Face も重要</li>
 </ul>
 
-<h3 id="toc_34">the manager of hackers</h3>
+<h3 id="toc_475">the manager of hackers</h3>
 
 <ul>
 <li>少しとんがった人たちのマネージャーとして</li>
 <li>Platform System Group &#8211; プロジェクト開始時は 3 名、現在 20 名 &#8211; CPAN Author が 6 名</li>
 </ul>
 
-<h4 id="toc_35">hackers はどういう人達か</h4>
+<h4 id="toc_476">hackers はどういう人達か</h4>
 
 <ul>
 <li>&#8220;no man is an island&#8221; &#8211; 一人だと寂しくて死んじゃう</li>
@@ -398,13 +398,13 @@
 <li>KY &#8211; 読めない事自体は仕事に影響しないので、悪いことではない &#8211; 悪ノリする</li>
 </ul>
 
-<h3 id="toc_36">what should I do ?</h3>
+<h3 id="toc_477">what should I do ?</h3>
 
 <ul>
 <li>これはハッカーのマネージャーだけでなく、一般でも通じるところはある</li>
 </ul>
 
-<h4 id="toc_37">delegation</h4>
+<h4 id="toc_478">delegation</h4>
 
 <ul>
 <li>仕事を任せる &#8211; 失敗もするけど、任せると成長する</li>
@@ -412,26 +412,26 @@
 <li>「任せる」と「丸投げ」は違う &#8211; 任せるための準備はする &#8211; バックアッププランは作る &#8211; 失敗したらマネージャーが責任を持つ</li>
 </ul>
 
-<h4 id="toc_38">bad news first</h4>
+<h4 id="toc_479">bad news first</h4>
 
 <ul>
 <li>悪い報告を先にするようにしてもらう</li>
 </ul>
 
-<h4 id="toc_39">TMTOWTDI</h4>
+<h4 id="toc_480">TMTOWTDI</h4>
 
 <ul>
 <li>やり方は一つではない &#8211; これはマネジメントだけではない</li>
 <li>多様性を許容する</li>
 </ul>
 
-<h3 id="toc_40">マネージャが少ない会社は大変</h3>
+<h3 id="toc_481">マネージャが少ない会社は大変</h3>
 
 <ul>
 <li>マネージャは優秀なエンジニアじゃないとできない &#8211; 選択肢として考えて欲しい</li>
 </ul>
 
-<h3 id="toc_41">コミュニティに参加して欲しい</h3>
+<h3 id="toc_482">コミュニティに参加して欲しい</h3>
 
 <ul>
 <li>技術的な刺激を受けられる</li>

@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[tag: centos | Hatak::Techlog]]></title>
+  <link href="http://blog.hatak.net/blog/tags/centos/atom.xml" rel="self"/>
+  <link href="http://blog.hatak.net/"/>
+  <updated>2014-02-15T16:33:39+09:00</updated>
+  <id>http://blog.hatak.net/</id>
+  <author>
+    <name><![CDATA[hatak]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[perl で segmentation fault が起きたときの調べかた]]></title>
+    <link href="http://blog.hatak.net/2012/06/19/14234"/>
+    <updated>2012-06-19T00:00:00+09:00</updated>
+    <id>http://blog.hatak.net/2012/06/19/perl</id>
+    <content type="html"><![CDATA[<p>サーバを構築した際に嵌まったのでメモしておきます。</p>
+
+<p>CentOS6 系のサーバに perlbrew + Carton で環境を構築していたのですが、一通り構築が終わって plackup すると segmentation fault となってしまったのでした。 /var/log/messages を見てもこんなログばかり。</p>
+<div class="highlight"><pre><code class="text">Jun 18 19:28:48 xx-xxxx kernel: app.psgi[2084] general protection ip:322fe17088 sp:49302b8e8cb3704b error:0 in ld-2.12.so[322fe00000+20000]
+</code></pre>
+</div>
+
+<!--more-->
+
+<p>こんなとき、Perl に coredump を吐かせて gdb で見ることで当たりをつけることができます。</p>
+<div class="highlight"><pre><code class="text"># core file size を設定（今回は仮に unlimited に）
+limit -c unlimited
+# segfault を起こすコマンドを実行
+carton exec -- plackup app.psgi
+# -&gt; セグフォ
+# gdb [実行ファイル] [コアダンプファイル]
+gdb `which perl` core.2084
+</code></pre>
+</div>
+
+<p>こうすることで、gdb のコンソールが表示されます。 あとは where コマンドで関数の呼び出し順序を調べたり、list を使って該当ソースを見たりして当たりをつけましょう。</p>
+
+<p>ulimit で設定していないと core ファイルが生成されないかもしれない、というお話でした。 このような当たりの付け方は Perl に限らず他のプログラムでも同様にできると思います。</p>
+
+<p>ちなみに今回は MySQL-shared のパッケージが足りず、DBD::mysql がうまく入っていなかったためでした。。 local を丸ごと削除して再度 carton install で解決しました。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[CentOS + Nginx で WordPress を構築]]></title>
+    <link href="http://blog.hatak.net/2011/05/12/178"/>
+    <updated>2011-05-12T00:00:00+09:00</updated>
+    <id>http://blog.hatak.net/2011/05/12/centos-nginx</id>
+    <content type="html"><![CDATA[<p>WordPress を CentOS + Nginx で動作させたくなったので、思い立ってやってみました。</p>
+
+<!--more-->
+
+<h1 id="toc_101">EPEL からのパッケージ導入</h1>
+
+<p>CentOS なので、アプリケーションは yum でまとめて管理したいと思います。本来ならば、CentOS のオフィシャルに存在しないパッケージは RPM を自前で作ったほうがよいのかも知れませんが、EPEL に stable （けど少し古い） のパッケージがあるのでこれを利用します。</p>
+<div class="highlight"><pre><code class="console"><span class="gp">$</span> wget http://download.fedora.redhat.com/pub/epel/5/x86_64/epel-release-5-4.noarch.rpm
+<span class="gp">$</span> sudo rpm -ivh epel-release-5-4.noarch.rpm
+</code></pre>
+</div>
+
+<p>今回は x86_64 の環境であるため、他のアーキテクチャのパッケージが入らないように yum.conf に設定をしてしまいます。</p>
+<div class="highlight"><pre><code class="console"><span class="gp">$</span> <span class="nb">echo</span> <span class="s2">&quot;exclude=*.i686 *.i386&quot;</span> &gt;&gt; /etc/yum.conf
+</code></pre>
+</div>
+
+<p>必要となるパッケージをまとめてインストールします。</p>
+<div class="highlight"><pre><code class="console"><span class="gp">$</span> sudo yum install nginx spawn-fcgi mysql mysql-server php53 php53-mysql php53-mbstring
+</code></pre>
+</div>
+
+<p>そしてこれらがインストールされました。（依存パッケージは割愛してます）</p>
+
+<ul>
+<li>  nginx-0.8.53-1.el5</li>
+<li>  spawn-fcgi-1.6.3-1.el5</li>
+<li>  mysql-5.0.77-4.el5_5.5</li>
+<li>  mysql-server-5.0.77-4.el5_5.5</li>
+<li>  php53-5.3.3-1.el5_6.1</li>
+<li>  php53-mysql-5.3.3-1.el5_6.1</li>
+<li>  php53-mbstring-5.3.3-1.el5_6.1</li>
+</ul>
+
+<h1 id="toc_102">spawn-fcgi 設定</h1>
+
+<p>spawn-fcgi はポートを指定して起動する方式を利用します。 起動引数を設定できるので、ここで pid ファイルや起動ユーザなどと一緒に指定します。</p>
+
+<p><code>bash /etc/sysconfig/spawn-fcgi<br>
+OPTIONS=&quot;-u nginx -g nginx -a 127.0.0.1 -p 8080 -S -M 0600 -C 5 -F 1 -P /var/run/spawn-fcgi.pid -- /usr/bin/php-cgi<br>
+</code></p>
+
+<p>daemon が起動してエラーが出なければ問題ありません。</p>
+<div class="highlight"><pre><code class="console"><span class="gp">$</span> sudo /sbin/service spawn-fcgi start
+<span class="gp">$</span> sudo /sbin/chkconfig spawn-fcgi on
+</code></pre>
+</div>
+
+<h1 id="toc_103">Nginx 設定</h1>
+
+<p>設定ファイルに WordPress 公開のための Location を追加します。 うまく起動しない場合、</p>
+<div class="highlight"><pre><code class="nginx"><span class="k">server</span> <span class="p">{</span>
+    <span class="kn">listen</span>       <span class="mi">80</span><span class="p">;</span>
+    <span class="kn">server_name</span>  <span class="s">blog.example.com</span><span class="p">;</span>
+
+    <span class="kn">location</span> <span class="s">/</span> <span class="p">{</span>
+        <span class="kn">root</span>   <span class="s">/var/www/wordpress</span><span class="p">;</span>
+        <span class="kn">index</span>  <span class="s">index.html</span> <span class="s">index.htm</span> <span class="s">index.php</span><span class="p">;</span>
+        <span class="kn">if</span> <span class="s">(-f</span> <span class="nv">$request_filename</span><span class="s">)</span> <span class="p">{</span>
+            <span class="kn">expires</span> <span class="s">14d</span><span class="p">;</span>
+            <span class="kn">break</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="kn">if</span> <span class="s">(!-e</span> <span class="nv">$request_filename</span><span class="s">)</span> <span class="p">{</span>
+            <span class="kn">rewrite</span> <span class="s">^(.+)</span>$  <span class="s">/index.php?q=</span><span class="nv">$1</span> <span class="s">last</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="kn">location</span> <span class="p">~</span> <span class="sr">.php$</span> <span class="p">{</span>
+        <span class="kn">root</span>           <span class="s">html</span><span class="p">;</span>
+        <span class="kn">fastcgi_pass</span>   <span class="n">127.0.0.1</span><span class="p">:</span><span class="mi">8080</span><span class="p">;</span>
+        <span class="kn">fastcgi_index</span>  <span class="s">index.php</span><span class="p">;</span>
+        <span class="kn">fastcgi_param</span>  <span class="s">SCRIPT_FILENAME</span>  <span class="s">/var/www/wordpress/</span><span class="nv">$fastcgi_script_name</span><span class="p">;</span>
+        <span class="kn">include</span>        <span class="s">fastcgi_params</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>そして、Nginx を起動します。</p>
+<div class="highlight"><pre><code class="console"><span class="gp">$</span> sudo /sbin/service nginx start
+<span class="gp">$</span> sudo /sbin/chkconfig nginx on
+</code></pre>
+</div>
+
+<h1 id="toc_104">MySQL 設定</h1>
+
+<p>daemon を起動して初期化します。</p>
+<div class="highlight"><pre><code class="console"><span class="gp">$</span> sudo /sbin/service mysqld start
+<span class="gp">$</span> sudo /sbin/chkconfig mysqld on
+<span class="gp">$</span> sudo mysql_install_db
+</code></pre>
+</div>
+<div class="highlight"><pre><code class="mysql"><span class="k">CREATE</span> <span class="k">DATABASE</span> <span class="n">wordpress</span><span class="p">;</span>
+<span class="k">GRANT</span> <span class="k">ALL</span> <span class="n">PRIVILEGES</span> <span class="k">ON</span> <span class="n">wordpress</span><span class="p">.</span><span class="o">*</span> <span class="k">TO</span> <span class="ss">`wordpress`</span><span class="o">@</span><span class="s1">&#39;localhost&#39;</span> <span class="n">IDENTIFIED</span> <span class="k">BY</span> <span class="s2">&quot;password&quot;</span><span class="p">;</span>
+<span class="n">FLUSH</span> <span class="n">PRIVILEGES</span><span class="p">;</span>
+</code></pre>
+</div>
+
+<p>実際に接続できるか、ローカル上で動作テストを行います。 ログインできれば問題ありません。</p>
+<div class="highlight"><pre><code class="console"><span class="gp">$</span> mysql -u wordpress -p wordpress
+</code></pre>
+</div>
+
+<h1 id="toc_105">WordPress インストール</h1>
+
+<p>今回は /var/www/wordpress 以下に日本語版をそのままインストールします。</p>
+<div class="highlight"><pre><code class="console"><span class="gp">$</span> wget http://ja.wordpress.org/wordpress-3.1.2-ja.tar.gz
+<span class="gp">$</span> sudo mkdir /var/www/wordpress
+<span class="gp">$</span> sudo tar zxvf ~/wordpress-3.1.2.tar.gz
+</code></pre>
+</div>
+
+<p>あとは流れにあわせ、<a href="http://ja.wordpress.org/install/">WordPress のインストール手順</a> に沿って設定を行うと利用可能となります。</p>
+]]></content>
+  </entry>
+  
+</feed>

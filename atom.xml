@@ -4,10 +4,10 @@
   <title><![CDATA[Hatak::Techlog]]></title>
   <link href="http://blog.hatak.net/atom.xml" rel="self"/>
   <link href="http://blog.hatak.net/"/>
-  <updated>2014-02-15T13:40:29+09:00</updated>
+  <updated>2014-02-15T16:33:39+09:00</updated>
   <id>http://blog.hatak.net/</id>
   <author>
-    <name><![CDATA[Hisashi HATAKEYAMA]]></name>
+    <name><![CDATA[hatak]]></name>
     
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
@@ -28,7 +28,7 @@
 
 <p><img src="https://dl.dropboxusercontent.com/u/14531906/hatak.github.io/2012/12/helloworld-225x300.jpg" alt="Hello World" width="225" height="300" class="alignnone size-medium wp-image-17649" /></p>
 
-<h2 id="toc_220">変わったこと</h2>
+<h2 id="toc_661">変わったこと</h2>
 
 <p>生活は大きく変わりました。</p>
 
@@ -46,7 +46,7 @@
 
 <p>あとは、周りのお父さんが口を揃えていうことですが、本当に時間がないです。覚悟していた以上でした。 起きているときは一緒に遊んだり見守ったりしますし、寝てるときも突然夜泣きしたり寝ぼけて起き上がったりします。そもそもすんなり寝付いてくれません。寝不足にもなりますし、イライラしてしまうこともあります。 この問題については、未だに試行錯誤の毎日です。どうやって時間を作り、効率良く自分の時間を使い、満足するか。子供と一緒に成長していくしかないのかなと思ったりしています。</p>
 
-<h2 id="toc_221">感じたこと</h2>
+<h2 id="toc_662">感じたこと</h2>
 
 <p>子供ができて、考えるようになったことも多くあります。</p>
 
@@ -56,7 +56,7 @@
 
 <p>次に、仕事のことでした。 偶然にも、今年の始めに私の職務内容が変わるチャンスがあり、昨年のような深夜作業・障害対応がメインの仕事ではなくなりました。家庭の生活リズムがつかみにくい時期に仕事のリズムが調整可能であったことはとても運の良いことでした。 一方で、生活の中でしめる仕事の割合の大きさにも気づかされました。時間はもちろん、仕事に関連した生活リズムや夜中のアラートなど、妻だけであれば説明して我慢してもらえるものでも子供の場合は異なってくることもあります。自分の仕事や年齢、家族との生活とのバランスなどを立ち返って考えるきっかけにはなりました。</p>
 
-<h2 id="toc_222">来年に向けて</h2>
+<h2 id="toc_663">来年に向けて</h2>
 
 <p>今後も子供・家族との時間を大事にできるエンジニアを目指して成長したいと思います。</p>
 
@@ -91,7 +91,7 @@
 
 <p>イギリスからの発送なのでそれなりに時間がかかりますが、それでも元々の代理店よりはかなり早いと思います。値段は £29.99 + £4.99 (送料) の計 £34.98。日本円換算で 4,500 円程度です。</p>
 
-<h3 id="toc_216">組み立て</h3>
+<h3 id="toc_657">組み立て</h3>
 
 <p><a href="https://www.modmypi.com/">ModMyPi</a> は RaspberryPi 専用のカスタムケースなどを取り扱うネットショップです。今回は本体セットを購入したので、本体ボードとケースが送られてきます。が、組み立てというほどではなく載せてはめれば完了です。上下で色を選べるので、上を白、下を青にしてみました。</p>
 
@@ -101,7 +101,7 @@
 
 <p>あとは OS イメージを書き込んだ SD カードをスロットにいれ、LAN と電源を接続すれば準備完了です。</p>
 
-<h3 id="toc_217">SD カードの準備</h3>
+<h3 id="toc_658">SD カードの準備</h3>
 
 <p>RaspberryPi の公式から OS イメージがダウンロードできます。展開すると 2GB くらいになるので、利用する SD カードは 4GB 以上が推奨されています。今回は手元に余ってた Transcend の SDHC 16GB (Class10) を用意しました。</p>
 
@@ -120,7 +120,7 @@
 
 <p>これでイメージ完成です。簡単ですね。 スクリプトに sudo が必要なのはマウント周りの操作を行うためかと思いますが、複数ディスクがある場合などは全部フォーマットされてしまう可能性もあるので十分に注意が必要です。</p>
 
-<h3 id="toc_218">起動</h3>
+<h3 id="toc_659">起動</h3>
 
 <p>できあがった SD カードを入れ、LAN ケーブルを挿し、電源を挿します。スイッチはないので、電源をつないだら基板の LED がひかり、10秒ほどで起動します。デフォルトは DHCP 取得になっているので、ルータ等で割り当て IP を調べて ssh するのがよさそうです。</p>
 <div class="highlight"><pre><code class="text">[root@alarmpi ~]# pacman -Sy
@@ -242,7 +242,7 @@ Serial : xxxxxxxxxxxxxxxx
 
 <p>とても手軽です。類似のものとしては Openblocks がありますが、桁一つ違うのは大きいですね。 Openblocks が一般的なサーバ機器で、RaspberryPi がパソコンくらいのイメージでしょうか。</p>
 
-<h2 id="toc_219">参考</h2>
+<h2 id="toc_660">参考</h2>
 
 <ul>
 <li>  <a href="http://blog.mobilehackerz.jp/2012/10/raspberry-pi10.html">MobileHackerz再起動日記: いつまでも届かないRaspberry Piは一手間かけると10日で新型が手に入る</a></li>
@@ -269,7 +269,7 @@ Serial : xxxxxxxxxxxxxxxx
 
 <!--more-->
 
-<h3 id="toc_213">VirtualMemory</h3>
+<h3 id="toc_654">VirtualMemory</h3>
 <div class="highlight"><pre><code class="text">$ redis-server /usr/local/etc/redis.conf
 *** FATAL CONFIG FILE ERROR
 *** Reading the configuration file, at line 389
@@ -297,7 +297,7 @@ Serial : xxxxxxxxxxxxxxxx
 <li>  vm-max-threads</li>
 </ul>
 
-<h3 id="toc_214">CONFIG SET parameters</h3>
+<h3 id="toc_655">CONFIG SET parameters</h3>
 <div class="highlight"><pre><code class="text">$ redis-server /usr/local/etc/redis.conf
 *** FATAL CONFIG FILE ERROR
 *** Reading the configuration file, at line 367
@@ -319,7 +319,7 @@ The following redis.conf and CONFIG GET / SET parameters changed:
 
 <p>リリースノートを参考にリネームします。</p>
 
-<h2 id="toc_215">参考</h2>
+<h2 id="toc_656">参考</h2>
 
 <ul>
 <li>  <a href="https://github.com/antirez/redis/blob/2.6/00-RELEASENOTES">redis/00-RELEASENOTES at 2.6 · antirez/redis · GitHub</a></li>
@@ -337,7 +337,7 @@ The following redis.conf and CONFIG GET / SET parameters changed:
 
 <!--more-->
 
-<h2 id="toc_209">MeCab</h2>
+<h2 id="toc_650">MeCab</h2>
 
 <p>mroonga で TokenMecab トークナイザーを利用するためには MeCab が必要です。 Homebrew で IPA 辞書と合わせてインストールします。</p>
 <div class="highlight"><pre><code class="text">$ brew install mecab mecab-ipadic
@@ -369,7 +369,7 @@ $ brew doctor
 
 <p>私の場合、10.8 にアップデートする以前に Homebrew で入れた libiconv が中途半端に残ってたことでおかしくなっていたようでした。</p>
 
-<h2 id="toc_210">groonga</h2>
+<h2 id="toc_651">groonga</h2>
 
 <p>MeCab の次は groonga をインストールします。</p>
 <div class="highlight"><pre><code class="text">$ brew install groonga
@@ -408,7 +408,7 @@ configure options: &lt; &#39;--prefix=/usr/local/Cellar/groonga/2.0.7&#39; &#39;
 </code></pre>
 </div>
 
-<h2 id="toc_211">mroonga</h2>
+<h2 id="toc_652">mroonga</h2>
 
 <p>次は mroonga をインストールします。Homebrew には内包されていませんが、mroonga のリポジトリに Fomula があるのでこちらを使います。</p>
 <div class="highlight"><pre><code class="text">$ brew install https://raw.github.com/mroonga/Homebrew/master/mroonga.rb --use-Homebrew-mysql
@@ -448,7 +448,7 @@ $ brew install https://raw.github.com/mroonga/Homebrew/master/mroonga.rb --with-
 
 <p>個人的には、複数のユーザで利用している mac でユーザ共通に自動起動させたい（もしくはどうしてもオフィシャルバイナリを使いたい）という条件でなければ Homebrew で良いのかなと思いました。</p>
 
-<h2 id="toc_212">動作確認</h2>
+<h2 id="toc_653">動作確認</h2>
 
 <p>MySQL Server が起動していれば、mroonga の Fomula の中でプラグインと関数の追加も行われています。停止していた場合は起動後に追加のコマンドを入力します。</p>
 <div class="highlight"><pre><code class="text">$ mysql -uroot -e &#39;INSTALL PLUGIN mroonga SONAME &quot;ha_mroonga.so&quot;; CREATE FUNCTION last_insert_grn_id RETURNS INTEGER SONAME &quot;ha_mroonga.so&quot;; CREATE FUNCTION mroonga_snippet RETURNS STRING SONAME &quot;ha_mroonga.so&quot;;&#39;
@@ -547,7 +547,7 @@ FULLTEXT KEY `content` (`content`) COMMENT &#39;PARSER &quot;TokenMecab&quot;&#3
 
 <p>今回の話を踏まえると、最初に考えなければならないのは大きく2つの点だと思います。 （解釈間違えなどあればご指摘ください。。）</p>
 
-<h3 id="toc_207">「管理」の対象がどこまでなのか</h3>
+<h3 id="toc_648">「管理」の対象がどこまでなのか</h3>
 
 <p>サーバ管理といっても様々な管理があります。</p>
 
@@ -568,7 +568,7 @@ FULLTEXT KEY `content` (`content`) COMMENT &#39;PARSER &quot;TokenMecab&quot;&#3
 
 <p>このほかにも、オンプレミス/クラウド(VM含)やスペック毎/役割毎など、いろんな分類基準があるわけです。全てをカバーするのも一つの選択肢ですが、ここは目的から軸となる区分を明確化しておく必要がありそうです。 @kentaro さんがおっしゃられていたように、まさに利用シーンの現状や想定を整理した上で、実際どのあたりを吸収するか考える必要があるのだろうと思います。</p>
 
-<h3 id="toc_208">データを集約するか、proxy するか</h3>
+<h3 id="toc_649">データを集約するか、proxy するか</h3>
 
 <p>@riywo さんのアイディアでは、既存ツールのデータを活かすために Core が欲しいデータを持っている各ツールに問い合わせて返ってきた情報を集約する形になっています。 一方で、@kuwa_tw さんからの意見で全部まとめた箱としてしまうというアイディアもあり、これもありだと思います。</p>
 
@@ -802,7 +802,7 @@ FULLTEXT KEY `content` (`content`) COMMENT &#39;PARSER &quot;TokenMecab&quot;&#3
 
 <!--more-->
 
-<h2 id="toc_204">構成の概要</h2>
+<h2 id="toc_645">構成の概要</h2>
 
 <p>今回構築しようと思う構成は次の通りです。</p>
 
@@ -822,7 +822,7 @@ FULLTEXT KEY `content` (`content`) COMMENT &#39;PARSER &quot;TokenMecab&quot;&#3
 <li>Server::Starter のプロセスは Supervisord で管理</li>
 </ul>
 
-<h2 id="toc_205">supervisord の導入</h2>
+<h2 id="toc_646">supervisord の導入</h2>
 
 <p><a href="http://blog.glidenote.com/blog/2011/11/25/install-supervisor/">スーパーサーバーSupervisorの導入手順メモ &#8211; Glide Note &#8211; グライドノート</a> を参考に supervisord を導入します。<br>
 今回は CentOS 6 系のサーバで system python に pip 経由でインストールします。 pythonbrew などを利用してシステムと切り離すことも検討したのですが、supervisord を使う目的が OS とアプリの間でプロセス管理をすることなので system python で問題ないと考えました。</p>
@@ -853,7 +853,7 @@ respawn exec /usr/bin/supervisord -n
 
 <p>supervisord のプロセスが正常に起動していて、ログファイル (/var/log/supervisord/supervisord.log) に正常に出力されていれば OK です。</p>
 
-<h2 id="toc_206">supervisord 用の設定を用意する</h2>
+<h2 id="toc_647">supervisord 用の設定を用意する</h2>
 
 <p>PSGI アプリを supervisord で管理するための設定を用意します。 ここで、環境変数が必要となるのでコマンドラインで調べておきます。</p>
 
@@ -1044,7 +1044,7 @@ gdb `which perl` core.2084
 
 <p><img src="https://dl.dropboxusercontent.com/u/14531906/hatak.github.io/2012/06/2012-06-15-2.27.57.png" alt="ターミナルの例" /></p>
 
-<h3 id="toc_203">参考</h3>
+<h3 id="toc_644">参考</h3>
 
 <ul>
 <li>  <a href="http://d.hatena.ne.jp/holidays-l/20100323/p1">zsh の vcs_info が神！のごとく重かったのですが… : ヒルズで働くholidays-lの技ログ</a></li>
@@ -1083,7 +1083,7 @@ gdb `which perl` core.2084
 
 <!--more-->
 
-<h2 id="toc_198">MySQL のレプリケーション</h2>
+<h2 id="toc_639">MySQL のレプリケーション</h2>
 
 <p>MySQL のレプリケーションは、安定稼働やバックアップ、負荷分散などの目的に利用できる優れた機能です。 bin-log (バイナリログ) を利用して Master サーバから Slave サーバに更新を伝播させ、データの複製を行います。Slave サーバでは、2 つのスレッドが動作しています。</p>
 
@@ -1092,7 +1092,7 @@ gdb `which perl` core.2084
 <li>SQL_THREAD &#8211; relay-log を読み出し、DB を更新する</li>
 </ul>
 
-<h2 id="toc_199">遅延の調べ方</h2>
+<h2 id="toc_640">遅延の調べ方</h2>
 
 <p>&#8220;SQL_THREAD&#8221; による遅延の場合は、Slave サーバで &#8220;SHOW SLAVE STATUS&#8221; コマンドを実行することで確認ができます。</p>
 
@@ -1208,7 +1208,7 @@ gdb `which perl` core.2084
 
 <p>今回は &#8220;SQL_THREAD&#8221; による遅延を想定してまとめていきます。</p>
 
-<h3 id="toc_200">Master の更新をブロックする</h3>
+<h3 id="toc_641">Master の更新をブロックする</h3>
 
 <p>レプリケーションで送られてくるクエリの流量が多すぎる場合、つまり Master の更新が激しすぎて追いつかないケースでは、そもそも Master での更新を止めてしまうという方法があります。</p>
 
@@ -1218,7 +1218,7 @@ gdb `which perl` core.2084
 
 <p>この方法では同期化をコントロールすることで追いつかせることができますが、実際にサービス運用中のサーバではなかなか使いづらいところもあります。</p>
 
-<h3 id="toc_201">Slave のパフォーマンスを調整する</h3>
+<h3 id="toc_642">Slave のパフォーマンスを調整する</h3>
 
 <p>このとき、レプリケーションで伝播するクエリは全て直列化されるため、更新が激しい場合はどうしても遅れてしまうことがあります。 DiskI/O への負荷が高いとき &#8220;innodb-flush-log-at-trx-commit&#8221; の値を変更することで、ディスクへのフラッシュを減らすことができます。このパラメータではログバッファからログファイルへの書き込み、およびディスクへのフラッシュをコントロールすることができます。</p>
 
@@ -1262,7 +1262,7 @@ gdb `which perl` core.2084
 
 <p>この設定値はパフォーマンス向上の代わりに、信頼性を犠牲にします。プロセスが突然落ちた場合などにディスクにフラッシュされていないデータをロストする可能性がありますので、状況に応じて（あるいは追いつかせるまでの間だけなど）の使用に抑えることが良いかと思います。</p>
 
-<h2 id="toc_202">まとめ</h2>
+<h2 id="toc_643">まとめ</h2>
 
 <p>MySQL のレプリケーションが追いつかない場合、プロセスの再起動を行わずに簡単に試せて効果の期待できる方法をまとめてみました。</p>
 
@@ -1285,7 +1285,7 @@ gdb `which perl` core.2084
 
 <p>町田も久しぶりすぎて変化に戸惑いが隠せない感じでした。資料作成しようと思ったカフェとかなくなってたし！</p>
 
-<h2 id="toc_196">全体的な感想など</h2>
+<h2 id="toc_637">全体的な感想など</h2>
 
 <p>自己紹介代わりの LT はやっぱりおもしろいと思います。規模が大きくなると難しくなりますが、全員に向かって各々が話す hachioji.pm ならではの雰囲気は好きです。</p>
 
@@ -1301,7 +1301,7 @@ gdb `which perl` core.2084
 <li>業界狭い &#8211; いろんな方とのつながりはやっぱり大事</li>
 </ul>
 
-<h2 id="toc_197">MySQL の preload</h2>
+<h2 id="toc_638">MySQL の preload</h2>
 
 <p>LT で話した資料をこちらにおいてあります (PDF 形式です)。 お題の「○○道」でネタを探していたのですが、preload のことで頭いっぱいだったこともありライトな感じにざっとまとめてみました。</p>
 
@@ -1333,31 +1333,31 @@ gdb `which perl` core.2084
 
 <hr>
 
-<h2 id="toc_161">続 Unix Programming with Perl</h2>
+<h2 id="toc_602">続 Unix Programming with Perl</h2>
 
 <p>※講演資料 <a href="http://www.slideshare.net/kazuho/unix-programming-with-perl-2">[No Title]</a> DeNA の kazuho (<a href="http://twitter.com/kazuho">@kazuho</a>) さんの講演。<a href="http://www.slideshare.net/kazuho/unix-programming-with-perl">前回</a>に引き続いて、Unix 環境で正しく動くコードを作るための Tips 紹介のトークでした。Unix の知識が足りずまだ理解が追いついていないので、調べて試さないとと感じた発表でした。</p>
 
-<h3 id="toc_162">正しいコードを書くために</h3>
+<h3 id="toc_603">正しいコードを書くために</h3>
 
 <ul>
 <li>テストだけでは足りない</li>
 <li>常に正しく動くコードを書くためには知識が必要 &#8211; Perl の知識 &#8211; OS の知識</li>
 </ul>
 
-<h3 id="toc_163">IPC::Open3 によるプロセス間通信</h3>
+<h3 id="toc_604">IPC::Open3 によるプロセス間通信</h3>
 
 <ul>
 <li>pipe したときにブロックしてしまうケースがある &#8211; 子プロセスが STDIN 待ちになる場合 &#8211; 子プロセスが大量のエラーを吐く場合 &#8212; pipe が制限を持っている &#8212;- MacOSX : 16 Kbyte &#8212;- Linux2.6 : 64 Kbyte</li>
 <li>deadlock とならないためには？ &#8211; クローズしてもうまくいかない &#8211; 標準出力全部読んでもうまくいかない &#8211; IPC::Open3 のオプションとして、標準エラー出力に undef いれる &#8211; pipe を使わず temporary file 使えばいい</li>
 </ul>
 
-<h3 id="toc_164">Unix signals と race condition (競合状態)</h3>
+<h3 id="toc_605">Unix signals と race condition (競合状態)</h3>
 
 <ul>
 <li>POSIX::pselect &#8211; pselect の外で SIGHUP &#8212; 多くのディストーションでの実装がバグっているため、実際には解決しない &#8211; eval &amp; die &#8212; これでもうまく解決しない &#8211; call syswrite on signal</li>
 </ul>
 
-<h2 id="toc_165">まとめ</h2>
+<h2 id="toc_606">まとめ</h2>
 
 <ul>
 <li>buffesize は無限大ではない</li>
@@ -1367,11 +1367,11 @@ gdb `which perl` core.2084
 
 <hr>
 
-<h2 id="toc_166">運用しやすいWebアプリケーションの構築方法</h2>
+<h2 id="toc_607">運用しやすいWebアプリケーションの構築方法</h2>
 
 <p>※講演資料 <a href="http://www.slideshare.net/kazeburo/yapcasia2011">[No Title]</a> Livedoor の kazeburo (<a href="http://twitter.com/kazeburo">@kazeburo</a>) さんの講演。これまでの運用経験を基に、運用しやすい Web アプリケーションとなるためのログや DBI / cache の使い方・Tips をまとめて紹介されていました。確かに、と思うポイントが多く、とても参考になるトークでした。</p>
 
-<h3 id="toc_167">運用しやすいとは？</h3>
+<h3 id="toc_608">運用しやすいとは？</h3>
 
 <ul>
 <li>耐障害性を考慮に入れた設計</li>
@@ -1379,7 +1379,7 @@ gdb `which perl` core.2084
 <li>処理単位の明確化</li>
 </ul>
 
-<h3 id="toc_168">ログ</h3>
+<h3 id="toc_609">ログ</h3>
 
 <ul>
 <li>「アプリからの情報発信」 &#8211; 障害発生の際に最初に見る &#8211; 障害の検知、原因の特定</li>
@@ -1387,9 +1387,9 @@ gdb `which perl` core.2084
 <li>Log::Minimal &#8211; 上記の適切なログ基準に沿ってログを出せるようにした &#8211; シリアライズ / カラーリング なども可能</li>
 </ul>
 
-<h3 id="toc_169">DBI (SQL)</h3>
+<h3 id="toc_610">DBI (SQL)</h3>
 
-<h4 id="toc_170">DB 負荷が急上昇するケース</h4>
+<h4 id="toc_611">DB 負荷が急上昇するケース</h4>
 
 <ul>
 <li>原因クエリ探す</li>
@@ -1398,14 +1398,14 @@ gdb `which perl` core.2084
 <li>DBIx::Sunny &#8211; caller 情報を SQL に埋込みクエリコメントにできる &#8211; SQL::Maker と組み合わせて利用できる</li>
 </ul>
 
-<h4 id="toc_171">接続が滞留するケース</h4>
+<h4 id="toc_612">接続が滞留するケース</h4>
 
 <ul>
 <li>最大接続数に達して接続エラー &#8211; メンテナンス時に timeout まで待つ &#8211; SHOW INNODB STATUS が見れない</li>
 <li>接続滞留対策 &#8211; Scope::Container &#8212; DB 接続部の処理単位を短く、わかりやすく &#8211; Scope::Container::DBI &#8212; 上記を簡単に実現するために便利機能を追加したモジュール</li>
 </ul>
 
-<h3 id="toc_172">cache / memcached</h3>
+<h3 id="toc_613">cache / memcached</h3>
 
 <ul>
 <li>課題 &#8211; Session::Store::Memcached &#8212; 簡単で高速、Expires 処理も自動化できる &#8212; 一方でストレージ永続性がないのは困ることもある &#8211; 特定キャッシュへの集中 &#8212; 分散アルゴリズム上でも特定サーバに集中してしまうことがある &#8211; cache thundering herd problem &#8212; memcache 上で exipre した瞬間に DB にアクセスが集中してしまう</li>
@@ -1413,13 +1413,13 @@ gdb `which perl` core.2084
 <li>Cache::Isorator &#8211; ゆっくり expire させることができる</li>
 </ul>
 
-<h3 id="toc_173">Metrics</h3>
+<h3 id="toc_614">Metrics</h3>
 
 <ul>
 <li>プロセスのステータスを取得できるようにしてグラフ化する &#8211; Plack::Middleware::ServerStatus::Lite &#8211; Parallel::Scoreboard</li>
 </ul>
 
-<h3 id="toc_174">まとめ</h3>
+<h3 id="toc_615">まとめ</h3>
 
 <ul>
 <li>耐障害性を考慮に入れた設計 &#8211; cache &#8211; memcached</li>
@@ -1429,11 +1429,11 @@ gdb `which perl` core.2084
 
 <hr>
 
-<h2 id="toc_175">watch your log</h2>
+<h2 id="toc_616">watch your log</h2>
 
 <p>DeNA の nekokak (<a href="http://twitter.com/nekokak">@nekokak</a>) さんの講演。社内 DevOps の観点から基準を決めてログ出力し、それを監視するためのツールを作成したというお話。&#8221;DevOps&#8221; と &#8220;ログ監視&#8221; については各社でかなり試行錯誤しているところかもしれません。 ログ監視は最近色々考えていて自分で実装しようかなと思っているところだったので、Komainu も試してみます。あと、「必要に応じたエンジニアリング」というスタンスはいいなと思います。</p>
 
-<h3 id="toc_176">DevOps</h3>
+<h3 id="toc_617">DevOps</h3>
 
 <ul>
 <li>Dev と Ops 相互に協力する事が必要 &#8211; 自社 Dev は運用を考えられなければならない &#8211; 自社 Ops は Dev から渡される運用を丸受けしてはダメ</li>
@@ -1442,7 +1442,7 @@ gdb `which perl` core.2084
 <li>丸受けしない Ops &#8211; サービス仕様・アーキテクチャを理解 &#8211; 障害発生時に何を対応する必要があるか理解 &#8211; 必要な情報は Dev に提出 &#8211; 「お母さん役みたいなもの」</li>
 </ul>
 
-<h3 id="toc_177">コミュニケーション濃度の問題</h3>
+<h3 id="toc_618">コミュニケーション濃度の問題</h3>
 
 <ul>
 <li>お互いしっかりコミュニケーション取る</li>
@@ -1450,13 +1450,13 @@ gdb `which perl` core.2084
 <li>「お互い言い分あるだろうが gdgd 言う前に行動しろ」</li>
 </ul>
 
-<h3 id="toc_178">障害そして監視</h3>
+<h3 id="toc_619">障害そして監視</h3>
 
 <ul>
 <li>障害検知の仕組みとして監視必要 &#8211; 死活監視 &#8211; リソース監視 &#8211; ログ監視</li>
 </ul>
 
-<h3 id="toc_179">ログ</h3>
+<h3 id="toc_620">ログ</h3>
 
 <ul>
 <li>お互いで取り決めたフォーマットに沿ったログ出力 &#8211; Dev と Ops が面倒みるにあたって取り決めるといい</li>
@@ -1466,7 +1466,7 @@ gdb `which perl` core.2084
 <li>ログ収集方法 &#8211; ログを良い感じで監視できるソリューションがない</li>
 </ul>
 
-<h3 id="toc_180">Komainu</h3>
+<h3 id="toc_621">Komainu</h3>
 
 <ul>
 <li>設定に応じて集計 &#8211; accesslog 集計 &#8211; applog 集計 &#8211; mysql slow log 集計</li>
@@ -1474,7 +1474,7 @@ gdb `which perl` core.2084
 <li>何が重要か &#8211; サービスクオリティ維持のため &#8211; 利用者からの問い合わせベースで障害に気づくのは情けない &#8211; 攻めの運用 &#8211; ログ情報を通知することでエラーに向きあう</li>
 </ul>
 
-<h3 id="toc_181"><strong>Shut the fuck up and write some code</strong></h3>
+<h3 id="toc_622"><strong>Shut the fuck up and write some code</strong></h3>
 
 <ul>
 <li>行動こそすべて</li>
@@ -1484,11 +1484,11 @@ gdb `which perl` core.2084
 
 <hr>
 
-<h2 id="toc_182">Managing A Band Of Hackers</h2>
+<h2 id="toc_623">Managing A Band Of Hackers</h2>
 
 <p>DeNA の hidek (<a href="http://twitter.com/hidek">@hidek</a>) さんの基調講演。Perl ハッカーを束ねるマネージャーとしての考え方や経験のお話でした。 とてもいい話でした。DeNA には優秀で著名な方が集まっているイメージがありますが、このようなコミュニティというか、仲間の魅力が根底にはあるのだろうなと感じる内容でした。途中、何度もチームを褒めているところが、率直に褒めているように感じられて印象的でした。</p>
 
-<h3 id="toc_183">management</h3>
+<h3 id="toc_624">management</h3>
 
 <ul>
 <li>なぜマネージャーが必要？ &#8211; 一人では規模の限界</li>
@@ -1496,13 +1496,13 @@ gdb `which perl` core.2084
 <li>&#8220;The whole is more than the sum of its parts.&#8221; &#8211; 1 + 1 が 2 以上になるようにしなければならない</li>
 </ul>
 
-<h3 id="toc_184">tasks of the manager</h3>
+<h3 id="toc_625">tasks of the manager</h3>
 
 <ul>
 <li>マネージャーの業務にはエンジニアとしての経験が必要 &#8211; 大規模なほど広いレイヤの知識が必要</li>
 </ul>
 
-<h4 id="toc_185">project management</h4>
+<h4 id="toc_626">project management</h4>
 
 <ul>
 <li>プロダクトのライフサイクルを維持する &#8211; エンジニアリング未経験だと無理</li>
@@ -1510,7 +1510,7 @@ gdb `which perl` core.2084
 <li>開発中の進捗・マイルストーン管理</li>
 </ul>
 
-<h4 id="toc_186">personal matters</h4>
+<h4 id="toc_627">personal matters</h4>
 
 <ul>
 <li>人事も大事</li>
@@ -1519,21 +1519,21 @@ gdb `which perl` core.2084
 <li>評価 &#8211; どんな仕事をしたか、を見るためにもエンジニア経験が必要</li>
 </ul>
 
-<h4 id="toc_187">etc</h4>
+<h4 id="toc_628">etc</h4>
 
 <ul>
 <li>事務仕事</li>
 <li>会議 &#8211; 無駄なものもあるが、最近必要と感じることもある &#8212; 海外支社とのテレビ会議など、図を書いたりすることで理解が早くなる &#8211; Face to Face も重要</li>
 </ul>
 
-<h3 id="toc_188">the manager of hackers</h3>
+<h3 id="toc_629">the manager of hackers</h3>
 
 <ul>
 <li>少しとんがった人たちのマネージャーとして</li>
 <li>Platform System Group &#8211; プロジェクト開始時は 3 名、現在 20 名 &#8211; CPAN Author が 6 名</li>
 </ul>
 
-<h4 id="toc_189">hackers はどういう人達か</h4>
+<h4 id="toc_630">hackers はどういう人達か</h4>
 
 <ul>
 <li>&#8220;no man is an island&#8221; &#8211; 一人だと寂しくて死んじゃう</li>
@@ -1543,13 +1543,13 @@ gdb `which perl` core.2084
 <li>KY &#8211; 読めない事自体は仕事に影響しないので、悪いことではない &#8211; 悪ノリする</li>
 </ul>
 
-<h3 id="toc_190">what should I do ?</h3>
+<h3 id="toc_631">what should I do ?</h3>
 
 <ul>
 <li>これはハッカーのマネージャーだけでなく、一般でも通じるところはある</li>
 </ul>
 
-<h4 id="toc_191">delegation</h4>
+<h4 id="toc_632">delegation</h4>
 
 <ul>
 <li>仕事を任せる &#8211; 失敗もするけど、任せると成長する</li>
@@ -1557,26 +1557,26 @@ gdb `which perl` core.2084
 <li>「任せる」と「丸投げ」は違う &#8211; 任せるための準備はする &#8211; バックアッププランは作る &#8211; 失敗したらマネージャーが責任を持つ</li>
 </ul>
 
-<h4 id="toc_192">bad news first</h4>
+<h4 id="toc_633">bad news first</h4>
 
 <ul>
 <li>悪い報告を先にするようにしてもらう</li>
 </ul>
 
-<h4 id="toc_193">TMTOWTDI</h4>
+<h4 id="toc_634">TMTOWTDI</h4>
 
 <ul>
 <li>やり方は一つではない &#8211; これはマネジメントだけではない</li>
 <li>多様性を許容する</li>
 </ul>
 
-<h3 id="toc_194">マネージャが少ない会社は大変</h3>
+<h3 id="toc_635">マネージャが少ない会社は大変</h3>
 
 <ul>
 <li>マネージャは優秀なエンジニアじゃないとできない &#8211; 選択肢として考えて欲しい</li>
 </ul>
 
-<h3 id="toc_195">コミュニティに参加して欲しい</h3>
+<h3 id="toc_636">コミュニティに参加して欲しい</h3>
 
 <ul>
 <li>技術的な刺激を受けられる</li>
@@ -1607,11 +1607,11 @@ gdb `which perl` core.2084
 
 <hr>
 
-<h2 id="toc_130">Perl 5.16 and beyond</h2>
+<h2 id="toc_571">Perl 5.16 and beyond</h2>
 
 <p>今回のスペシャルゲスト、 Perl5 開発リーダーの Jesse Vincent (<a href="http://twitter.com/obra">@obra</a>) さんの講演。Perl5 の開発プロセスがどのように変化してきたか、そして今後の Perl5 がどうなっていくのかというお話でした。 （英語のセッションだったので内容を頭の中で理解するのが追いつかずメモ取りきれなかったので間違えていたら指摘をお願いします。。）</p>
 
-<h3 id="toc_131">Pumpking</h3>
+<h3 id="toc_572">Pumpking</h3>
 
 <p>Perl5 の開発体制が整ってきたのでリリーススパンが早くなってきた。</p>
 
@@ -1624,7 +1624,7 @@ gdb `which perl` core.2084
 <li>仕様に関する文書をまとめる つまり <strong>&#8220;You make Perl&#8221;</strong></li>
 </ul>
 
-<h3 id="toc_132">Vision</h3>
+<h3 id="toc_573">Vision</h3>
 
 <p>&#8220;New version should not break old environment&#8221; と &#8220;Perl should run everywhere&#8221;</p>
 
@@ -1642,11 +1642,11 @@ gdb `which perl` core.2084
 
 <hr>
 
-<h2 id="toc_133">Webアプリケーション高速化</h2>
+<h2 id="toc_574">Webアプリケーション高速化</h2>
 
 <p>※講演資料 <a href="http://ma.la/files/yapcasia2011/#0">YAPC::Asia 2011 / 高速化のはなしとか</a> ライブドアの mala (<a href="http://twitter.com/bulkneets">@bulkneets</a>) さんの講演。すべてを聞いたあとの「気持よく書ける範囲で最適化」というまとめに納得しました。先回りしてキャッシュしておく戦略は難しそうですが、効果は大きそうなのでやってみたいと思っています。</p>
 
-<h3 id="toc_134">はじめに</h3>
+<h3 id="toc_575">はじめに</h3>
 
 <ul>
 <li>チューニングについてのスタンス &#8211; 努力だけでどうにもならないときは、卑怯な手段を使う &#8211; バレなきゃイカサマではない</li>
@@ -1654,7 +1654,7 @@ gdb `which perl` core.2084
 <li>どの方法を選ぶかはケースバイケース &#8211; 適切な手段を選ぶことは必要 &#8211; ハードウェアはすごく早くはならない</li>
 </ul>
 
-<h3 id="toc_135">一般的な方法</h3>
+<h3 id="toc_576">一般的な方法</h3>
 
 <ul>
 <li>ボトルネックを見つけてチューニング &#8211; リソースやスロークエリ等の監視 &#8211; プロファイリング &#8212; Devel::NYTProf / Devel::KYTProf &#8212; 計測用のスクリプトを作成しておく &#8212;- Shell::Perl が便利 &#8212; stopwatch で時間計測 &#8212;- benchmark だと CPU 時間を計測する &#8212;- 1 req の処理時間を測って感覚を把握できるようにする</li>
@@ -1662,9 +1662,9 @@ gdb `which perl` core.2084
 <li>コード &#8211; テクニックを抑えておく &#8212; 必要なデータはまとめて引いておく &#8212; 遅延評価 &#8212; MySQL では &#8220;WHERE IN&#8221; / &#8220;BULK UPDATE&#8221; の活用 &#8212; memcached では &#8220;get_multi&#8221; を使ってプロトコルオーバヘッド減らす</li>
 </ul>
 
-<h3 id="toc_136">あまり真似されない方法</h3>
+<h3 id="toc_577">あまり真似されない方法</h3>
 
-<h4 id="toc_137">Bloom Filter</h4>
+<h4 id="toc_578">Bloom Filter</h4>
 
 <ul>
 <li>KVS / MySQL への問い合わせ前に大雑把なクエリを間引く &#8211; 精度はデータ量とのトレードオフ &#8211; &lt;a href=&#8221;<a href="http://fallabs.com/blog-ja/promenade.cgi?id=70">http://fallabs.com/blog-ja/promenade.cgi?id=70</a></li>
@@ -1673,7 +1673,7 @@ gdb `which perl` core.2084
 <li>使うのは CPU &#8211; パラメータにも依るが 数万 qps 処理できる &#8211; ハッシュよりは遅く、リモートの DB よりは早い</li>
 </ul>
 
-<h4 id="toc_138">Cache warmup</h4>
+<h4 id="toc_579">Cache warmup</h4>
 
 <ul>
 <li>よく使われるデータを先に載せておく &#8211; MySQL innodb &#8211; memcached</li>
@@ -1681,7 +1681,7 @@ gdb `which perl` core.2084
 <li>ライトスルー方式との違い &#8211; 参照されそうなときに乗るのでヒットしやすい &#8211; キャッシュ生成がレスポンス生成より遅いと重くなる</li>
 </ul>
 
-<h4 id="toc_139">Varnish + ESI</h4>
+<h4 id="toc_580">Varnish + ESI</h4>
 
 <ul>
 <li>最近流行りの構成は Nginx + Standalone PSGI でいい</li>
@@ -1691,11 +1691,11 @@ gdb `which perl` core.2084
 
 <hr>
 
-<h2 id="toc_140">新はてなダイアリーの裏側</h2>
+<h2 id="toc_581">新はてなダイアリーの裏側</h2>
 
 <p>はてなの大西 (<a href="http://twitter.com/yasuhiro_onishi">@yasuhiro_onishi</a>) さんの講演。はてなダイアリーが &#8220;Hatena Blog&#8221; にリニューアルを解説するセッションでした。主に表示に関わる仕様変更をユーザの行動に影響しないようにするため、様々な工夫をされているのですね。。</p>
 
-<h3 id="toc_141">技術的な話</h3>
+<h3 id="toc_582">技術的な話</h3>
 
 <ul>
 <li>外部ドメイン化 / JS フリー化 &#8211; 従来ははてな共通ドメイン・ログインクッキー &#8211; 利点 &#8212; どのサービスでもログイン状態になれる &#8212; 編集 / 閲覧の区別がない &#8211; 欠点 &#8212; XSS 脆弱性に弱いので自由に JS 書けない</li>
@@ -1708,22 +1708,22 @@ gdb `which perl` core.2084
 
 <hr>
 
-<h2 id="toc_142">Webアプリでパスワード保護はどこまでやればいいか</h2>
+<h2 id="toc_583">Webアプリでパスワード保護はどこまでやればいいか</h2>
 
 <p>「<a href="http://www.amazon.co.jp/%E4%BD%93%E7%B3%BB%E7%9A%84%E3%81%AB%E5%AD%A6%E3%81%B6-%E5%AE%89%E5%85%A8%E3%81%AAWeb%E3%82%A2%E3%83%97%E3%83%AA%E3%82%B1%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E3%81%AE%E4%BD%9C%E3%82%8A%E6%96%B9-%E8%84%86%E5%BC%B1%E6%80%A7%E3%81%8C%E7%94%9F%E3%81%BE%E3%82%8C%E3%82%8B%E5%8E%9F%E7%90%86%E3%81%A8%E5%AF%BE%E7%AD%96%E3%81%AE%E5%AE%9F%E8%B7%B5-%E5%BE%B3%E4%B8%B8-%E6%B5%A9/dp/4797361190">安全なWebアプリケーションの作り方</a>」の著者、徳丸浩 (<a href="http://twitter.com/ockeghem">@ockeghem</a>) さんの講演。同本の 5.1 章を解説する流れで説明されていましたが、RainbowTable などの説明がとてもわかり易かったです。</p>
 
-<h3 id="toc_143">本日のテーマ</h3>
+<h3 id="toc_584">本日のテーマ</h3>
 
 <p><strong>単に HASH 化しただけでは元に戻せるのか？</strong> - クラックは 2 種類 &#8211; オンラインクラック : リモートからのパスワード試行 &#8211; オフラインクラック : 情報を盗み、攻撃者の手元で平文パスワードを求める - パスワードだけ保護する理由とは？ &#8211; パスが漏れてれば他の個人情報も漏れている &#8211; パスワードを使いまわす利用者もいる &#8211; パスワード保護は運営者の義務</p>
 
-<h3 id="toc_144">オンラインクラック</h3>
+<h3 id="toc_585">オンラインクラック</h3>
 
 <ul>
 <li>パターン &#8211; 総あたり攻撃 : 時間かかるのであまりやらない &#8211; 辞書攻撃 : 辞書のものを順にパスワードとして試行 &#8211; その他のバリエーション &#8212; ジョーアカウント探索 : ID と pass を同じにしているものを総あたりで試行 &#8212; 逆総当り攻撃 : パスワード固定でユーザを変える &#8212;- 普通の総当りに比べて成功確率高い &#8212;- Twitter のような ユーザ ID がわかっているようなものは特に</li>
 <li>対策 &#8211; 強いパスワードを付けてもらう &#8211; アカウントロックが基本 &#8211; ジョーアカウントは登録時にチェック &#8211; 逆総あたり対策として、辞書のものは NG にする</li>
 </ul>
 
-<h3 id="toc_145">オフラインクラック</h3>
+<h3 id="toc_586">オフラインクラック</h3>
 
 <ul>
 <li>なぜ暗号化ではなくハッシュなの？ &#8211; 暗号化は鍵管理が難しいが、ハッシュは鍵管理が不要</li>
@@ -1731,7 +1731,7 @@ gdb `which perl` core.2084
 <li>ハッシュから平文に戻す方法 &#8211; 総当たり攻撃・辞書攻撃 &#8212; オフライン型のパスワードクラックツール &#8212;- GPU 高速化に伴ってかなり高速にできるようになった &#8211; RainbowTable &#8212; 逆引き表 + 還元関数でチェーンを作る &#8212;- 単純な逆引き表は膨大なデータ量 &#8212;- 圧縮するために還元関数を使う &#8212; チェーンの「先頭」と「末尾」だけ保存すればいい &#8212; 探索はハッシュに還元関数をかけていって「末尾」と一致するかどうかを見ればいい &#8212;- 一致したらその「先頭」がパスワード &#8212; どのアルゴリズムでも実現できる &#8212;- アルゴリズム特有の脆弱性を使っていない &#8211; Salt &#8212; ハッシュの元データに追加する文字列 &#8212;- 見かけのパスワードの長さを長くする &#8212; ユーザごとにソルトを変えることでパスワードが同じでも異なるハッシュ値を得られる &#8211; Streching &#8212; ハッシュの計算を繰り返ことで、ハッシュ計算を遅くする &#8212; メリット／デメリットある</li>
 </ul>
 
-<h2 id="toc_146">パスワードの暗号化は本当に無理か</h2>
+<h2 id="toc_587">パスワードの暗号化は本当に無理か</h2>
 
 <ul>
 <li>HSM (Hardware Security Module) ならばいける &#8211; 復号化機能を無効にできればよい</li>
@@ -1739,11 +1739,11 @@ gdb `which perl` core.2084
 
 <hr>
 
-<h2 id="toc_147">Perl で構築された中規模サイトの DC 引っ越し記録</h2>
+<h2 id="toc_588">Perl で構築された中規模サイトの DC 引っ越し記録</h2>
 
 <p>※講演資料 &lt;a href=&#8221;<a href="http://dl.dropbox.com/u/224433/YAPC2011/index.html">http://dl.dropbox.com/u/224433/YAPC2011/index.html</a> KAYAC の sfujiwara (<a href="http://twitter.com/sfujiwara">@sfujiwara</a>) さんの講演。&#8221;こえ部&#8221; をレンタルサーバから自社インフラに移設した時のまとめを紹介されていました。アップロードデータのあるサービスで新しいファイルを旧環境でケアしてあげる方法は難しそうですが、Nginx の効率のよい使い方などは参考になりました。</p>
 
-<h3 id="toc_148">こえ部 &amp; システム概要</h3>
+<h3 id="toc_589">こえ部 &amp; システム概要</h3>
 
 <ul>
 <li>音声投稿共有サイト</li>
@@ -1756,21 +1756,21 @@ gdb `which perl` core.2084
 <li>サーバ増設 + SPOF整理しながら自社インフラに移設 &#8211; 同時に KVM 環境に移行</li>
 </ul>
 
-<h3 id="toc_149">旧システムと新システムのアーキテクチャ</h3>
+<h3 id="toc_590">旧システムと新システムのアーキテクチャ</h3>
 
 <ul>
 <li>HAProxy &#8211; App サーバの local に HAProxy &#8212; 3306 : MySQL master &#8212; 3307 : MySQL slave &#8212; 同様に KyotoTycoon も設定</li>
 <li>今も残っている SPOF &#8211; MySQL master &#8212; MHA を試すとか？ &#8211; NFS</li>
 </ul>
 
-<h3 id="toc_150">止めずに移行するための準備と仕掛け</h3>
+<h3 id="toc_591">止めずに移行するための準備と仕掛け</h3>
 
 <ul>
 <li>段階的に切り替えたかった</li>
 <li>手順 &#8211; 新サーバ群立ち上げ &#8212; 合わせてチューニング &#8212;- mk-duplicate-key-checker &#8212; ファイル書き込みの job は新旧それぞれで別々の worker が処理 &#8212; 旧環境にないファイルは Nginx の error_page を使って内部で reverse proxy &#8211; DC 間に VPN &#8212; OpenVPN で構築 &#8212; 100 Mbps 回線で RTT 3-4 ms / スループット 60Mbps &#8211; データ・トラフィックを VPN 経由で移す &#8211; サービス IP を DNS で切り替え &#8212; サービス停止は 1 時間くらいで</li>
 </ul>
 
-<h3 id="toc_151">実際の移行作業顛末</h3>
+<h3 id="toc_592">実際の移行作業顛末</h3>
 
 <ul>
 <li>4 日に分けて処理して無事終了</li>
@@ -1779,11 +1779,11 @@ gdb `which perl` core.2084
 
 <hr>
 
-<h2 id="toc_152">Mobage オープンプラットフォームの事件簿</h2>
+<h2 id="toc_593">Mobage オープンプラットフォームの事件簿</h2>
 
 <p>DeNA の zigorou (<a href="http://twitter.com/zigorou">@zigorou</a>) さんの講演。モバゲーオープンプラットフォームの障害事例とその対処法についてのお話でした。大規模サービスの障害事例はとても参考になります。「原因究明」「失敗防止」「知識配布」という項目でまとめているのもわかりやすかったですし、これらの障害報告会を社内で定期的に行なって共有する体制を作っているのはとても良いことだと思いました。</p>
 
-<h3 id="toc_153">DeadLock 多発事件</h3>
+<h3 id="toc_594">DeadLock 多発事件</h3>
 
 <ul>
 <li>ある API が突然 DeadLoak が多発するようになった &#8211; もともと Transaction が比較的長い処理だった</li>
@@ -1792,7 +1792,7 @@ gdb `which perl` core.2084
 <li>知識配布 &#8211; アプリに人気が偏るとデータが集中する &#8212; 設計やモデリングで予見できた障害かもしれない &#8211; Queue のときは Index 不要なのではらない</li>
 </ul>
 
-<h3 id="toc_154">INSERT vs DELETE</h3>
+<h3 id="toc_595">INSERT vs DELETE</h3>
 
 <ul>
 <li>ある API の古いデータを消そうとしたが DELETE が INSERT に追いつかない</li>
@@ -1801,7 +1801,7 @@ gdb `which perl` core.2084
 <li>知識配布 &#8211; おかわり作戦 &#8212; DB 運用すると発生する Flagmentation の対策にも鳴る</li>
 </ul>
 
-<h3 id="toc_155">有名人問題</h3>
+<h3 id="toc_596">有名人問題</h3>
 
 <ul>
 <li>有名人ユーザでレスポンス低下したりする</li>
@@ -1809,7 +1809,7 @@ gdb `which perl` core.2084
 <li>失敗防止 &#8211; SQL_CALC_FOUND_ROWS / TemporaryTable は重い &#8212; ユーザを順次取得してやってみる &#8211; Iterator::GroupedRows</li>
 </ul>
 
-<h3 id="toc_156">まとめ</h3>
+<h3 id="toc_597">まとめ</h3>
 
 <ul>
 <li>失敗から得られることは大きい</li>
@@ -1820,11 +1820,11 @@ gdb `which perl` core.2084
 
 <hr>
 
-<h2 id="toc_157">Mobageソーシャルゲームにおける大規模サーバ運用 with Perl</h2>
+<h2 id="toc_598">Mobageソーシャルゲームにおける大規模サーバ運用 with Perl</h2>
 
 <p>DeNA の riywo (<a href="http://twitter.com/riywo">@riywo</a>) さんの講演。DeNA の内製 SNG の運営におけるチューニングのお話でした。台数が増えると起きてくる問題や、人気が出てイベントなどでアクセスが集中すると起きる問題など、そのアプローチが参考になりました。DevOps 的な問題点についても、規模は小さいながらも同じような状況を見ている立場としてとても共感できるものでした。</p>
 
-<h3 id="toc_158">Application Tuning</h3>
+<h3 id="toc_599">Application Tuning</h3>
 
 <ul>
 <li>アプリケーション台数は多い &#8211; それぞれからつなぐ先を減らすほうが良い</li>
@@ -1832,7 +1832,7 @@ gdb `which perl` core.2084
 <li>現在のアプリへの &#8220;追加&#8221; は簡単にできる &#8211; インパクトが大きな箇所のところだけ置き換えればいい &#8211; チューニングしたいところだけピンポイントで入れられる</li>
 </ul>
 
-<h3 id="toc_159">Database Tuning</h3>
+<h3 id="toc_600">Database Tuning</h3>
 
 <ul>
 <li>一気に成長することで問題が顕在化</li>
@@ -1840,7 +1840,7 @@ gdb `which perl` core.2084
 <li>怪盗ロワイヤルのイベント &#8211; 同じお宝を奪い合うにしてみた &#8211; ユーザを探す所が重くなった &#8212; レベルが近い順に探していくため &#8212; レベルのカラム構造を変えて、ざっくりの level-class をつけるようにした &#8211; Lock wait timeout 発生 &#8211; DeadLock 起きにくくする &#8212; ロックを取得する順番を決める &#8211; イベントをすることで既存機能に影響することがある</li>
 </ul>
 
-<h3 id="toc_160">DevOps</h3>
+<h3 id="toc_601">DevOps</h3>
 
 <ul>
 <li>イベント開始がシェアされてなかった &#8211; シェアされてても全部の問題が予測できるわけではないけど。。。</li>
@@ -1938,11 +1938,11 @@ $ git push origin upstream
 
 <!--more-->
 
-<h2 id="toc_110">OpenStackを検証してみた - オープンソースの仮想化技術 open stack の検証結果の報告</h2>
+<h2 id="toc_551">OpenStackを検証してみた - オープンソースの仮想化技術 open stack の検証結果の報告</h2>
 
 <p>サイバーエージェントの坂本佳久 (<a href="http://twitter.com/ton_katsu">@ton_katsu</a>) さんの発表。プライベートクラウドを構築するプロジェクトのひとつ、OpenStack を検証した結果のまとめ。</p>
 
-<h3 id="toc_111">OpenStack</h3>
+<h3 id="toc_552">OpenStack</h3>
 
 <p>Nova と Swift を組み合わせたプロジェクト。 OpenStack を検証対象として選んだ理由は次のとおり。</p>
 
@@ -1973,11 +1973,11 @@ $ git push origin upstream
 </ul></li>
 </ul>
 
-<h3 id="toc_112">システム構成の例</h3>
+<h3 id="toc_553">システム構成の例</h3>
 
 <p>インスタンスの起動や管理を行う &quot;CloudController&quot; と、この配下に複数の &quot;Computenode&quot; を配置する構成をとる (最小構成では両プロセスを同じマシンに同居させることも可能)。Computenode に hypervisor などをいれ、実際にインスタンスを動作させることとなる。その他、副次的に MySQL や RabbitMQ などのプロセスも利用する。</p>
 
-<h3 id="toc_113">使ってみた</h3>
+<h3 id="toc_554">使ってみた</h3>
 
 <p>実際に検証で用いた環境は下記の通り。</p>
 
@@ -2003,7 +2003,7 @@ $ git push origin upstream
 <p>これらの管理を行うために、 Django ベースの GUI が付属している。WebSocket を利用するため、Safari などで操作する必要がある (Chrome はうまく動作しなかったとのこと)。また、VNC コンソールは Cactus のバージョンでは未実装なので、利用する場合は trunk から取得する必要がある。<br>
 その他、API も用意されているので自前で管理ツールを作成することも可能。</p>
 
-<h3 id="toc_114">感想</h3>
+<h3 id="toc_555">感想</h3>
 
 <ul>
 <li>良かった点
@@ -2023,11 +2023,11 @@ $ git push origin upstream
 
 <p>来月より検証環境で運用するとのことで、今後のレポートにも注目したいところです。</p>
 
-<h2 id="toc_115">AmebaPico を支える技術 - AWS上に構築された AmebaPico で使用されている技術・開発体制について</h2>
+<h2 id="toc_556">AmebaPico を支える技術 - AWS上に構築された AmebaPico で使用されている技術・開発体制について</h2>
 
 <p>サイバーエージェントの森野耕平 (<a href="http://twitter.com/kohei_april20">@kohei_april20</a>) さんの発表。AmebaPico のアーキテクチャや体制に関して。</p>
 
-<h3 id="toc_116">Ameba Pico</h3>
+<h3 id="toc_557">Ameba Pico</h3>
 
 <p>アメーバピグの海外版として位置づけられているサービス。</p>
 
@@ -2048,7 +2048,7 @@ $ git push origin upstream
 </ul></li>
 </ul>
 
-<h3 id="toc_117">アーキテクチャ</h3>
+<h3 id="toc_558">アーキテクチャ</h3>
 
 <p>すべて AWS で運用されている。</p>
 
@@ -2098,7 +2098,7 @@ $ git push origin upstream
 </ul></li>
 </ul>
 
-<h3 id="toc_118">AWS の利用</h3>
+<h3 id="toc_559">AWS の利用</h3>
 
 <ul>
 <li>S3
@@ -2134,7 +2134,7 @@ $ git push origin upstream
 </ul></li>
 </ul>
 
-<h2 id="toc_119">Flash の利用</h2>
+<h2 id="toc_560">Flash の利用</h2>
 
 <p>クライアントサイドではまず main.swf のみをロードし、必要に応じてサブモジュールをロードする。</p>
 
@@ -2144,7 +2144,7 @@ $ git push origin upstream
 <li>profile.swf delegate 実装でサーバ接続とモック用を切り分けることで、サーバサイドとクライアントサイド別々の開発が行えるようにしている。</li>
 </ul>
 
-<h2 id="toc_120">運用してみて</h2>
+<h2 id="toc_561">運用してみて</h2>
 
 <p>EC2 上でサービスを運用してみての総括。</p>
 
@@ -2216,11 +2216,11 @@ $ git push origin upstream
 
 <p>MongoDB を大規模に利用しているケースなので、とても興味深いものでした。海外展開の際に DC の場所を気にしなくても良い、というのは AWS ならではのメリットに感じました。</p>
 
-<h2 id="toc_121">毎日の料理を楽しくする画像配信技術</h2>
+<h2 id="toc_562">毎日の料理を楽しくする画像配信技術</h2>
 
 <p>クックパッドの成田一生 (<a href="http://twitter.com/mirakui">@mirakui</a>) さんの発表。レシピに必須の画像をリアルタイムでリサイズするための Apache モジュール &quot;TOFU&quot; について。</p>
 
-<h3 id="toc_122">従来の画像アップロードの仕組み</h3>
+<h3 id="toc_563">従来の画像アップロードの仕組み</h3>
 
 <ul>
 <li>アップロードされた画像はアプリケーションサーバがリサイズ
@@ -2247,7 +2247,7 @@ $ git push origin upstream
 </ul></li>
 </ul>
 
-<h3 id="toc_123">そこで新しい方法を模索</h3>
+<h3 id="toc_564">そこで新しい方法を模索</h3>
 
 <ul>
 <li>現在の規模
@@ -2267,7 +2267,7 @@ $ git push origin upstream
 </ul></li>
 </ul>
 
-<h3 id="toc_124">TOFU</h3>
+<h3 id="toc_565">TOFU</h3>
 
 <p>URL に処理内容をマッピングし、リクエストの度に画像をリサイズする Apache モジュール (mod_tofu.so)。</p>
 <div class="highlight"><pre><code class="text">/recipes/{:recipe_id}/{:size}/{:hash}
@@ -2300,7 +2300,7 @@ $ git push origin upstream
 </ul></li>
 </ul>
 
-<h2 id="toc_125">苦労話など</h2>
+<h2 id="toc_566">苦労話など</h2>
 
 <ul>
 <li>ImageMagick と Imlib2
@@ -2339,11 +2339,11 @@ $ git push origin upstream
 
 <p>画像種類もリクエストも多いのにリアルタイムに変換するのは大変そうに思ったのですが、Apache モジュールと聞いて少し納得。キャッシュもうまく組み込んでいて、かなりコストを意識した工夫がされている印象を受けました。</p>
 
-<h2 id="toc_126">AWS移行に向けたクックパッドの取り組み＋α</h2>
+<h2 id="toc_567">AWS移行に向けたクックパッドの取り組み＋α</h2>
 
 <p>クックパッドの菅原元気さんの発表。先日の<a href="http://techlife.cookpad.com/2011/04/22/aws-advantage-seminar/">アマゾンウェブサービスクラウドアドバンテージセミナーで発表された内容</a>をベースに、AWS 移行に向けた全体的なお話。 プレゼン資料がとてもまとまっているので、そちらを直接見たほうが。。。</p>
 
-<h3 id="toc_127">サーバ・ネットワーク構成</h3>
+<h3 id="toc_568">サーバ・ネットワーク構成</h3>
 
 <ul>
 <li>現在
@@ -2362,7 +2362,7 @@ $ git push origin upstream
 </ul></li>
 </ul>
 
-<h3 id="toc_128">AWS でのサーバ</h3>
+<h3 id="toc_569">AWS でのサーバ</h3>
 
 <ul>
 <li>DNS
@@ -2402,7 +2402,7 @@ $ git push origin upstream
 </ul></li>
 </ul>
 
-<h3 id="toc_129">分散DNSについて</h3>
+<h3 id="toc_570">分散DNSについて</h3>
 
 <p>さすがに全台で resolv.conf を書き換えていくのは大変なのと、いくつかの問題点がクリア出来ない。</p>
 
@@ -2483,7 +2483,7 @@ $ git push origin upstream
 
 <!--more-->
 
-<h2 id="toc_102">パッケージ導入</h2>
+<h2 id="toc_543">パッケージ導入</h2>
 
 <p>gitosis は python で記述され、gitで管理されているプロジェクトです。 CentOS の場合、EPEL リポジトリに Git / gitosis 共にパッケージが存在するので、これを利用することで簡単にインストールできます。</p>
 <div class="highlight"><pre><code class="text">$ sudo yum install git python-setuptools gitosis
@@ -2497,7 +2497,7 @@ $ git push origin upstream
 <li>home dir: /var/lib/gitosis</li>
 </ul>
 
-<h2 id="toc_103">初期設定</h2>
+<h2 id="toc_544">初期設定</h2>
 
 <p>gitosis の設定は、 gitosis 管理リポジトリのファイルを変更し push することで反映されます。 設定を行うためには、管理ユーザとして最低一人の公開鍵をセットしなければなりません。ここでは、Git サーバ上の現在の操作ユーザの鍵を管理ユーザとしてセットする例を示します。</p>
 <div class="highlight"><pre><code class="text">$ cd /var/lib/gitosis
@@ -2514,15 +2514,15 @@ $ git clone gitosis@localhost:gitosis-admin.git
 
 <p>設定を変更後、push することで Hooks のスクリプトが実行されることで key が gitosis ユーザの authorized_keys に追記されていきます。 この authorized_keys には command が併記されているため、git のリモートリポジトリを操作する以外のコマンドが実行できないようになっているのです。</p>
 
-<h3 id="toc_104">新規ユーザの追加</h3>
+<h3 id="toc_545">新規ユーザの追加</h3>
 
 <p>新規ユーザの追加は、*.pub ファイルを作成して該当するグループに追記、push するだけです。 gitosis では、グループ毎に権限をコントロールする形式を取ります。このため、ユーザが複数のグループに所属しているとうまく動作しないことがあります。 *.pub は単なる authorized_keys なので、1行にひとつの公開鍵を書く形式になっていれば複数設定可能です。</p>
 
-<h3 id="toc_105">新規リポジトリの追加</h3>
+<h3 id="toc_546">新規リポジトリの追加</h3>
 
 <p>新規リポジトリの追加は、gitosis.conf に変更を加えて push するだけです。空のまま pull すると init されるだけですが、追加して push すれば大丈夫です。</p>
 
-<h2 id="toc_106">設定のコツ</h2>
+<h2 id="toc_547">設定のコツ</h2>
 
 <p>keydir 以下に公開鍵ごとにファイルを作成し、 gitosis.conf に公開鍵のファイル名 (.pub を除く) を設定していきます。</p>
 <div class="highlight"><pre><code class="text">[gitosis]
@@ -2537,7 +2537,7 @@ members = hatak hoge fuga
 </code></pre>
 </div>
 
-<h3 id="toc_107">サブディレクトリ</h3>
+<h3 id="toc_548">サブディレクトリ</h3>
 
 <p>リポジトリはサブディレクトリに入れることができます。 上記 sandbox の場合は次のようになります。</p>
 
@@ -2551,11 +2551,11 @@ members = hatak hoge fuga
 </code></pre>
 </div>
 
-<h3 id="toc_108">config の改行</h3>
+<h3 id="toc_549">config の改行</h3>
 
 <p>gitosis.conf ではユーザが多いときなどバックスラッシュを入れることで、設定ファイル内でも改行することができます。 ユーザが多いときなどに可読性を上げることができ、とても便利です。</p>
 
-<h2 id="toc_109">関連するページ</h2>
+<h2 id="toc_550">関連するページ</h2>
 
 <ul>
 <li><a href="http://scie.nti.st/2007/11/14/hosting-git-repositories-the-easy-and-secure-way">Hosting Git repositories, The Easy (and Secure) Way</a></li>

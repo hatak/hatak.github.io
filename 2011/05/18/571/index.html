@@ -6,7 +6,7 @@
 <head>
   <meta charset="utf-8">
   <title>gitosis で作るプライベートな git サーバ - Hatak::Techlog</title>
-  <meta name="author" content="Hisashi HATAKEYAMA">
+  <meta name="author" content="hatak">
 
   
   <meta name="description" content="業務で使い始めた Git ですが、高機能過ぎて未だに使いこなせている自信がありません。 一方で、かつて利用していた Subversion はコマンドを忘れてしまって使うたびにググるほどに記憶が抜けつつあります。 そんな Git を複数メンバー・複数環境で利用する場合、 &hellip;">
@@ -25,10 +25,7 @@
   <script src="/javascripts/ender.js"></script>
   <script src="/javascripts/octopress.js" type="text/javascript"></script>
   <link href="/atom.xml" rel="alternate" title="Hatak::Techlog" type="application/atom+xml">
-  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
-<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-
+  
   
   <script type="text/javascript">
     var _gaq = _gaq || [];
@@ -96,9 +93,6 @@
 
 
 <time datetime="2011-05-18T00:00:00+09:00" pubdate data-updated="true">2011/05/18</time>
-        
-         | <a href="#disqus_thread">Comments</a>
-        
       </p>
     
   </header>
@@ -120,7 +114,7 @@
 
 <!--more-->
 
-<h2 id="toc_102">パッケージ導入</h2>
+<h2 id="toc_543">パッケージ導入</h2>
 
 <p>gitosis は python で記述され、gitで管理されているプロジェクトです。 CentOS の場合、EPEL リポジトリに Git / gitosis 共にパッケージが存在するので、これを利用することで簡単にインストールできます。</p>
 <div class="highlight"><pre><code class="text">$ sudo yum install git python-setuptools gitosis
@@ -134,7 +128,7 @@
 <li>home dir: /var/lib/gitosis</li>
 </ul>
 
-<h2 id="toc_103">初期設定</h2>
+<h2 id="toc_544">初期設定</h2>
 
 <p>gitosis の設定は、 gitosis 管理リポジトリのファイルを変更し push することで反映されます。 設定を行うためには、管理ユーザとして最低一人の公開鍵をセットしなければなりません。ここでは、Git サーバ上の現在の操作ユーザの鍵を管理ユーザとしてセットする例を示します。</p>
 <div class="highlight"><pre><code class="text">$ cd /var/lib/gitosis
@@ -151,15 +145,15 @@ $ git clone gitosis@localhost:gitosis-admin.git
 
 <p>設定を変更後、push することで Hooks のスクリプトが実行されることで key が gitosis ユーザの authorized_keys に追記されていきます。 この authorized_keys には command が併記されているため、git のリモートリポジトリを操作する以外のコマンドが実行できないようになっているのです。</p>
 
-<h3 id="toc_104">新規ユーザの追加</h3>
+<h3 id="toc_545">新規ユーザの追加</h3>
 
 <p>新規ユーザの追加は、*.pub ファイルを作成して該当するグループに追記、push するだけです。 gitosis では、グループ毎に権限をコントロールする形式を取ります。このため、ユーザが複数のグループに所属しているとうまく動作しないことがあります。 *.pub は単なる authorized_keys なので、1行にひとつの公開鍵を書く形式になっていれば複数設定可能です。</p>
 
-<h3 id="toc_105">新規リポジトリの追加</h3>
+<h3 id="toc_546">新規リポジトリの追加</h3>
 
 <p>新規リポジトリの追加は、gitosis.conf に変更を加えて push するだけです。空のまま pull すると init されるだけですが、追加して push すれば大丈夫です。</p>
 
-<h2 id="toc_106">設定のコツ</h2>
+<h2 id="toc_547">設定のコツ</h2>
 
 <p>keydir 以下に公開鍵ごとにファイルを作成し、 gitosis.conf に公開鍵のファイル名 (.pub を除く) を設定していきます。</p>
 <div class="highlight"><pre><code class="text">[gitosis]
@@ -174,7 +168,7 @@ members = hatak hoge fuga
 </code></pre>
 </div>
 
-<h3 id="toc_107">サブディレクトリ</h3>
+<h3 id="toc_548">サブディレクトリ</h3>
 
 <p>リポジトリはサブディレクトリに入れることができます。 上記 sandbox の場合は次のようになります。</p>
 
@@ -188,11 +182,11 @@ members = hatak hoge fuga
 </code></pre>
 </div>
 
-<h3 id="toc_108">config の改行</h3>
+<h3 id="toc_549">config の改行</h3>
 
 <p>gitosis.conf ではユーザが多いときなどバックスラッシュを入れることで、設定ファイル内でも改行することができます。 ユーザが多いときなどに可読性を上げることができ、とても便利です。</p>
 
-<h2 id="toc_109">関連するページ</h2>
+<h2 id="toc_550">関連するページ</h2>
 
 <ul>
 <li><a href="http://scie.nti.st/2007/11/14/hosting-git-repositories-the-easy-and-secure-way">Hosting Git repositories, The Easy (and Secure) Way</a></li>
@@ -230,6 +224,15 @@ members = hatak hoge fuga
 </span>
 
 
+      
+
+<span class="tags">
+  
+    <a class='tag' href='/blog/tags/development/'>development</a>, <a class='tag' href='/blog/tags/git/'>git</a>, <a class='tag' href='/blog/tags/server/'>server</a>
+  
+</span>
+
+
     </p>
     
       <div class="sharing">
@@ -259,7 +262,21 @@ members = hatak hoge fuga
 <aside class="sidebar">
   
     <section>
-  <h1>Recent Posts</h1>
+  <h1><i class="fa fa-user"></i> Author</h1>
+  <img src="https://s.gravatar.com/avatar/43642a4bd7217384aadb10527a29673a?s=80" width="80" height="80" class="pull-right">
+  <h2>hatak</h2>
+  <ul>
+    
+    <li><i class="fa fa-twitter"></i> <a href="https://twitter.com/hisashi">@hisashi</a></li>
+    
+    
+    <li><i class="fa fa-github"></i> <a href="https://github.com/hatak">hatak</a></li>
+    
+  </ul>
+  <p>考えることは好きだけど，考えすぎて動けなくなる癖を直したい。</p>
+</section>
+<section>
+  <h1><i class="fa fa-pencil"></i> Recent Posts</h1>
   <ul id="recent_posts">
     
       <li class="post">
@@ -284,39 +301,10 @@ members = hatak hoge fuga
     
   </ul>
 </section>
-
 <section>
-  <h1>GitHub Repos</h1>
-  <ul id="gh_repos">
-    <li class="loading">Status updating...</li>
-  </ul>
-  
-  <a href="https://github.com/hatak">@hatak</a> on GitHub
-  
-  <script type="text/javascript">
-    $.domReady(function(){
-        if (!window.jXHR){
-            var jxhr = document.createElement('script');
-            jxhr.type = 'text/javascript';
-            jxhr.src = '/javascripts/libs/jXHR.js';
-            var s = document.getElementsByTagName('script')[0];
-            s.parentNode.insertBefore(jxhr, s);
-        }
-
-        github.showRepos({
-            user: 'hatak',
-            count: 3,
-            skip_forks: true,
-            target: '#gh_repos'
-        });
-    });
-  </script>
-  <script src="/javascripts/github.js" type="text/javascript"> </script>
+  <h1><i class="fa fa-tags"></i> Tag Cloud</h1>
+    <span id="tag-cloud"><a href='/blog/tags/adventcalendar' style='font-size: 120.0%'>adventcalendar(2)</a> <a href='/blog/tags/apache' style='font-size: 110.0%'>apache(1)</a> <a href='/blog/tags/archlinux' style='font-size: 110.0%'>archlinux(1)</a> <a href='/blog/tags/aws' style='font-size: 110.0%'>aws(1)</a> <a href='/blog/tags/carton' style='font-size: 110.0%'>carton(1)</a> <a href='/blog/tags/casual' style='font-size: 120.0%'>casual(2)</a> <a href='/blog/tags/centos' style='font-size: 120.0%'>centos(2)</a> <a href='/blog/tags/conference' style='font-size: 120.0%'>conference(2)</a> <a href='/blog/tags/development' style='font-size: 120.0%'>development(2)</a> <a href='/blog/tags/dns' style='font-size: 120.0%'>dns(2)</a> <a href='/blog/tags/geo' style='font-size: 110.0%'>geo(1)</a> <a href='/blog/tags/git' style='font-size: 130.0%'>git(3)</a> <a href='/blog/tags/groonga' style='font-size: 110.0%'>groonga(1)</a> <a href='/blog/tags/hachiojipm' style='font-size: 110.0%'>hachiojipm(1)</a> <a href='/blog/tags/infrastructure' style='font-size: 120.0%'>infrastructure(2)</a> <a href='/blog/tags/ios' style='font-size: 110.0%'>ios(1)</a> <a href='/blog/tags/life' style='font-size: 110.0%'>life(1)</a> <a href='/blog/tags/location' style='font-size: 110.0%'>location(1)</a> <a href='/blog/tags/mac' style='font-size: 120.0%'>mac(2)</a> <a href='/blog/tags/mecab' style='font-size: 110.0%'>mecab(1)</a> <a href='/blog/tags/mroonga' style='font-size: 110.0%'>mroonga(1)</a> <a href='/blog/tags/mysql' style='font-size: 160.0%'>mysql(6)</a> <a href='/blog/tags/nginx' style='font-size: 120.0%'>nginx(2)</a> <a href='/blog/tags/perl' style='font-size: 160.0%'>perl(6)</a> <a href='/blog/tags/plack' style='font-size: 110.0%'>plack(1)</a> <a href='/blog/tags/raspberrypi' style='font-size: 110.0%'>raspberrypi(1)</a> <a href='/blog/tags/redis' style='font-size: 120.0%'>redis(2)</a> <a href='/blog/tags/seminar' style='font-size: 130.0%'>seminar(3)</a> <a href='/blog/tags/server' style='font-size: 120.0%'>server(2)</a> <a href='/blog/tags/supervisord' style='font-size: 110.0%'>supervisord(1)</a> <a href='/blog/tags/test' style='font-size: 110.0%'>test(1)</a> <a href='/blog/tags/varnish' style='font-size: 110.0%'>varnish(1)</a> <a href='/blog/tags/zsh' style='font-size: 110.0%'>zsh(1)</a> </span>
 </section>
-
-
-
-
 
   
 </aside>
@@ -325,8 +313,7 @@ members = hatak hoge fuga
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2014 - Hisashi HATAKEYAMA -
-  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a>. Design by <a href="http://octopressthemes.com">Octopress Themes</a>.</span>
+  Copyright &copy; 2014 hatak
 </p>
 
 </footer>

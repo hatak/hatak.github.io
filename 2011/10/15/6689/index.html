@@ -6,7 +6,7 @@
 <head>
   <meta charset="utf-8">
   <title>YAPC::Asia Tokyo 2011 (1日目) に行ってきた - Hatak::Techlog</title>
-  <meta name="author" content="Hisashi HATAKEYAMA">
+  <meta name="author" content="hatak">
 
   
   <meta name="description" content="Perl のおまつり、 YAPC::Asia に参加しています。
@@ -26,10 +26,7 @@
   <script src="/javascripts/ender.js"></script>
   <script src="/javascripts/octopress.js" type="text/javascript"></script>
   <link href="/atom.xml" rel="alternate" title="Hatak::Techlog" type="application/atom+xml">
-  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
-<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-
+  
   
   <script type="text/javascript">
     var _gaq = _gaq || [];
@@ -97,9 +94,6 @@
 
 
 <time datetime="2011-10-15T00:00:00+09:00" pubdate data-updated="true">2011/10/15</time>
-        
-         | <a href="#disqus_thread">Comments</a>
-        
       </p>
     
   </header>
@@ -114,11 +108,11 @@
 
 <hr>
 
-<h2 id="toc_130">Perl 5.16 and beyond</h2>
+<h2 id="toc_571">Perl 5.16 and beyond</h2>
 
 <p>今回のスペシャルゲスト、 Perl5 開発リーダーの Jesse Vincent (<a href="http://twitter.com/obra">@obra</a>) さんの講演。Perl5 の開発プロセスがどのように変化してきたか、そして今後の Perl5 がどうなっていくのかというお話でした。 （英語のセッションだったので内容を頭の中で理解するのが追いつかずメモ取りきれなかったので間違えていたら指摘をお願いします。。）</p>
 
-<h3 id="toc_131">Pumpking</h3>
+<h3 id="toc_572">Pumpking</h3>
 
 <p>Perl5 の開発体制が整ってきたのでリリーススパンが早くなってきた。</p>
 
@@ -131,7 +125,7 @@
 <li>仕様に関する文書をまとめる つまり <strong>&#8220;You make Perl&#8221;</strong></li>
 </ul>
 
-<h3 id="toc_132">Vision</h3>
+<h3 id="toc_573">Vision</h3>
 
 <p>&#8220;New version should not break old environment&#8221; と &#8220;Perl should run everywhere&#8221;</p>
 
@@ -149,11 +143,11 @@
 
 <hr>
 
-<h2 id="toc_133">Webアプリケーション高速化</h2>
+<h2 id="toc_574">Webアプリケーション高速化</h2>
 
 <p>※講演資料 <a href="http://ma.la/files/yapcasia2011/#0">YAPC::Asia 2011 / 高速化のはなしとか</a> ライブドアの mala (<a href="http://twitter.com/bulkneets">@bulkneets</a>) さんの講演。すべてを聞いたあとの「気持よく書ける範囲で最適化」というまとめに納得しました。先回りしてキャッシュしておく戦略は難しそうですが、効果は大きそうなのでやってみたいと思っています。</p>
 
-<h3 id="toc_134">はじめに</h3>
+<h3 id="toc_575">はじめに</h3>
 
 <ul>
 <li>チューニングについてのスタンス &#8211; 努力だけでどうにもならないときは、卑怯な手段を使う &#8211; バレなきゃイカサマではない</li>
@@ -161,7 +155,7 @@
 <li>どの方法を選ぶかはケースバイケース &#8211; 適切な手段を選ぶことは必要 &#8211; ハードウェアはすごく早くはならない</li>
 </ul>
 
-<h3 id="toc_135">一般的な方法</h3>
+<h3 id="toc_576">一般的な方法</h3>
 
 <ul>
 <li>ボトルネックを見つけてチューニング &#8211; リソースやスロークエリ等の監視 &#8211; プロファイリング &#8212; Devel::NYTProf / Devel::KYTProf &#8212; 計測用のスクリプトを作成しておく &#8212;- Shell::Perl が便利 &#8212; stopwatch で時間計測 &#8212;- benchmark だと CPU 時間を計測する &#8212;- 1 req の処理時間を測って感覚を把握できるようにする</li>
@@ -169,9 +163,9 @@
 <li>コード &#8211; テクニックを抑えておく &#8212; 必要なデータはまとめて引いておく &#8212; 遅延評価 &#8212; MySQL では &#8220;WHERE IN&#8221; / &#8220;BULK UPDATE&#8221; の活用 &#8212; memcached では &#8220;get_multi&#8221; を使ってプロトコルオーバヘッド減らす</li>
 </ul>
 
-<h3 id="toc_136">あまり真似されない方法</h3>
+<h3 id="toc_577">あまり真似されない方法</h3>
 
-<h4 id="toc_137">Bloom Filter</h4>
+<h4 id="toc_578">Bloom Filter</h4>
 
 <ul>
 <li>KVS / MySQL への問い合わせ前に大雑把なクエリを間引く &#8211; 精度はデータ量とのトレードオフ &#8211; &lt;a href=&#8221;<a href="http://fallabs.com/blog-ja/promenade.cgi?id=70">http://fallabs.com/blog-ja/promenade.cgi?id=70</a></li>
@@ -180,7 +174,7 @@
 <li>使うのは CPU &#8211; パラメータにも依るが 数万 qps 処理できる &#8211; ハッシュよりは遅く、リモートの DB よりは早い</li>
 </ul>
 
-<h4 id="toc_138">Cache warmup</h4>
+<h4 id="toc_579">Cache warmup</h4>
 
 <ul>
 <li>よく使われるデータを先に載せておく &#8211; MySQL innodb &#8211; memcached</li>
@@ -188,7 +182,7 @@
 <li>ライトスルー方式との違い &#8211; 参照されそうなときに乗るのでヒットしやすい &#8211; キャッシュ生成がレスポンス生成より遅いと重くなる</li>
 </ul>
 
-<h4 id="toc_139">Varnish + ESI</h4>
+<h4 id="toc_580">Varnish + ESI</h4>
 
 <ul>
 <li>最近流行りの構成は Nginx + Standalone PSGI でいい</li>
@@ -198,11 +192,11 @@
 
 <hr>
 
-<h2 id="toc_140">新はてなダイアリーの裏側</h2>
+<h2 id="toc_581">新はてなダイアリーの裏側</h2>
 
 <p>はてなの大西 (<a href="http://twitter.com/yasuhiro_onishi">@yasuhiro_onishi</a>) さんの講演。はてなダイアリーが &#8220;Hatena Blog&#8221; にリニューアルを解説するセッションでした。主に表示に関わる仕様変更をユーザの行動に影響しないようにするため、様々な工夫をされているのですね。。</p>
 
-<h3 id="toc_141">技術的な話</h3>
+<h3 id="toc_582">技術的な話</h3>
 
 <ul>
 <li>外部ドメイン化 / JS フリー化 &#8211; 従来ははてな共通ドメイン・ログインクッキー &#8211; 利点 &#8212; どのサービスでもログイン状態になれる &#8212; 編集 / 閲覧の区別がない &#8211; 欠点 &#8212; XSS 脆弱性に弱いので自由に JS 書けない</li>
@@ -215,22 +209,22 @@
 
 <hr>
 
-<h2 id="toc_142">Webアプリでパスワード保護はどこまでやればいいか</h2>
+<h2 id="toc_583">Webアプリでパスワード保護はどこまでやればいいか</h2>
 
 <p>「<a href="http://www.amazon.co.jp/%E4%BD%93%E7%B3%BB%E7%9A%84%E3%81%AB%E5%AD%A6%E3%81%B6-%E5%AE%89%E5%85%A8%E3%81%AAWeb%E3%82%A2%E3%83%97%E3%83%AA%E3%82%B1%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E3%81%AE%E4%BD%9C%E3%82%8A%E6%96%B9-%E8%84%86%E5%BC%B1%E6%80%A7%E3%81%8C%E7%94%9F%E3%81%BE%E3%82%8C%E3%82%8B%E5%8E%9F%E7%90%86%E3%81%A8%E5%AF%BE%E7%AD%96%E3%81%AE%E5%AE%9F%E8%B7%B5-%E5%BE%B3%E4%B8%B8-%E6%B5%A9/dp/4797361190">安全なWebアプリケーションの作り方</a>」の著者、徳丸浩 (<a href="http://twitter.com/ockeghem">@ockeghem</a>) さんの講演。同本の 5.1 章を解説する流れで説明されていましたが、RainbowTable などの説明がとてもわかり易かったです。</p>
 
-<h3 id="toc_143">本日のテーマ</h3>
+<h3 id="toc_584">本日のテーマ</h3>
 
 <p><strong>単に HASH 化しただけでは元に戻せるのか？</strong> - クラックは 2 種類 &#8211; オンラインクラック : リモートからのパスワード試行 &#8211; オフラインクラック : 情報を盗み、攻撃者の手元で平文パスワードを求める - パスワードだけ保護する理由とは？ &#8211; パスが漏れてれば他の個人情報も漏れている &#8211; パスワードを使いまわす利用者もいる &#8211; パスワード保護は運営者の義務</p>
 
-<h3 id="toc_144">オンラインクラック</h3>
+<h3 id="toc_585">オンラインクラック</h3>
 
 <ul>
 <li>パターン &#8211; 総あたり攻撃 : 時間かかるのであまりやらない &#8211; 辞書攻撃 : 辞書のものを順にパスワードとして試行 &#8211; その他のバリエーション &#8212; ジョーアカウント探索 : ID と pass を同じにしているものを総あたりで試行 &#8212; 逆総当り攻撃 : パスワード固定でユーザを変える &#8212;- 普通の総当りに比べて成功確率高い &#8212;- Twitter のような ユーザ ID がわかっているようなものは特に</li>
 <li>対策 &#8211; 強いパスワードを付けてもらう &#8211; アカウントロックが基本 &#8211; ジョーアカウントは登録時にチェック &#8211; 逆総あたり対策として、辞書のものは NG にする</li>
 </ul>
 
-<h3 id="toc_145">オフラインクラック</h3>
+<h3 id="toc_586">オフラインクラック</h3>
 
 <ul>
 <li>なぜ暗号化ではなくハッシュなの？ &#8211; 暗号化は鍵管理が難しいが、ハッシュは鍵管理が不要</li>
@@ -238,7 +232,7 @@
 <li>ハッシュから平文に戻す方法 &#8211; 総当たり攻撃・辞書攻撃 &#8212; オフライン型のパスワードクラックツール &#8212;- GPU 高速化に伴ってかなり高速にできるようになった &#8211; RainbowTable &#8212; 逆引き表 + 還元関数でチェーンを作る &#8212;- 単純な逆引き表は膨大なデータ量 &#8212;- 圧縮するために還元関数を使う &#8212; チェーンの「先頭」と「末尾」だけ保存すればいい &#8212; 探索はハッシュに還元関数をかけていって「末尾」と一致するかどうかを見ればいい &#8212;- 一致したらその「先頭」がパスワード &#8212; どのアルゴリズムでも実現できる &#8212;- アルゴリズム特有の脆弱性を使っていない &#8211; Salt &#8212; ハッシュの元データに追加する文字列 &#8212;- 見かけのパスワードの長さを長くする &#8212; ユーザごとにソルトを変えることでパスワードが同じでも異なるハッシュ値を得られる &#8211; Streching &#8212; ハッシュの計算を繰り返ことで、ハッシュ計算を遅くする &#8212; メリット／デメリットある</li>
 </ul>
 
-<h2 id="toc_146">パスワードの暗号化は本当に無理か</h2>
+<h2 id="toc_587">パスワードの暗号化は本当に無理か</h2>
 
 <ul>
 <li>HSM (Hardware Security Module) ならばいける &#8211; 復号化機能を無効にできればよい</li>
@@ -246,11 +240,11 @@
 
 <hr>
 
-<h2 id="toc_147">Perl で構築された中規模サイトの DC 引っ越し記録</h2>
+<h2 id="toc_588">Perl で構築された中規模サイトの DC 引っ越し記録</h2>
 
 <p>※講演資料 &lt;a href=&#8221;<a href="http://dl.dropbox.com/u/224433/YAPC2011/index.html">http://dl.dropbox.com/u/224433/YAPC2011/index.html</a> KAYAC の sfujiwara (<a href="http://twitter.com/sfujiwara">@sfujiwara</a>) さんの講演。&#8221;こえ部&#8221; をレンタルサーバから自社インフラに移設した時のまとめを紹介されていました。アップロードデータのあるサービスで新しいファイルを旧環境でケアしてあげる方法は難しそうですが、Nginx の効率のよい使い方などは参考になりました。</p>
 
-<h3 id="toc_148">こえ部 &amp; システム概要</h3>
+<h3 id="toc_589">こえ部 &amp; システム概要</h3>
 
 <ul>
 <li>音声投稿共有サイト</li>
@@ -263,21 +257,21 @@
 <li>サーバ増設 + SPOF整理しながら自社インフラに移設 &#8211; 同時に KVM 環境に移行</li>
 </ul>
 
-<h3 id="toc_149">旧システムと新システムのアーキテクチャ</h3>
+<h3 id="toc_590">旧システムと新システムのアーキテクチャ</h3>
 
 <ul>
 <li>HAProxy &#8211; App サーバの local に HAProxy &#8212; 3306 : MySQL master &#8212; 3307 : MySQL slave &#8212; 同様に KyotoTycoon も設定</li>
 <li>今も残っている SPOF &#8211; MySQL master &#8212; MHA を試すとか？ &#8211; NFS</li>
 </ul>
 
-<h3 id="toc_150">止めずに移行するための準備と仕掛け</h3>
+<h3 id="toc_591">止めずに移行するための準備と仕掛け</h3>
 
 <ul>
 <li>段階的に切り替えたかった</li>
 <li>手順 &#8211; 新サーバ群立ち上げ &#8212; 合わせてチューニング &#8212;- mk-duplicate-key-checker &#8212; ファイル書き込みの job は新旧それぞれで別々の worker が処理 &#8212; 旧環境にないファイルは Nginx の error_page を使って内部で reverse proxy &#8211; DC 間に VPN &#8212; OpenVPN で構築 &#8212; 100 Mbps 回線で RTT 3-4 ms / スループット 60Mbps &#8211; データ・トラフィックを VPN 経由で移す &#8211; サービス IP を DNS で切り替え &#8212; サービス停止は 1 時間くらいで</li>
 </ul>
 
-<h3 id="toc_151">実際の移行作業顛末</h3>
+<h3 id="toc_592">実際の移行作業顛末</h3>
 
 <ul>
 <li>4 日に分けて処理して無事終了</li>
@@ -286,11 +280,11 @@
 
 <hr>
 
-<h2 id="toc_152">Mobage オープンプラットフォームの事件簿</h2>
+<h2 id="toc_593">Mobage オープンプラットフォームの事件簿</h2>
 
 <p>DeNA の zigorou (<a href="http://twitter.com/zigorou">@zigorou</a>) さんの講演。モバゲーオープンプラットフォームの障害事例とその対処法についてのお話でした。大規模サービスの障害事例はとても参考になります。「原因究明」「失敗防止」「知識配布」という項目でまとめているのもわかりやすかったですし、これらの障害報告会を社内で定期的に行なって共有する体制を作っているのはとても良いことだと思いました。</p>
 
-<h3 id="toc_153">DeadLock 多発事件</h3>
+<h3 id="toc_594">DeadLock 多発事件</h3>
 
 <ul>
 <li>ある API が突然 DeadLoak が多発するようになった &#8211; もともと Transaction が比較的長い処理だった</li>
@@ -299,7 +293,7 @@
 <li>知識配布 &#8211; アプリに人気が偏るとデータが集中する &#8212; 設計やモデリングで予見できた障害かもしれない &#8211; Queue のときは Index 不要なのではらない</li>
 </ul>
 
-<h3 id="toc_154">INSERT vs DELETE</h3>
+<h3 id="toc_595">INSERT vs DELETE</h3>
 
 <ul>
 <li>ある API の古いデータを消そうとしたが DELETE が INSERT に追いつかない</li>
@@ -308,7 +302,7 @@
 <li>知識配布 &#8211; おかわり作戦 &#8212; DB 運用すると発生する Flagmentation の対策にも鳴る</li>
 </ul>
 
-<h3 id="toc_155">有名人問題</h3>
+<h3 id="toc_596">有名人問題</h3>
 
 <ul>
 <li>有名人ユーザでレスポンス低下したりする</li>
@@ -316,7 +310,7 @@
 <li>失敗防止 &#8211; SQL_CALC_FOUND_ROWS / TemporaryTable は重い &#8212; ユーザを順次取得してやってみる &#8211; Iterator::GroupedRows</li>
 </ul>
 
-<h3 id="toc_156">まとめ</h3>
+<h3 id="toc_597">まとめ</h3>
 
 <ul>
 <li>失敗から得られることは大きい</li>
@@ -327,11 +321,11 @@
 
 <hr>
 
-<h2 id="toc_157">Mobageソーシャルゲームにおける大規模サーバ運用 with Perl</h2>
+<h2 id="toc_598">Mobageソーシャルゲームにおける大規模サーバ運用 with Perl</h2>
 
 <p>DeNA の riywo (<a href="http://twitter.com/riywo">@riywo</a>) さんの講演。DeNA の内製 SNG の運営におけるチューニングのお話でした。台数が増えると起きてくる問題や、人気が出てイベントなどでアクセスが集中すると起きる問題など、そのアプローチが参考になりました。DevOps 的な問題点についても、規模は小さいながらも同じような状況を見ている立場としてとても共感できるものでした。</p>
 
-<h3 id="toc_158">Application Tuning</h3>
+<h3 id="toc_599">Application Tuning</h3>
 
 <ul>
 <li>アプリケーション台数は多い &#8211; それぞれからつなぐ先を減らすほうが良い</li>
@@ -339,7 +333,7 @@
 <li>現在のアプリへの &#8220;追加&#8221; は簡単にできる &#8211; インパクトが大きな箇所のところだけ置き換えればいい &#8211; チューニングしたいところだけピンポイントで入れられる</li>
 </ul>
 
-<h3 id="toc_159">Database Tuning</h3>
+<h3 id="toc_600">Database Tuning</h3>
 
 <ul>
 <li>一気に成長することで問題が顕在化</li>
@@ -347,7 +341,7 @@
 <li>怪盗ロワイヤルのイベント &#8211; 同じお宝を奪い合うにしてみた &#8211; ユーザを探す所が重くなった &#8212; レベルが近い順に探していくため &#8212; レベルのカラム構造を変えて、ざっくりの level-class をつけるようにした &#8211; Lock wait timeout 発生 &#8211; DeadLock 起きにくくする &#8212; ロックを取得する順番を決める &#8211; イベントをすることで既存機能に影響することがある</li>
 </ul>
 
-<h3 id="toc_160">DevOps</h3>
+<h3 id="toc_601">DevOps</h3>
 
 <ul>
 <li>イベント開始がシェアされてなかった &#8211; シェアされてても全部の問題が予測できるわけではないけど。。。</li>
@@ -392,6 +386,15 @@
 </span>
 
 
+      
+
+<span class="tags">
+  
+    <a class='tag' href='/blog/tags/conference/'>conference</a>, <a class='tag' href='/blog/tags/mysql/'>mysql</a>, <a class='tag' href='/blog/tags/nginx/'>nginx</a>, <a class='tag' href='/blog/tags/perl/'>perl</a>
+  
+</span>
+
+
     </p>
     
       <div class="sharing">
@@ -421,7 +424,21 @@
 <aside class="sidebar">
   
     <section>
-  <h1>Recent Posts</h1>
+  <h1><i class="fa fa-user"></i> Author</h1>
+  <img src="https://s.gravatar.com/avatar/43642a4bd7217384aadb10527a29673a?s=80" width="80" height="80" class="pull-right">
+  <h2>hatak</h2>
+  <ul>
+    
+    <li><i class="fa fa-twitter"></i> <a href="https://twitter.com/hisashi">@hisashi</a></li>
+    
+    
+    <li><i class="fa fa-github"></i> <a href="https://github.com/hatak">hatak</a></li>
+    
+  </ul>
+  <p>考えることは好きだけど，考えすぎて動けなくなる癖を直したい。</p>
+</section>
+<section>
+  <h1><i class="fa fa-pencil"></i> Recent Posts</h1>
   <ul id="recent_posts">
     
       <li class="post">
@@ -446,39 +463,10 @@
     
   </ul>
 </section>
-
 <section>
-  <h1>GitHub Repos</h1>
-  <ul id="gh_repos">
-    <li class="loading">Status updating...</li>
-  </ul>
-  
-  <a href="https://github.com/hatak">@hatak</a> on GitHub
-  
-  <script type="text/javascript">
-    $.domReady(function(){
-        if (!window.jXHR){
-            var jxhr = document.createElement('script');
-            jxhr.type = 'text/javascript';
-            jxhr.src = '/javascripts/libs/jXHR.js';
-            var s = document.getElementsByTagName('script')[0];
-            s.parentNode.insertBefore(jxhr, s);
-        }
-
-        github.showRepos({
-            user: 'hatak',
-            count: 3,
-            skip_forks: true,
-            target: '#gh_repos'
-        });
-    });
-  </script>
-  <script src="/javascripts/github.js" type="text/javascript"> </script>
+  <h1><i class="fa fa-tags"></i> Tag Cloud</h1>
+    <span id="tag-cloud"><a href='/blog/tags/adventcalendar' style='font-size: 120.0%'>adventcalendar(2)</a> <a href='/blog/tags/apache' style='font-size: 110.0%'>apache(1)</a> <a href='/blog/tags/archlinux' style='font-size: 110.0%'>archlinux(1)</a> <a href='/blog/tags/aws' style='font-size: 110.0%'>aws(1)</a> <a href='/blog/tags/carton' style='font-size: 110.0%'>carton(1)</a> <a href='/blog/tags/casual' style='font-size: 120.0%'>casual(2)</a> <a href='/blog/tags/centos' style='font-size: 120.0%'>centos(2)</a> <a href='/blog/tags/conference' style='font-size: 120.0%'>conference(2)</a> <a href='/blog/tags/development' style='font-size: 120.0%'>development(2)</a> <a href='/blog/tags/dns' style='font-size: 120.0%'>dns(2)</a> <a href='/blog/tags/geo' style='font-size: 110.0%'>geo(1)</a> <a href='/blog/tags/git' style='font-size: 130.0%'>git(3)</a> <a href='/blog/tags/groonga' style='font-size: 110.0%'>groonga(1)</a> <a href='/blog/tags/hachiojipm' style='font-size: 110.0%'>hachiojipm(1)</a> <a href='/blog/tags/infrastructure' style='font-size: 120.0%'>infrastructure(2)</a> <a href='/blog/tags/ios' style='font-size: 110.0%'>ios(1)</a> <a href='/blog/tags/life' style='font-size: 110.0%'>life(1)</a> <a href='/blog/tags/location' style='font-size: 110.0%'>location(1)</a> <a href='/blog/tags/mac' style='font-size: 120.0%'>mac(2)</a> <a href='/blog/tags/mecab' style='font-size: 110.0%'>mecab(1)</a> <a href='/blog/tags/mroonga' style='font-size: 110.0%'>mroonga(1)</a> <a href='/blog/tags/mysql' style='font-size: 160.0%'>mysql(6)</a> <a href='/blog/tags/nginx' style='font-size: 120.0%'>nginx(2)</a> <a href='/blog/tags/perl' style='font-size: 160.0%'>perl(6)</a> <a href='/blog/tags/plack' style='font-size: 110.0%'>plack(1)</a> <a href='/blog/tags/raspberrypi' style='font-size: 110.0%'>raspberrypi(1)</a> <a href='/blog/tags/redis' style='font-size: 120.0%'>redis(2)</a> <a href='/blog/tags/seminar' style='font-size: 130.0%'>seminar(3)</a> <a href='/blog/tags/server' style='font-size: 120.0%'>server(2)</a> <a href='/blog/tags/supervisord' style='font-size: 110.0%'>supervisord(1)</a> <a href='/blog/tags/test' style='font-size: 110.0%'>test(1)</a> <a href='/blog/tags/varnish' style='font-size: 110.0%'>varnish(1)</a> <a href='/blog/tags/zsh' style='font-size: 110.0%'>zsh(1)</a> </span>
 </section>
-
-
-
-
 
   
 </aside>
@@ -487,8 +475,7 @@
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2014 - Hisashi HATAKEYAMA -
-  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a>. Design by <a href="http://octopressthemes.com">Octopress Themes</a>.</span>
+  Copyright &copy; 2014 hatak
 </p>
 
 </footer>

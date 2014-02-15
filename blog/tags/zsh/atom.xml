@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[tag: zsh | Hatak::Techlog]]></title>
+  <link href="http://blog.hatak.net/blog/tags/zsh/atom.xml" rel="self"/>
+  <link href="http://blog.hatak.net/"/>
+  <updated>2014-02-15T16:33:39+09:00</updated>
+  <id>http://blog.hatak.net/</id>
+  <author>
+    <name><![CDATA[hatak]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[vcs_info でプロンプトにリポジトリ名を表示]]></title>
+    <link href="http://blog.hatak.net/2012/06/15/14100"/>
+    <updated>2012-06-15T00:00:00+09:00</updated>
+    <id>http://blog.hatak.net/2012/06/15/vcs_info</id>
+    <content type="html"><![CDATA[<p>最近特にターミナルでコードを書くことが増えてきたため、プロンプトでブランチ名であったりそのほかの情報も適宜だせるようにしたいなと設定を調べたり試したりしてみました。</p>
+
+<p>以前までは、bash_completion を利用して表示するということをしていました。.bashrc の例ですが、こんな感じです。</p>
+<div class="highlight"><pre><code class="bash"><span class="c"># custom prompt for .bashrc</span>
+<span class="k">if</span> <span class="o">[</span> -r <span class="s2">&quot;/etc/bash_completion.d/git&quot;</span> <span class="o">]</span>;
+    <span class="k">then </span><span class="nv">PS1</span><span class="o">=</span><span class="s2">&quot;[u@h w]$(__git_ps1 &quot;</span><span class="o">(</span>e<span class="o">[</span>0;32m%se<span class="o">[</span>0m<span class="o">)</span><span class="s2">&quot;)$ &quot;</span>
+<span class="k">fi</span>
+</code></pre>
+</div>
+
+<p>これはこれで良いのですが、git でしか利用できません。メインで利用する VCS は git なので問題ありませんが、それ以外の VCS で管理されたコードを読んだりする機会も多々あります。 調べてみたところ、zsh に vcs_info という関数があることを知りました。そこで、これを使ってプロンプトを少し派手にしてみました。</p>
+
+<!--more-->
+<div class="highlight"><pre><code class="bash"><span class="c"># colors</span>
+autoload colors;
+colors
+
+<span class="c"># vcs_info</span>
+autoload -Uz vcs_info zstyle <span class="s1">&#39;:vcs_info:*&#39;</span>
+formats <span class="s1">&#39;%f(%F{cyan}%s%f:%F{green}%b%f)&#39;</span>
+zstyle <span class="s1">&#39;:vcs_info:*&#39;</span>
+actionformats <span class="s1">&#39;%f(%F{cyan}%s%f:%F{green}%b%f|%F{red}%a%f)&#39;</span>
+zstyle <span class="s1">&#39;:vcs_info:(svn|bzr):*&#39;</span>
+branchformat <span class="s1">&#39;%F{green}%b%f:%F{yellow}r%r%f&#39;</span>
+zstyle <span class="s2">&quot;:vcs_info:git:*&quot;</span>
+check-for-changes <span class="nb">true </span>zstyle <span class="s2">&quot;:vcs_info:git:*&quot;</span>
+stagedstr <span class="s1">&#39;+&#39;</span>
+zstyle <span class="s2">&quot;:vcs_info:git:*&quot;</span>
+unstagedstr <span class="s1">&#39;-&#39;</span>
+zstyle <span class="s1">&#39;:vcs_info:git:*&#39;</span>
+formats <span class="s1">&#39;%f(%F{green}%b%f%F{green}%c%F{red}%u%f)&#39;</span>
+zstyle <span class="s1">&#39;:vcs_info:git:*&#39;</span>
+actionformats <span class="s1">&#39;%f(%F{green}%b%f|%F{red}%a%f%F{green}%c%F{red}%u%f)&#39;</span>
+
+<span class="k">function </span>_precmd_vcs_info <span class="o">()</span> <span class="o">{</span>
+    <span class="nv">psvar</span><span class="o">=()</span>
+    <span class="nv">LANG</span><span class="o">=</span>en_US.UTF-8
+    vcs_info
+    psvar<span class="o">[</span>1<span class="o">]=</span><span class="s2">&quot;$vcs_info_msg_0_&quot;</span>
+<span class="o">}</span>
+
+<span class="c"># add-zsh-hook autoload -Uz add-zsh-hook add-zsh-hook precmd _precmd_vcs_info</span>
+<span class="c"># prompt setopt prompt_subst local PROMCOL=$&#39;%F{$[1+RANDOM%6]}&#39;</span>
+<span class="nv">PROMPT</span><span class="o">=</span><span class="s1">&#39;%(?.%F{green}^-^%f.%F{red}@_@%f) &#39;</span><span class="nv">$PROMCOL</span><span class="s1">&#39;%l${WINDOW:+&quot;:$WINDOW&quot;}:%h%F{green}$psvar[1]%f%(!.#.$)&#39;</span>
+</code></pre>
+</div>
+
+<ul>
+<li>2行目 : 色指定を簡単に行えるようにするため、colors をロードします</li>
+<li>5行目 : 今回のテーマである vcs_info をロードします</li>
+<li>6-7行目 : 対応する VCS 共通の表示フォーマットを定義します : formats: 通常表示されるフォーマット : actionformats: コンフリクト時などに表示されるフォーマット</li>
+<li>8行目 : svn と bzr の時にはリビジョン番号表示をしたいので、フォーマットを定義します</li>
+<li>9-13行目 : git の場合の各種設定や専用フォーマットの定義を行っています : check-for-changes: ローカルでの変更があるかチェックをします : staged: &quot;git status&quot; 実行時の &quot;Changes to be committed&quot; があるときには &quot;+&quot; を表示します : unstaged: &quot;git status&quot; 実行時の &quot;Changes not staged for commit&quot; があるときには &quot;-&quot; を表示します</li>
+<li>27行目 : プロンプトの表示色をランダムでカラーにします</li>
+<li>28行目 : 顔文字はコマンド成否で変化します（<a href="http://smokycat.info/zsh/231">ネタ元</a>）</li>
+</ul>
+
+<p>はじめは %1v として <code>$psvar[1]</code> の値をとっていたのですが、カラースキーマがうまくいかないため配列の要素を直指定する形にしています。vcs 管理下にないディレクトリでは <code>$psvar[1]</code> の値は何も入らないため、デザインも崩れません。</p>
+
+<p><img src="https://dl.dropboxusercontent.com/u/14531906/hatak.github.io/2012/06/2012-06-15-2.27.57.png" alt="ターミナルの例" /></p>
+
+<h3 id="toc_405">参考</h3>
+
+<ul>
+<li>  <a href="http://d.hatena.ne.jp/holidays-l/20100323/p1">zsh の vcs_info が神！のごとく重かったのですが… : ヒルズで働くholidays-lの技ログ</a></li>
+<li>  <a href="http://smokycat.info/zsh/231">zsh 前のコマンドの成否をプロンプトの顔文字で通知 | smokycat.info</a></li>
+</ul>
+]]></content>
+  </entry>
+  
+</feed>

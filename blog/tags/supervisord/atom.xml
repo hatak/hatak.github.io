@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[tag: supervisord | Hatak::Techlog]]></title>
+  <link href="http://blog.hatak.net/blog/tags/supervisord/atom.xml" rel="self"/>
+  <link href="http://blog.hatak.net/"/>
+  <updated>2014-02-15T16:33:39+09:00</updated>
+  <id>http://blog.hatak.net/</id>
+  <author>
+    <name><![CDATA[hatak]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[PSGI アプリを supervisord + Server::Starter で動作させる]]></title>
+    <link href="http://blog.hatak.net/2012/08/08/14714"/>
+    <updated>2012-08-08T00:00:00+09:00</updated>
+    <id>http://blog.hatak.net/2012/08/08/psgi</id>
+    <content type="html"><![CDATA[<p>PSGI で動作する Perl の Web アプリをデプロイする環境をどのように作ろうかと思って試してみたので、その手順をまとめてみます。 記事を書きかけて放置してしまっていたので、diff が古かったりするのはご愛敬で。。</p>
+
+<!--more-->
+
+<h2 id="toc_412">構成の概要</h2>
+
+<p>今回構築しようと思う構成は次の通りです。</p>
+
+<ul>
+<li>PSGI を用いた簡単な Web アプリ</li>
+<li>アプリを動作させる Perl とそのモジュール群は perlbrew + Carton で管理
+
+<ul>
+<li>複数のシステムを同一サーバで動かす可能性もあるため分離しておきたい</li>
+<li>Carton 使ってみたい</li>
+</ul></li>
+<li>アプリケーションサーバには Server::Starter + Starman を利用
+
+<ul>
+<li>Hotdeploy できるようにするため</li>
+</ul></li>
+<li>Server::Starter のプロセスは Supervisord で管理</li>
+</ul>
+
+<h2 id="toc_413">supervisord の導入</h2>
+
+<p><a href="http://blog.glidenote.com/blog/2011/11/25/install-supervisor/">スーパーサーバーSupervisorの導入手順メモ &#8211; Glide Note &#8211; グライドノート</a> を参考に supervisord を導入します。<br>
+今回は CentOS 6 系のサーバで system python に pip 経由でインストールします。 pythonbrew などを利用してシステムと切り離すことも検討したのですが、supervisord を使う目的が OS とアプリの間でプロセス管理をすることなので system python で問題ないと考えました。</p>
+<div class="highlight"><pre><code class="text"># setuptools + pip + supervisord のインストール
+sudo yum install python-setuptools
+sudo easy_install pip
+sudo pip install supervisord
+
+# ログ保存用ディレクトリ作成
+sudo mkdir /var/log/supervisord/
+
+# 個別設定を格納するディレクトリを作成
+sudo mkdir /etc/supervisord.d/
+
+# ベースとなる conf を生成
+sudo su - root -c &quot;echo_supervisord_conf &gt; /etc/supervisord.conf&quot;
+</code></pre>
+</div>
+
+<p>supervisord.conf も前述の記事とほぼ同じですが、umask を CentOS 風にしたいために 002 にしています。<br>
+そして、下記のような /etc/init/supervisord.conf を作成した後に <code>initctl start supervisord</code> で起動します。</p>
+<div class="highlight"><pre><code class="text">description &quot;supervisord&quot;
+start on runlevel [2345]
+stop on runlevel [!2345]
+respawn exec /usr/bin/supervisord -n
+</code></pre>
+</div>
+
+<p>supervisord のプロセスが正常に起動していて、ログファイル (/var/log/supervisord/supervisord.log) に正常に出力されていれば OK です。</p>
+
+<h2 id="toc_414">supervisord 用の設定を用意する</h2>
+
+<p>PSGI アプリを supervisord で管理するための設定を用意します。 ここで、環境変数が必要となるのでコマンドラインで調べておきます。</p>
+
+<p>まずは、carton 利用時の perl のサーチパス (@INC) を調べておきます。</p>
+<div class="highlight"><pre><code class="text">$ carton exec -I./lib/ -- perl -e &quot;print join(q/:/,@INC)&quot;
+./lib/:local/lib/perl5/x86_64-linux:local/lib/perl5:.:/home/hatak/perl5/perlbrew/perls/perl-5.16.0/lib/5.16.0:/home/hatak/perl5/perlbrew/perls/perl-5.16.0/lib/5.16.0/x86_64-linux
+</code></pre>
+</div>
+
+<p>同様に、今度は $PATH を調べておきます。</p>
+<div class="highlight"><pre><code class="text">$ carton exec -I./lib/ -- echo $PATH
+/home/hatak/.perlbrew/libs/perl-5.16.0@carton/bin:/home/hatak/perl5/perlbrew/bin:/home/hatak/perl5/perlbrew/perls/perl-5.16.0/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin:/home/hatak/bin:/home/hatak/bin
+</code></pre>
+</div>
+
+<p>これらの環境変数を使って、/etc/supervisord.d/sample.ini という設定を書いていきます。 $PATH に加えて、@INC の中身を $PERL5LIB として設定し、直接 supervisord が server_start するようにします。 （server_start する部分を別のスクリプトにしてしまうと、supervisord で restart などの処理を行ってもプロセスが切り離されてしまい、管理から外れてしまう状態になってしまいます）</p>
+<div class="highlight"><pre><code class="ini"><span class="k">[program:hatak]</span>
+<span class="na">user</span><span class="o">=</span><span class="s">hatak</span>
+<span class="na">umask</span><span class="o">=</span><span class="s">002</span>
+<span class="na">environment</span><span class="o">=</span><span class="s">PERL5LIB=&quot;/home/hatak/www/sample/lib:/home/hatak/www/sample/local/lib/perl5/x86_64-linux:/home/hatak/www/sample/local/lib/perl5:/home/hatak/.perlbrew/libs/perl-5.16.0@carton/lib/perl5/x86_64-linux:/home/hatak/.perlbrew/libs/perl-5.16.0@carton/lib/perl5&quot;,PATH=&quot;/home/hatak/www/sample/local/bin/:/home/hatak/.perlbrew/libs/perl-5.16.0@carton/bin:/home/hatak/perl5/perlbrew/bin:/home/hatak/perl5/perlbrew/perls/perl-5.16.0/bin/&quot;</span>
+<span class="na">command</span><span class="o">=</span><span class="s">/home/hatak/.perlbrew/libs/perl-5.16.0@carton/bin/carton exec -- /home/hatak/www/sample/local/bin/start_server --port=8080 --path=/tmp/sample.sock --interval=10 --pid-file=/tmp/sample.pid -- /home/hatak/www/sample/local/bin/plackup -s Starman -E deployment --workers=3 --backlog=1024 --max-requests=10000 --preload-app /home/hatak/www/sample/app.psgi directory=/home/hatak/www/sample</span>
+<span class="na">redirect_stderr</span><span class="o">=</span><span class="s">true</span>
+<span class="na">stdout_logfile</span><span class="o">=</span><span class="s">/var/log/supervisord/sample.log</span>
+<span class="na">stdout_logfile_maxbytes</span><span class="o">=</span><span class="s">5MB</span>
+<span class="na">stderr_logfile</span><span class="o">=</span><span class="s">/var/log/supervisord/sample.err</span>
+<span class="na">stderr_logfile_maxbytes</span><span class="o">=</span><span class="s">5MB</span>
+<span class="na">stdout_logfile_backups</span><span class="o">=</span><span class="s">5</span>
+<span class="na">autorestart</span><span class="o">=</span><span class="s">true</span>
+<span class="na">startsecs</span><span class="o">=</span><span class="s">5</span>
+</code></pre>
+</div>
+
+<p>これで準備は完了です。あとは、supervisord で起動すればおしまいです。</p>
+<div class="highlight"><pre><code class="text">sudo supervisorctl add sample
+</code></pre>
+</div>
+
+<p>少し回りくどい構成のようにも思えますが、ソースをアップロードして server_start のプロセスに -HUP を送ることで Server::Starter がいい感じにプロセスを置き換えてくれます。また、サーバプロセスがなくなったときやサーバ再起動時などには supervisord がサーバプロセスを立ち上げてくれるので、管理も簡単です。</p>
+
+<p>外部からのリクエストは、一度 Nginx などのリバースプロキシで受けて、動的なものだけを PSGI に送りレスポンスを返す形にすると様々な恩恵が受けられそうです。 ただ、今回試した範囲では Nginx から直接 socket に送ることができなかったのでここは今後の課題でした。</p>
+]]></content>
+  </entry>
+  
+</feed>
