@@ -4,7 +4,7 @@
   <title><![CDATA[Category: サーバ管理 | Hatak::Techlog]]></title>
   <link href="http://blog.hatak.net/blog/categories/sabaguan-li/atom.xml" rel="self"/>
   <link href="http://blog.hatak.net/"/>
-  <updated>2014-02-15T08:16:51+09:00</updated>
+  <updated>2014-02-15T10:26:12+09:00</updated>
   <id>http://blog.hatak.net/</id>
   <author>
     <name><![CDATA[Hisashi HATAKEYAMA]]></name>
@@ -17,7 +17,7 @@
     <title type="html"><![CDATA[&#8220;Server Manage Deep Talk #1&#8243; の振り返りメモ]]></title>
     <link href="http://blog.hatak.net/2012/10/12/17536"/>
     <updated>2012-10-12T00:00:00+09:00</updated>
-    <id>http://blog.hatak.net/2012/10/12/server-manage-deep-talk-1-%e3%81%ae%e6%8c%af%e3%82%8a%e8%bf%94%e3%82%8a%e3%83%a1%e3%83%a2</id>
+    <id>http://blog.hatak.net/2012/10/12/server-manage-deep-talk</id>
     <content type="html"><![CDATA[<p>先日、&#8221;<a href="https://www.facebook.com/events/346462502114960/">Server Manage Deep Talk #1</a>&#8221; に参加してきました。</p>
 
 <p>YAPC の懇親会での話がきっかけで @riywo さんに企画していただいたイベントでした。趣旨としては、既成のツールに焦点を絞るのではなく、サーバを効率的（かつ、可能であれば統一的）に管理するにはどうすればいいかというざっくりとした情報交換の場だったのですが、各社の苦悩が感じられてとても面白いものでした。</p>

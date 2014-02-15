@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Perl | Hatak::Techlog]]></title>
   <link href="http://blog.hatak.net/blog/categories/perl/atom.xml" rel="self"/>
   <link href="http://blog.hatak.net/"/>
-  <updated>2014-02-15T08:16:51+09:00</updated>
+  <updated>2014-02-15T10:26:12+09:00</updated>
   <id>http://blog.hatak.net/</id>
   <author>
     <name><![CDATA[Hisashi HATAKEYAMA]]></name>
@@ -17,7 +17,7 @@
     <title type="html"><![CDATA[テストのために Redis を立ち上げたかった]]></title>
     <link href="http://blog.hatak.net/2012/08/16/15712"/>
     <updated>2012-08-16T00:00:00+09:00</updated>
-    <id>http://blog.hatak.net/2012/08/16/%e3%83%86%e3%82%b9%e3%83%88%e3%81%ae%e3%81%9f%e3%82%81%e3%81%ab-redis-%e3%82%92%e7%ab%8b%e3%81%a1%e4%b8%8a%e3%81%92%e3%81%9f%e3%81%8b%e3%81%a3%e3%81%9f</id>
+    <id>http://blog.hatak.net/2012/08/16/redis</id>
     <content type="html"><![CDATA[<p>ミドルウェアを使った処理のテストでは、テストのための設定でその時限りのデーモンを立ち上げて使いたいものです。 例えば MySQL であれば <a href="https://metacpan.org/module/Test::mysqld">Test::mysqld</a> 、memcached であれば <a href="https://metacpan.org/module/Test::TCP">Test::TCP</a> などを使うことで手軽にデーモンを立ち上げる仕掛けを作ることができます。これを prove にフックさせたりすると、マニュアルでテスト用のデーモンを立ち上げる必要がなくなるという方法がとれます。</p>
 
 <!--more-->
@@ -124,7 +124,7 @@
     <title type="html"><![CDATA[PSGI アプリを supervisord + Server::Starter で動作させる]]></title>
     <link href="http://blog.hatak.net/2012/08/08/14714"/>
     <updated>2012-08-08T00:00:00+09:00</updated>
-    <id>http://blog.hatak.net/2012/08/08/psgi-%e3%82%a2%e3%83%97%e3%83%aa%e3%82%92-supervisord-serverstarter-%e3%81%a7%e5%8b%95%e4%bd%9c%e3%81%95%e3%81%9b%e3%82%8b</id>
+    <id>http://blog.hatak.net/2012/08/08/psgi</id>
     <content type="html"><![CDATA[<p>PSGI で動作する Perl の Web アプリをデプロイする環境をどのように作ろうかと思って試してみたので、その手順をまとめてみます。 記事を書きかけて放置してしまっていたので、diff が古かったりするのはご愛敬で。。</p>
 
 <!--more-->
@@ -228,7 +228,7 @@ respawn exec /usr/bin/supervisord -n
     <title type="html"><![CDATA[perl で segmentation fault が起きたときの調べかた]]></title>
     <link href="http://blog.hatak.net/2012/06/19/14234"/>
     <updated>2012-06-19T00:00:00+09:00</updated>
-    <id>http://blog.hatak.net/2012/06/19/perl-%e3%81%a7-segmentation-fault-%e3%81%8c%e8%b5%b7%e3%81%8d%e3%81%9f%e3%81%a8%e3%81%8d%e3%81%ae%e8%aa%bf%e3%81%b9%e3%81%8b%e3%81%9f</id>
+    <id>http://blog.hatak.net/2012/06/19/perl</id>
     <content type="html"><![CDATA[<p>サーバを構築した際に嵌まったのでメモしておきます。</p>
 
 <p>CentOS6 系のサーバに perlbrew + Carton で環境を構築していたのですが、一通り構築が終わって plackup すると segmentation fault となってしまったのでした。 /var/log/messages を見てもこんなログばかり。</p>

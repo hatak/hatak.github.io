@@ -4,7 +4,7 @@
   <title><![CDATA[Category: 話してきた | Hatak::Techlog]]></title>
   <link href="http://blog.hatak.net/blog/categories/hua-sitekita/atom.xml" rel="self"/>
   <link href="http://blog.hatak.net/"/>
-  <updated>2014-02-15T08:16:51+09:00</updated>
+  <updated>2014-02-15T10:26:12+09:00</updated>
   <id>http://blog.hatak.net/</id>
   <author>
     <name><![CDATA[Hisashi HATAKEYAMA]]></name>
@@ -17,7 +17,7 @@
     <title type="html"><![CDATA[YAPC::Asia Tokyo 2012 で話してきた]]></title>
     <link href="http://blog.hatak.net/2012/09/29/17281"/>
     <updated>2012-09-29T00:00:00+09:00</updated>
-    <id>http://blog.hatak.net/2012/09/29/yapcasia-tokyo-2012-%e3%81%a7%e8%a9%b1%e3%81%97%e3%81%a6%e3%81%8d%e3%81%9f</id>
+    <id>http://blog.hatak.net/2012/09/29/yapcasia-tokyo-2012</id>
     <content type="html"><![CDATA[<p>9/27-29 の日程で東京大学で <a href="http://yapcasia.org/2012/" title="YAPC::Asia 2012">YAPC::Asia Tokyo 2012</a> が開催されています。 応募したトークを採用していただいたので、スピーカーとして参加させていただきました。</p>
 
 <div style="margin-bottom:5px">
@@ -48,7 +48,7 @@
     <title type="html"><![CDATA[MySQL Casual Talks Vol.3 で話してきた]]></title>
     <link href="http://blog.hatak.net/2012/04/20/12428"/>
     <updated>2012-04-20T00:00:00+09:00</updated>
-    <id>http://blog.hatak.net/2012/04/20/mysql-casual-talks-vol-3-%e3%81%a7%e8%a9%b1%e3%81%97%e3%81%a6%e3%81%8d%e3%81%9f</id>
+    <id>http://blog.hatak.net/2012/04/20/mysql-casual-talks</id>
     <content type="html"><![CDATA[<p>4/19 にオラクルセンター青山で <a href="http://atnd.org/events/26373" title="MySQL Casual Talks Vol.3">MySQL Casual Talks Vol.3</a> が開催されました。 今回は <a href="http://twitter.com/myfinder" title="@myfinder">@myfinder</a> さんにお声がけいただきトーク枠をいただけたので、挑戦させていただきました。</p>
 
 <div style="width:425px" id="__ss_12602397">

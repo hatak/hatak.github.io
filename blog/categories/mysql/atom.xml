@@ -4,7 +4,7 @@
   <title><![CDATA[Category: MySQL | Hatak::Techlog]]></title>
   <link href="http://blog.hatak.net/blog/categories/mysql/atom.xml" rel="self"/>
   <link href="http://blog.hatak.net/"/>
-  <updated>2014-02-15T08:16:51+09:00</updated>
+  <updated>2014-02-15T10:26:12+09:00</updated>
   <id>http://blog.hatak.net/</id>
   <author>
     <name><![CDATA[Hisashi HATAKEYAMA]]></name>
@@ -17,7 +17,7 @@
     <title type="html"><![CDATA[Homebrew で mroonga ストレージエンジンを入れる]]></title>
     <link href="http://blog.hatak.net/2012/10/24/17562"/>
     <updated>2012-10-24T00:00:00+09:00</updated>
-    <id>http://blog.hatak.net/2012/10/24/homebrew-%e3%81%a7-mroonga-%e3%82%b9%e3%83%88%e3%83%ac%e3%83%bc%e3%82%b8%e3%82%a8%e3%83%b3%e3%82%b8%e3%83%b3%e3%82%92%e5%85%a5%e3%82%8c%e3%82%8b</id>
+    <id>http://blog.hatak.net/2012/10/24/homebrew-groonga</id>
     <content type="html"><![CDATA[<p>ローカルマシン (MaxOSX 10.8.2) に MySQL 5.5 + mroonga の環境を構築してたのですが、いろいろ嵌まったのでメモしておきます。</p>
 
 <!--more-->
@@ -221,7 +221,7 @@ FULLTEXT KEY `content` (`content`) COMMENT &#39;PARSER &quot;TokenMecab&quot;&#3
     <title type="html"><![CDATA[レプリケーションが追いつかないときに試すこと]]></title>
     <link href="http://blog.hatak.net/2011/12/07/9407"/>
     <updated>2011-12-07T00:00:00+09:00</updated>
-    <id>http://blog.hatak.net/2011/12/07/%e3%83%ac%e3%83%97%e3%83%aa%e3%82%b1%e3%83%bc%e3%82%b7%e3%83%a7%e3%83%b3%e3%81%8c%e8%bf%bd%e3%81%84%e3%81%a4%e3%81%8b%e3%81%aa%e3%81%84%e3%81%a8%e3%81%8d%e3%81%ab%e8%a9%a6%e3%81%99%e3%81%93%e3%81%a8</id>
+    <id>http://blog.hatak.net/2011/12/07/mysql-advent</id>
     <content type="html"><![CDATA[<p>&#8220;<a href="http://mysql-casual.org/2011/11/mysql-casual-advent-calendar-2011.html" title="MySQL Casual Advent Calendar 2011">MySQL Casual Advent Calendar 2011</a>&#8221; 7 日目を担当させていただく、hatak (<a href="http://twitter.com/hisashi" title="@hisashi">@hisashi</a>) です。 普段はモバイルゲームのインフラをメインにみているのですが、今回はそんな業務で経験したことを基に記事を書かせていただきます。 カジュアルすぎる内容かもしれませんが、お付き合いいただければと思います。</p>
 
 <!--more-->

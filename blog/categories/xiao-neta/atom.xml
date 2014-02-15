@@ -4,7 +4,7 @@
   <title><![CDATA[Category: 小ネタ | Hatak::Techlog]]></title>
   <link href="http://blog.hatak.net/blog/categories/xiao-neta/atom.xml" rel="self"/>
   <link href="http://blog.hatak.net/"/>
-  <updated>2014-02-15T08:16:51+09:00</updated>
+  <updated>2014-02-15T10:26:12+09:00</updated>
   <id>http://blog.hatak.net/</id>
   <author>
     <name><![CDATA[Hisashi HATAKEYAMA]]></name>
@@ -17,7 +17,7 @@
     <title type="html"><![CDATA[github 上のプロジェクトの fork をプライベートな git サーバで管理]]></title>
     <link href="http://blog.hatak.net/2011/05/31/2165"/>
     <updated>2011-05-31T00:00:00+09:00</updated>
-    <id>http://blog.hatak.net/2011/05/31/github-%e4%b8%8a%e3%81%ae%e3%83%97%e3%83%ad%e3%82%b8%e3%82%a7%e3%82%af%e3%83%88%e3%81%ae-fork-%e3%82%92%e3%83%97%e3%83%a9%e3%82%a4%e3%83%99%e3%83%bc%e3%83%88%e3%81%aa-git-%e3%82%b5%e3%83%bc%e3%83%90</id>
+    <id>http://blog.hatak.net/2011/05/31/github</id>
     <content type="html"><![CDATA[<p>github で管理されている OSS を利用するとき、少しカスタムして使いたいという場合があったりします。もちろん、fork すれば github 上で自分が push できる状態にはなりますが、カスタムしたバージョンを利用する範囲が社内だったりすると github 以外で管理したくなったりもします。</p>
 
 <p>そこで、こんな感じの構成を目指して、github 上のプロジェクトの fork をプライベートな git サーバで管理してみました。</p>
@@ -90,7 +90,7 @@ $ git push origin upstream
     <title type="html"><![CDATA[git のバックアップ]]></title>
     <link href="http://blog.hatak.net/2011/05/22/1062"/>
     <updated>2011-05-22T00:00:00+09:00</updated>
-    <id>http://blog.hatak.net/2011/05/22/git-%e3%81%ae%e3%83%90%e3%83%83%e3%82%af%e3%82%a2%e3%83%83%e3%83%97</id>
+    <id>http://blog.hatak.net/2011/05/22/git</id>
     <content type="html"><![CDATA[<p>分散 SCM とはいえ、バックアップはあるとうれしいものです。git のリモートリポジトリが破損した場合などに復元元を探すために、誰が持っているのが最新のリビジョンで、、というような作業が発生することは避けたいからです。</p>
 
 <p>git のリモートリポジトリから別のサーバにバックアップを作成するのは、hooks を利用することで簡単に設定できます。例えば、対象となるリポジトリの post-receive で下記のようなコマンドを設定しておくとできます。</p>
@@ -121,7 +121,7 @@ sudo -u syncuser -H git push :mirror syncuser@<span class="k">${</span><span cla
     <title type="html"><![CDATA[MacOSX のローカルの DNS キャッシュ]]></title>
     <link href="http://blog.hatak.net/2011/05/17/335"/>
     <updated>2011-05-17T00:00:00+09:00</updated>
-    <id>http://blog.hatak.net/2011/05/17/macosx-%e3%81%ae%e3%83%ad%e3%83%bc%e3%82%ab%e3%83%ab%e3%81%ae-dns-%e3%82%ad%e3%83%a3%e3%83%83%e3%82%b7%e3%83%a5</id>
+    <id>http://blog.hatak.net/2011/05/17/macosx</id>
     <content type="html"><![CDATA[<p>DNS の設定を触るとき、ローカルのキャッシュが変わっていないためにハマることが多々あります。Mac の場合、ターミナルで dig して変更を確認してもブラウザで開けなかったりするわけで。</p>
 
 <p>これは、MacOSX 内部で DNS 解決の結果をキャッシュする機能が働いているためです。 キャッシュをコントロールするためには dscacheutil コマンドを使います。</p>

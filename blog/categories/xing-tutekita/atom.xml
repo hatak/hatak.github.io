@@ -4,7 +4,7 @@
   <title><![CDATA[Category: 行ってきた | Hatak::Techlog]]></title>
   <link href="http://blog.hatak.net/blog/categories/xing-tutekita/atom.xml" rel="self"/>
   <link href="http://blog.hatak.net/"/>
-  <updated>2014-02-15T08:16:51+09:00</updated>
+  <updated>2014-02-15T10:26:12+09:00</updated>
   <id>http://blog.hatak.net/</id>
   <author>
     <name><![CDATA[Hisashi HATAKEYAMA]]></name>
@@ -17,7 +17,7 @@
     <title type="html"><![CDATA[Hachioji.pm #11 に行ってきた]]></title>
     <link href="http://blog.hatak.net/2011/12/04/9188"/>
     <updated>2011-12-04T00:00:00+09:00</updated>
-    <id>http://blog.hatak.net/2011/12/04/hachioji-pm-11-%e3%81%ab%e8%a1%8c%e3%81%a3%e3%81%a6%e3%81%8d%e3%81%9f</id>
+    <id>http://blog.hatak.net/2011/12/04/hachioji-pm-11</id>
     <content type="html"><![CDATA[<p>町田で行われた hachioji.pm #11 に参加してきました。 前回参加した hachioji.pm が 2 月実施の #2 だったので、9 回ぶり 2 回目の参加でした。振り返れば震災以降ドタバタといろんなことがあって参加できないままだったわけで、ちょっと勿体ないことしたなと反省したりもしてました。</p>
 
 <p>町田も久しぶりすぎて変化に戸惑いが隠せない感じでした。資料作成しようと思ったカフェとかなくなってたし！</p>
@@ -52,7 +52,7 @@
     <title type="html"><![CDATA[YAPC::Asia Tokyo 2011 (2日目) に行ってきた]]></title>
     <link href="http://blog.hatak.net/2011/10/16/6777"/>
     <updated>2011-10-16T00:00:00+09:00</updated>
-    <id>http://blog.hatak.net/2011/10/16/yapcasia-tokyo-2011-2%e6%97%a5%e7%9b%ae-%e3%81%ab%e8%a1%8c%e3%81%a3%e3%81%a6%e3%81%8d%e3%81%9f</id>
+    <id>http://blog.hatak.net/2011/10/16/yapcasia-tokyo-2011-2</id>
     <content type="html"><![CDATA[<p>昨日に引き続いて、 <a href="http://yapcasia.org/2011/" title="YAPC::Asia">YAPC::Asia</a> に参加してきました。</p>
 
 <p>個人的な視点で、今回の YAPC から感じた Perl とそれを取り巻く Web サービス系の世界の現状をいくつかまとめると、</p>
@@ -334,7 +334,7 @@
     <title type="html"><![CDATA[YAPC::Asia Tokyo 2011 (1日目) に行ってきた]]></title>
     <link href="http://blog.hatak.net/2011/10/15/6689"/>
     <updated>2011-10-15T00:00:00+09:00</updated>
-    <id>http://blog.hatak.net/2011/10/15/yapcasia-tokyo-2011-1%e6%97%a5%e7%9b%ae-%e3%81%ab%e8%a1%8c%e3%81%a3%e3%81%a6%e3%81%8d%e3%81%9f</id>
+    <id>http://blog.hatak.net/2011/10/15/yapcasia-tokyo-2011-1</id>
     <content type="html"><![CDATA[<p>Perl のおまつり、 <a href="http://yapcasia.org/2011/" title="YAPC::Asia">YAPC::Asia</a> に参加しています。<br>
 昨年はプライベートでドタバタしていたので、2 年ぶりの参加でした。前回に比べて参加者も多く、それでいてスムーズなイベント進行と素敵なトークの数々でとても楽しい時間を過ごしています。 ひとまず 1 日目を振り返りつつ、聞いたトークをまとめておこうと思いました。</p>
 
@@ -597,7 +597,7 @@
     <title type="html"><![CDATA[サイバーエージェント×クックパッド合同勉強会に行ってきた]]></title>
     <link href="http://blog.hatak.net/2011/05/26/1786"/>
     <updated>2011-05-26T00:00:00+09:00</updated>
-    <id>http://blog.hatak.net/2011/05/26/%e3%82%b5%e3%82%a4%e3%83%90%e3%83%bc%e3%82%a8%e3%83%bc%e3%82%b8%e3%82%a7%e3%83%b3%e3%83%88%c3%97%e3%82%af%e3%83%83%e3%82%af%e3%83%91%e3%83%83%e3%83%89%e5%90%88%e5%90%8c%e5%8b%89%e5%bc%b7%e4%bc%9a</id>
+    <id>http://blog.hatak.net/2011/05/26/capad</id>
     <content type="html"><![CDATA[<p>クックパッドさんのオフィスで開催された「<a href="http://techlife.cookpad.com/2011/05/16/amepad/">サイバーエージェント×クックパッド合同勉強会</a>」に参加してきました。 両社で検証や本番導入しているクラウドサービスな話題がメインで、とても興味深いものでした。</p>
 
 <!--more-->

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: 開発環境 | Hatak::Techlog]]></title>
   <link href="http://blog.hatak.net/blog/categories/kai-fa-huan-jing/atom.xml" rel="self"/>
   <link href="http://blog.hatak.net/"/>
-  <updated>2014-02-15T08:16:51+09:00</updated>
+  <updated>2014-02-15T10:26:12+09:00</updated>
   <id>http://blog.hatak.net/</id>
   <author>
     <name><![CDATA[Hisashi HATAKEYAMA]]></name>
@@ -17,7 +17,7 @@
     <title type="html"><![CDATA[vcs_info でプロンプトにリポジトリ名を表示]]></title>
     <link href="http://blog.hatak.net/2012/06/15/14100"/>
     <updated>2012-06-15T00:00:00+09:00</updated>
-    <id>http://blog.hatak.net/2012/06/15/vcs_info-%e3%81%a7%e3%83%97%e3%83%ad%e3%83%b3%e3%83%97%e3%83%88%e3%81%ab%e3%83%aa%e3%83%9d%e3%82%b8%e3%83%88%e3%83%aa%e5%90%8d%e3%82%92%e8%a1%a8%e7%a4%ba</id>
+    <id>http://blog.hatak.net/2012/06/15/vcs_info</id>
     <content type="html"><![CDATA[<p>最近特にターミナルでコードを書くことが増えてきたため、プロンプトでブランチ名であったりそのほかの情報も適宜だせるようにしたいなと設定を調べたり試したりしてみました。</p>
 
 <p>以前までは、bash_completion を利用して表示するということをしていました。.bashrc の例ですが、こんな感じです。</p>

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: 構築手順 | Hatak::Techlog]]></title>
   <link href="http://blog.hatak.net/blog/categories/gou-zhu-shou-shun/atom.xml" rel="self"/>
   <link href="http://blog.hatak.net/"/>
-  <updated>2014-02-15T08:16:51+09:00</updated>
+  <updated>2014-02-15T10:26:12+09:00</updated>
   <id>http://blog.hatak.net/</id>
   <author>
     <name><![CDATA[Hisashi HATAKEYAMA]]></name>
@@ -17,7 +17,7 @@
     <title type="html"><![CDATA[RaspberryPi で遊んでみた]]></title>
     <link href="http://blog.hatak.net/2012/11/10/17630"/>
     <updated>2012-11-10T00:00:00+09:00</updated>
-    <id>http://blog.hatak.net/2012/11/10/raspberrypi-%e3%81%a7%e9%81%8a%e3%82%93%e3%81%a7%e3%81%bf%e3%81%9f</id>
+    <id>http://blog.hatak.net/2012/11/10/raspberrypi</id>
     <content type="html"><![CDATA[<p>思い立って RaspberryPi を注文したら結構早く手に入ったので、早速遊んでみました。</p>
 
 <p><img src="https://dl.dropboxusercontent.com/u/14531906/hatak.github.io/2012/11/RIMG0067-300x225.jpg" alt="" title="RaspberryPi" width="300" height="225" class="alignnone size-medium wp-image-17634" /></p>
@@ -199,7 +199,7 @@ Serial : xxxxxxxxxxxxxxxx
     <title type="html"><![CDATA[Redis 2.4 -> 2.6 のアップグレード]]></title>
     <link href="http://blog.hatak.net/2012/10/25/17582"/>
     <updated>2012-10-25T00:00:00+09:00</updated>
-    <id>http://blog.hatak.net/2012/10/25/redis-2-4-2-6-%e3%81%ae%e3%82%a2%e3%83%83%e3%83%97%e3%82%b0%e3%83%ac%e3%83%bc%e3%83%89</id>
+    <id>http://blog.hatak.net/2012/10/25/redis</id>
     <content type="html"><![CDATA[<p>Redis 2.6 が正式リリースされました。大きな機能追加に隠れて、いくつかの変更があります。</p>
 
 <ul>
@@ -275,7 +275,7 @@ The following redis.conf and CONFIG GET / SET parameters changed:
     <title type="html"><![CDATA[Homebrew で mroonga ストレージエンジンを入れる]]></title>
     <link href="http://blog.hatak.net/2012/10/24/17562"/>
     <updated>2012-10-24T00:00:00+09:00</updated>
-    <id>http://blog.hatak.net/2012/10/24/homebrew-%e3%81%a7-mroonga-%e3%82%b9%e3%83%88%e3%83%ac%e3%83%bc%e3%82%b8%e3%82%a8%e3%83%b3%e3%82%b8%e3%83%b3%e3%82%92%e5%85%a5%e3%82%8c%e3%82%8b</id>
+    <id>http://blog.hatak.net/2012/10/24/homebrew-groonga</id>
     <content type="html"><![CDATA[<p>ローカルマシン (MaxOSX 10.8.2) に MySQL 5.5 + mroonga の環境を構築してたのですが、いろいろ嵌まったのでメモしておきます。</p>
 
 <!--more-->
@@ -479,7 +479,7 @@ FULLTEXT KEY `content` (`content`) COMMENT &#39;PARSER &quot;TokenMecab&quot;&#3
     <title type="html"><![CDATA[PSGI アプリを supervisord + Server::Starter で動作させる]]></title>
     <link href="http://blog.hatak.net/2012/08/08/14714"/>
     <updated>2012-08-08T00:00:00+09:00</updated>
-    <id>http://blog.hatak.net/2012/08/08/psgi-%e3%82%a2%e3%83%97%e3%83%aa%e3%82%92-supervisord-serverstarter-%e3%81%a7%e5%8b%95%e4%bd%9c%e3%81%95%e3%81%9b%e3%82%8b</id>
+    <id>http://blog.hatak.net/2012/08/08/psgi</id>
     <content type="html"><![CDATA[<p>PSGI で動作する Perl の Web アプリをデプロイする環境をどのように作ろうかと思って試してみたので、その手順をまとめてみます。 記事を書きかけて放置してしまっていたので、diff が古かったりするのはご愛敬で。。</p>
 
 <!--more-->
@@ -583,7 +583,7 @@ respawn exec /usr/bin/supervisord -n
     <title type="html"><![CDATA[gitosis で作るプライベートな git サーバ]]></title>
     <link href="http://blog.hatak.net/2011/05/18/571"/>
     <updated>2011-05-18T00:00:00+09:00</updated>
-    <id>http://blog.hatak.net/2011/05/18/gitosis-%e3%81%a7%e4%bd%9c%e3%82%8b%e3%83%97%e3%83%a9%e3%82%a4%e3%83%99%e3%83%bc%e3%83%88%e3%81%aa-git-%e3%82%b5%e3%83%bc%e3%83%90</id>
+    <id>http://blog.hatak.net/2011/05/18/gitosis</id>
     <content type="html"><![CDATA[<p>業務で使い始めた Git ですが、高機能過ぎて未だに使いこなせている自信がありません。 一方で、かつて利用していた Subversion はコマンドを忘れてしまって使うたびにググるほどに記憶が抜けつつあります。</p>
 
 <p>そんな Git を複数メンバー・複数環境で利用する場合、マスターリポジトリを利用することがあります。これにより、Subversion のような中央集約型のソースコード管理をしつつも Git の恩恵を受ける開発スタイルを取ることができるます。 マスターリポジトリとして <a href="http://github.com/">GitHub</a> を利用するのが最も手っ取り早いですが、プライベート（= メンバーのみが閲覧できる）なリポジトリを作成するためには有料オプションにしなければなりません。しかも地味に高い。</p>
