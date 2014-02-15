@@ -59,7 +59,7 @@ default_asides: [custom/asides/about.html, asides/recent_posts.html, custom/asid
 
 # Each layout uses the default asides, but they can have their own asides instead. Simply uncomment the lines below
 # and add an array with the asides you want to use.
-# blog_index_asides:
+blog_index_asides: [custom/asides/about.html, custom/asides/category_list.html, custom/asides/tag_cloud.html]
 # post_asides:
 # page_asides:
 
@@ -95,7 +95,7 @@ delicious_user:
 delicious_count: 3
 
 # Disqus Comments
-disqus_short_name: idhatak
+disqus_short_name: hatak-techlog
 disqus_show_comment_count: true
 
 # Google Analytics
